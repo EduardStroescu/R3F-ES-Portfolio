@@ -5,19 +5,22 @@ import { useAppContext } from "./AppContextProvider.jsx";
 export default function LoadingScreen({ started, onStarted }) {
   const { progress, total, loaded } = useProgress();
   const { playAmbientSound, playHoverSound } = useAppContext();
-  const totalProgress = loaded * 10 + 30;
+  const totalProgress = loaded * 10;
 
   const loadingTextAnimation1 = useSpring({
     from: { opacity: 1 },
-    to: { opacity: 0 },
-    config: { duration: 2000 }, // Duration in milliseconds
+    to: { opacity: totalProgress >= 90 ? 0 : 1 },
+    config: { mass: 5, tension: 500, friction: 80 }, // Duration in milliseconds
   });
 
   const loadingTextAnimation2 = useSpring({
     from: { opacity: 0, pointerEvents: "none" },
-    to: { opacity: 1, pointerEvents: "auto" },
-    config: { duration: totalProgress === 100 ? 1000 : null },
-    delay: totalProgress === 100 ? 2000 : 4000,
+    to: {
+      opacity: totalProgress >= 100 ? 1 : 0,
+      pointerEvents: totalProgress >= 100 ? "auto" : "none",
+    },
+    config: { mass: 1, tension: 500, friction: 60 },
+    delay: 1500,
   });
 
   return (

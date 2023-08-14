@@ -72,17 +72,17 @@ export default function ContactSection({
             </div>
           </div>
           <div className="flex flex-col justify-center pt-3 sm:p-6 ">
-            <div className="self-center text-[1.2rem]">
-              <p>Send me an E-mail at:</p>
+            <div className="self-center ">
+              <p className="text-[1.2rem]">Send me an E-mail at:</p>
               <a
                 href="mailto:eduard.stroescu@gmail.com"
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
-                className="hover:scale-105 titleColor text-[1.3rem]"
                 onPointerEnter={playHoverSound}
+                className="hover:scale-105 titleColor text-[1.3rem]"
               >
                 eduard.stroescu@gmail.com
               </a>
-              <p>or</p>
+              <p className="text-[1.2rem]">or</p>
               <button
                 onClick={() => {
                   setFlipped((state) => !state);
@@ -113,6 +113,7 @@ export default function ContactSection({
               }}
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
               className="hover:text-[#f597e8] hoverShadow hover:italic hover:-translate-x-1 mb-4"
+              onPointerEnter={playHoverSound}
             >
               &#10094; Back
             </button>
@@ -163,7 +164,7 @@ export default function ContactSection({
               <button
                 type="submit"
                 value="Send"
-                className="titleColor mt-5 rounded-md bg-white px-10 py-2"
+                className="titleColor  mt-5 rounded-md bg-[#220140] hover:scale-105 hover:bg-[#410578] px-10 py-2"
                 style={{ pointerEvents: !flipped ? "none" : "auto" }}
               >
                 Send Message

@@ -2,6 +2,7 @@ import React, {
   createContext,
   useCallback,
   useContext,
+  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -21,6 +22,8 @@ export function AppContextProvider({ children }) {
   const [isMessageSent, setMessageSent] = useState(false);
   const [isAudioEnabled, setAudioEnabled] = useState(true);
 
+  Howler.autoUnlock = false;
+
   const hoverSound = useMemo(() => {
     return new Howl({
       src: [mySound, fallbackSound],
@@ -28,7 +31,7 @@ export function AppContextProvider({ children }) {
       sprite: {
         hover: [166300, 500],
       },
-      volume: 0.6,
+      volume: 0.2,
     });
   }, []);
 
@@ -39,7 +42,7 @@ export function AppContextProvider({ children }) {
       sprite: {
         ambient: [0, 148000, true],
       },
-      volume: 0.5,
+      volume: 0.9,
     });
   }, []);
 
@@ -91,6 +94,14 @@ export function AppContextProvider({ children }) {
     ambientSound.play("ambient");
   }, [ambientSound]);
 
+  useEffect(() => {
+    if (location.pathname === "/projects") {
+      ambientSound.pos(0, 10, 0);
+      ambientSound.orientation(0, -10, 0);
+    } else ambientSound.pos(0, 0, 5);
+    ambientSound.orientation(0, 0, 0);
+  }, [location.pathname, ambientSound]);
+
   const playTransitionSound = useCallback(() => {
     transitionSound.play("transition");
   }, [transitionSound]);
@@ -109,34 +120,13 @@ export function AppContextProvider({ children }) {
 
   const switchAudio = useCallback(() => {
     if (isAudioEnabled) {
-      hoverSound.stop();
-      hoverSound.volume(0);
-      ambientSound.stop();
-      ambientSound.volume(0);
-      transitionSound.stop();
-      transitionSound.volume(0);
-      menuOpenCloseSound.stop();
-      menuOpenCloseSound.volume(0);
-      menuFlipSound.stop();
-      menuFlipSound.volume(0);
-      underwaterTransitionSound.stop();
-      underwaterTransitionSound.volume(0);
+      Howler.stop();
+      Howler.volume(0);
     } else {
-      hoverSound.volume(1);
+      Howler.volume(0.5);
       ambientSound.play("ambient");
-      ambientSound.volume(0.5);
-      transitionSound.volume(1);
-      underwaterTransitionSound.volume(1);
     }
-  }, [
-    isAudioEnabled,
-    hoverSound,
-    ambientSound,
-    transitionSound,
-    menuOpenCloseSound,
-    menuFlipSound,
-    underwaterTransitionSound,
-  ]);
+  }, [isAudioEnabled, ambientSound]);
 
   // console.log(location.state.data);
   // if (

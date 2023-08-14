@@ -114,86 +114,23 @@ body {
 }
 
 .loadingScreen__board {
-  // width: 100%;
-  // height: 100%;
-  // background: #11e8bb; /* Old browsers */
-  // background: -moz-linear-gradient(
-  //   top,
-  //   #11e8bb 0%,
-  //   #8200c9 100%
-  // ); /* FF3.6-15 */
-  // background: -webkit-linear-gradient(
-  //   top,
-  //   #11e8bb 0%,
-  //   #8200c9 100%
-  // ); /* Chrome10-25,Safari5.1-6 */
-  // background: linear-gradient(
-  //   to bottom,
-  //   #11e8bb 0%,
-  //   #8200c9 100%
-  // ); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  // filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
-  // text-align: center;
   transition: all 0.4s;
-  // display: flex;
-  // flex-direction: column;
-  // justify-content: space-between;
-  // align-items: center;
-  // z-index: 1;
 }
 
-// .loadingScreen__title {
-//   font-size: 5rem;
-//   // margin: 0;
-//   margin-bottom: 60px;
-// }
-
 .loadingScreen__button {
-  // padding: 8px 32px;
-  // background-color: rgba(0, 0, 0, 0.24);
-  // color: white;
   text-shadow: 1px 1px 8px #f74ee0;
-
-  // border: 1px solid red;
-  // font-weight: bold;
-  // font-size: 1.5rem;
-  // border-radius: 8px;
   transition: background-color 0.4s;
-
-  // position: fixed;
-  // top: 55.8%;
-  // left: 42.6%;
 }
 
 .loadingScreen__button:hover {
-  // background-color: rgba(0, 0, 0, 0.42);
   cursor: pointer;
   color: #f597e8;
   text-shadow: 1px 1px 8px #f74ee0;
 }
 
 .loadingScreen__button:disabled {
-  // opacity: 0;
   pointer-events: none;
-  // cursor: not-allowed;
 }
-
-// .loadingScreen__progress {
-//   position: absolute;
-//   bottom: 0;
-//   left: 0;
-//   width: 100%;
-//   height: 12px;
-// }
-
-// .loadingScreen__progress__value {
-//   position: absolute;
-//   left: 0;
-//   top: -5rem;
-//   bottom: 4rem;
-//   background-color: rgb(255 255 255 / 100%);
-//   transition: width 1s;
-// }
 
 .loadingScreen--started {
   opacity: 0;
@@ -204,21 +141,6 @@ body {
   opacity: 0;
 }
 
-// .canvasContainer {
-//   // width: 10vw;
-//   // position: relative;
-//   height: 50vh;
-//   width: 100%;
-//   display: flex;
-//   justify-content: center;
-//   align-items: center;
-//   // border: 1px solid red;
-//   // padding-top: 25vh;
-// }
-
-// .loadingText {
-//   position: absolute;
-// }
 .loadingCanvas {
   pointer-events: none !important;
 }
@@ -326,106 +248,11 @@ input:-webkit-autofill:active {
   box-shadow: inset 0 0 20px 20px #23232329;
 }
 
-.bubbleWrapper {
-  display: grid;
-  grid-template-rows: 1fr 10rem auto;
-  grid-template-areas: "main" "." "footer";
-  overflow-x: hidden;
-  background: #f5f7fa;
-  min-height: 100vh;
-  position: absolute;
-}
-.footer {
-  z-index: 0;
-  --footer-background: #ee05bb;
-  display: grid;
-  position: absolute;
-  grid-area: footer;
-  min-height: 10%;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-}
-.footer .bubbles {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1rem;
-  background: var(--footer-background);
-  filter: url("#blob");
-}
-.footer .bubbles .bubble {
-  position: absolute;
-  left: var(--position, 50%);
-  background: var(--footer-background);
-  border-radius: 100%;
-  -webkit-animation: bubble-size var(--time, 4s) ease-in infinite
-      var(--delay, 0s),
-    bubble-move var(--time, 4s) ease-in infinite var(--delay, 0s);
-  animation: bubble-size var(--time, 4s) ease-in infinite var(--delay, 0s),
-    bubble-move var(--time, 4s) ease-in infinite var(--delay, 0s);
-  transform: translate(-50%, 100%);
-  -webkit-transform: translate(-50%, 100%);
-}
-.footer .content {
-  z-index: 0;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  grid-gap: 4rem;
-  padding: 2rem;
-  background: var(--footer-background);
-}
-
-@-webkit-keyframes bubble-size {
-  0%,
-  75% {
-    width: var(--size, 4rem);
-    height: var(--size, 4rem);
-  }
-  100% {
-    width: 0rem;
-    height: 0rem;
-  }
-}
-
-@keyframes bubble-size {
-  0%,
-  75% {
-    width: var(--size, 4rem);
-    height: var(--size, 4rem);
-  }
-  100% {
-    width: 0rem;
-    height: 0rem;
-  }
-}
-@-webkit-keyframes bubble-move {
-  0% {
-    bottom: -4rem;
-  }
-  100% {
-    bottom: var(--distance, 10rem);
-  }
-}
-@keyframes bubble-move {
-  0% {
-    bottom: -4rem;
-  }
-  100% {
-    bottom: var(--distance, 10rem);
-  }
-}
 .loadingBg {
   background-image: url("./assets/svg/bgsvg.svg");
   background-repeat: no-repeat;
   background-size: cover;
 }
-
-// .soundSection {
-//   display: inline-flex;
-//   list-style: none;
-// }
 
 .tooltipWrapper .icon {
   position: relative;
