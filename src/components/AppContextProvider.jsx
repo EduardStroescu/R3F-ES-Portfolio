@@ -15,8 +15,6 @@ const appContext = createContext();
 export const useAppContext = () => useContext(appContext);
 
 export function AppContextProvider({ children }) {
-  // Initialize Howler globally with options
-
   const location = useLocation();
   const [flipped, setFlipped] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -28,8 +26,9 @@ export function AppContextProvider({ children }) {
       src: [mySound, fallbackSound],
       autoplay: false,
       sprite: {
-        hover: [47500, 1000],
+        hover: [166300, 500],
       },
+      volume: 0.6,
     });
   }, []);
 
@@ -38,7 +37,7 @@ export function AppContextProvider({ children }) {
       src: [mySound, fallbackSound],
       autoplay: false,
       sprite: {
-        ambient: [0, 30000, true],
+        ambient: [0, 148000, true],
       },
       volume: 0.5,
     });
@@ -49,7 +48,27 @@ export function AppContextProvider({ children }) {
       src: [mySound, fallbackSound],
       autoplay: false,
       sprite: {
-        transition: [33000, 4000],
+        transition: [151300, 4000],
+      },
+    });
+  }, []);
+
+  const menuOpenCloseSound = useMemo(() => {
+    return new Howl({
+      src: [mySound, fallbackSound],
+      autoplay: false,
+      sprite: {
+        menuOpenClose: [157500, 1000],
+      },
+    });
+  }, []);
+
+  const menuFlipSound = useMemo(() => {
+    return new Howl({
+      src: [mySound, fallbackSound],
+      autoplay: false,
+      sprite: {
+        menuFlip: [161000, 2000],
       },
     });
   }, []);
@@ -59,7 +78,7 @@ export function AppContextProvider({ children }) {
       src: [mySound, fallbackSound],
       autoplay: false,
       sprite: {
-        underwaterTransition: [44000, 2000],
+        underwaterTransition: [163000, 3200],
       },
     });
   }, []);
@@ -76,6 +95,14 @@ export function AppContextProvider({ children }) {
     transitionSound.play("transition");
   }, [transitionSound]);
 
+  const playMenuOpenCloseSound = useCallback(() => {
+    menuOpenCloseSound.play("menuOpenClose");
+  }, [menuOpenCloseSound]);
+
+  const playMenuFlipSound = useCallback(() => {
+    menuFlipSound.play("menuFlip");
+  }, [menuFlipSound]);
+
   const playUnderwaterTransitionSound = useCallback(() => {
     underwaterTransitionSound.play("underwaterTransition");
   }, [underwaterTransitionSound]);
@@ -88,6 +115,10 @@ export function AppContextProvider({ children }) {
       ambientSound.volume(0);
       transitionSound.stop();
       transitionSound.volume(0);
+      menuOpenCloseSound.stop();
+      menuOpenCloseSound.volume(0);
+      menuFlipSound.stop();
+      menuFlipSound.volume(0);
       underwaterTransitionSound.stop();
       underwaterTransitionSound.volume(0);
     } else {
@@ -102,6 +133,8 @@ export function AppContextProvider({ children }) {
     hoverSound,
     ambientSound,
     transitionSound,
+    menuOpenCloseSound,
+    menuFlipSound,
     underwaterTransitionSound,
   ]);
 
@@ -127,6 +160,8 @@ export function AppContextProvider({ children }) {
       playHoverSound,
       playAmbientSound,
       playTransitionSound,
+      playMenuOpenCloseSound,
+      playMenuFlipSound,
       playUnderwaterTransitionSound,
       switchAudio,
       isAudioEnabled,
@@ -140,6 +175,8 @@ export function AppContextProvider({ children }) {
       playHoverSound,
       playAmbientSound,
       playTransitionSound,
+      playMenuOpenCloseSound,
+      playMenuFlipSound,
       playUnderwaterTransitionSound,
       switchAudio,
       isAudioEnabled,

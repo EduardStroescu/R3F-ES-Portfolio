@@ -38,6 +38,9 @@ export default function Experience() {
     setFlipped,
     visible,
     setVisible,
+    playHoverSound,
+    playMenuOpenCloseSound,
+    playMenuFlipSound,
     isMessageSent,
     setMessageSent,
   } = useAppContext();
@@ -250,13 +253,20 @@ export default function Experience() {
             files={"./Environment/evening_road_01_puresky_1k.hdr"}
             background={false}
           />
+          <AboutSection
+            visible={visible}
+            setVisible={setVisible}
+            playHoverSound={playHoverSound}
+            playMenuOpenCloseSound={playMenuOpenCloseSound}
+          />
           <ContactSection
             flipped={flipped}
             setFlipped={setFlipped}
             isMessageSent={isMessageSent}
             setMessageSent={setMessageSent}
+            playHoverSound={playHoverSound}
+            playMenuFlipSound={playMenuFlipSound}
           />
-          <AboutSection visible={visible} setVisible={setVisible} />
           <Postprocessing
             active={active}
             gl={gl}

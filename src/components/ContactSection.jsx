@@ -6,6 +6,8 @@ import emailjs from "@emailjs/browser";
 export default function ContactSection({
   flipped,
   setFlipped,
+  playHoverSound,
+  playMenuFlipSound,
   isMessageSent,
   setMessageSent,
 }) {
@@ -76,14 +78,19 @@ export default function ContactSection({
                 href="mailto:eduard.stroescu@gmail.com"
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
                 className="hover:scale-105 titleColor text-[1.3rem]"
+                onPointerEnter={playHoverSound}
               >
                 eduard.stroescu@gmail.com
               </a>
               <p>or</p>
               <button
-                onClick={() => setFlipped((state) => !state)}
+                onClick={() => {
+                  setFlipped((state) => !state);
+                  playMenuFlipSound();
+                }}
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
                 className="hover:scale-105 titleColor text-[1.3rem]"
+                onPointerEnter={playHoverSound}
               >
                 Send me a message here
               </button>
@@ -100,7 +107,10 @@ export default function ContactSection({
         >
           <div className="absolute top-[-260px] bottom-0 mx-auto w-full max-w-lg">
             <button
-              onClick={() => setFlipped(false)}
+              onClick={() => {
+                setFlipped(false);
+                playMenuFlipSound();
+              }}
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
               className="hover:text-[#f597e8] hoverShadow hover:italic hover:-translate-x-1 mb-4"
             >

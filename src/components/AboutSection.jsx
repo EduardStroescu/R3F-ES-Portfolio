@@ -1,7 +1,12 @@
 import { a, useSpring } from "@react-spring/web";
 import { Html } from "@react-three/drei";
 
-export default function AboutSection({ visible, setVisible }) {
+export default function AboutSection({
+  visible,
+  setVisible,
+  playHoverSound,
+  playMenuOpenCloseSound,
+}) {
   const { clipPath } = useSpring({
     clipPath: visible
       ? "polygon(0% 0%,100% 0%,100% 40%,0% 40%,0% 40%,100% 40%,100% 75%,0% 75%,0% 75%,100% 75%,100% 100%,0% 100%)"
@@ -29,7 +34,9 @@ export default function AboutSection({ visible, setVisible }) {
           className="hover:text-[#f597e8] hover:italic hoverShadow hover:-translate-x-1 flex flex-row self-start pl-4 pt-4"
           onClick={() => {
             setVisible(false);
+            playMenuOpenCloseSound();
           }}
+          onPointerEnter={playHoverSound}
         >
           &#10094; Back
         </button>

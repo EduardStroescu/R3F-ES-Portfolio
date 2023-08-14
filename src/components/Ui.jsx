@@ -6,12 +6,15 @@ import { a, useTransition } from "@react-spring/web";
 export default function Ui() {
   const {
     location,
+    flipped,
     setFlipped,
     visible,
     setVisible,
     isMessageSent,
     playHoverSound,
     playTransitionSound,
+    playMenuOpenCloseSound,
+    playMenuFlipSound,
     playUnderwaterTransitionSound,
     switchAudio,
     isAudioEnabled,
@@ -35,6 +38,12 @@ export default function Ui() {
             onClick={() => {
               setVisible(false);
               setFlipped(false);
+              {
+                visible ? playMenuOpenCloseSound() : null;
+              }
+              {
+                flipped ? playMenuFlipSound() : null;
+              }
               location.pathname === "/contact" ? playTransitionSound() : null;
               location.pathname === "/projects"
                 ? playUnderwaterTransitionSound()
@@ -60,6 +69,10 @@ export default function Ui() {
                 onClick={() => {
                   setVisible((state) => !state);
                   setFlipped(false);
+                  playMenuOpenCloseSound();
+                  {
+                    flipped ? playMenuFlipSound() : null;
+                  }
                   location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
                     : null;
@@ -80,6 +93,12 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
+                  {
+                    visible ? playMenuOpenCloseSound() : null;
+                  }
+                  {
+                    flipped ? playMenuFlipSound() : null;
+                  }
                   location.pathname === "/" || location.pathname === "/contact"
                     ? playUnderwaterTransitionSound()
                     : null;
@@ -101,6 +120,12 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
+                  {
+                    visible ? playMenuOpenCloseSound() : null;
+                  }
+                  {
+                    flipped ? playMenuFlipSound() : null;
+                  }
                   location.pathname === "/" ? playTransitionSound() : null;
                   location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
@@ -113,9 +138,6 @@ export default function Ui() {
               </NavLink>
             </div>
           </nav>
-          {/* <button className="h-[2.5rem] w-[2.5rem] bg-white text-black border-solid rounded-full p-0">
-          ..
-        </button> */}
         </div>
       </header>
       <footer className="flex justify-end items-end">
