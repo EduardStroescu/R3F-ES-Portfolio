@@ -30,7 +30,7 @@ export default function Ui() {
 
   return (
     <div className="w-full h-full">
-      <header className="text-white text-lg z-2 w-full pt-6 p-4 flex flex-row justify-between items-center">
+      <header className="text-white text-xl z-2 w-full pt-6 p-4 flex flex-row justify-between items-center">
         <div className="flex items-center">
           <Link
             to="/"
@@ -63,8 +63,8 @@ export default function Ui() {
                 // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={
                   visible
-                    ? "font-bold relative inline-block text-[#f597e8] italic text-xl py-0.5 mx-2 group"
-                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
+                    ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
+                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
                 }
                 onClick={() => {
                   setVisible((state) => !state);
@@ -87,8 +87,8 @@ export default function Ui() {
                 state={{ data: location.pathname }}
                 className={({ isActive }) =>
                   isActive
-                    ? "font-bold relative inline-block text-[#f597e8] italic text-xl py-0.5 mx-2 group"
-                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
+                    ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
+                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
                 }
                 onClick={() => {
                   setVisible(false);
@@ -114,8 +114,8 @@ export default function Ui() {
                 // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={({ isActive }) =>
                   isActive
-                    ? "font-bold relative inline-block text-[#f597e8] italic text-xl py-0.5 mx-2 group"
-                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
+                    ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
+                    : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
                 }
                 onClick={() => {
                   setVisible(false);
@@ -186,17 +186,17 @@ export default function Ui() {
               item && (
                 <a.div style={styles}>
                   <div
-                    className="p-2 bg-indigo-800 items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"
+                    className="p-2 bg-[#220140] items-center text-indigo-100 leading-none rounded-full flex lg:inline-flex"
                     role="alert"
                   >
-                    <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+                    <span className="flex rounded-full bg-[#410578] uppercase px-2 py-1 text-xs font-bold mr-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="22.903"
                         height="19.395"
                       >
                         <path
-                          fill="#24ff70"
+                          fill="#f597e8"
                           d="M22.903 2.828 20.075 0 6.641 13.435 3.102 9.09 0 11.616l6.338 7.779L22.903 2.828z"
                         />
                       </svg>

@@ -71,7 +71,7 @@ export default function LoadingScreen({ started, onStarted }) {
           </div>
           <div className="loadingText absolute">
             <button
-              className="loadingScreen__button flex justify-center items-center text-2xl font-bold text-white "
+              className="loadingScreen__button flex justify-center items-center text-3xl font-bold text-white "
               disabled={totalProgress < 100}
               onClick={onStarted}
             >

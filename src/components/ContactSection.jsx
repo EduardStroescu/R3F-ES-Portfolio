@@ -31,12 +31,9 @@ export default function ContactSection({
       )
       .then(
         (result) => {
-          console.log(result.text);
           setMessageSent(true);
         },
-        (error) => {
-          console.log(error.text);
-        }
+        (error) => {}
       );
     form.current.reset();
     setFlipped(false);
@@ -136,7 +133,7 @@ export default function ContactSection({
                 </div>
                 <div className="relative z-0">
                   <input
-                    type="text"
+                    type="email"
                     name="user_email"
                     required
                     style={{ pointerEvents: !flipped ? "none" : "auto" }}
