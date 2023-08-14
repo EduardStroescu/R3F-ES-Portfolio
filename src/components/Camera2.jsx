@@ -57,8 +57,7 @@ export default function Camera2(props) {
     // const cameraPosition = cameraRef.current.position;
     // console.log("Camera position:", cameraPosition);
     if (
-      (location.pathname === "/R3F-ES-Portofolio/" ||
-        location.pathname === "/R3F-ES-Portofolio/projects") &&
+      (location.pathname === "/" || location.pathname === "/projects") &&
       paused
     ) {
       easing.damp3(
@@ -93,7 +92,7 @@ export default function Camera2(props) {
 
       // Interpolate the camera rotation towards the rotation target
       state.camera.quaternion.slerp(rotationTarget, 0.1);
-    } else if (location.pathname === "/R3F-ES-Portofolio/contact" && paused) {
+    } else if (location.pathname === "/contact" && paused) {
       easing.damp3(
         state.camera.position,
         [-4 + state.pointer.x, 5 + state.pointer.y, 22],

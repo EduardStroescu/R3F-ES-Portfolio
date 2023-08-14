@@ -129,8 +129,7 @@ export default function Experience() {
   });
 
   useEffect(() => {
-    const targetProgress =
-      location.pathname === "/R3F-ES-Portofolio/projects" ? 2 : -2;
+    const targetProgress = location.pathname === "/projects" ? 2 : -2;
     const duration = 1000; // Duration in milliseconds for the progress to change
     const interval = 40; // Interval time in milliseconds for updating the progress
 
@@ -201,7 +200,7 @@ export default function Experience() {
 
           <Suspense>
             <Text
-              visible={location.pathname === "/R3F-ES-Portofolio/"}
+              visible={location.pathname === "/"}
               onPointerMove={onMove2}
               anchorY="middle"
               font={titleFont}
@@ -219,7 +218,7 @@ export default function Experience() {
               WEB DEVELOPER
             </Text>
             <Text
-              visible={location.pathname === "/R3F-ES-Portofolio/"}
+              visible={location.pathname === "/"}
               onPointerMove={onMove3}
               anchorY="middle"
               font={titleFont}
@@ -270,7 +269,7 @@ export default function Experience() {
         scene1
       )}
       <ScrollControls
-        enabled={location.pathname === "/R3F-ES-Portofolio/projects"}
+        enabled={location.pathname === "/projects"}
         infinite
         pages={4}
         damping={0.6}

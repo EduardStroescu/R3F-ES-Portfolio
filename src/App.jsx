@@ -15,10 +15,10 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/R3F-ES-Portofolio" exact Component={null} />
-          <Route path="/R3F-ES-Portofolio/about" Component={null} />
-          <Route path="/R3F-ES-Portofolio/contact" Component={null} />
-          <Route path="/R3F-ES-Portofolio/projects" Component={null} />
+          <Route path="/" exact Component={null} />
+          <Route path="/about" Component={null} />
+          <Route path="/contact" Component={null} />
+          <Route path="/projects" Component={null} />
         </Routes>
         <AppContextProvider>
           <Suspense fallback={null}>

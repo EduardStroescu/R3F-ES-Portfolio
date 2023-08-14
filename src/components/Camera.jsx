@@ -54,7 +54,7 @@ export default function Camera(props) {
   useFrame((state, delta) => {
     // const time = Math.floor(state.clock.elapsedTime);
     // actions["CameraAction.003"].mixer?.update(time);
-    if (location.pathname === "/R3F-ES-Portofolio/") {
+    if (location.pathname === "/") {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x, 5, 2],
@@ -87,7 +87,7 @@ export default function Camera(props) {
 
       // Interpolate the camera rotation towards the rotation target
       state.camera.quaternion.slerp(rotationTarget, 0.1);
-    } else if (location.pathname === "/R3F-ES-Portofolio/projects") {
+    } else if (location.pathname === "/projects") {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x / 2, 5, 2],

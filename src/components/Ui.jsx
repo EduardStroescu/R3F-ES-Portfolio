@@ -30,15 +30,13 @@ export default function Ui() {
       <header className="text-white text-lg z-2 w-full pt-6 p-4 flex flex-row justify-between items-center">
         <div className="flex items-center">
           <Link
-            to="/R3F-ES-Portofolio/"
+            to="/"
             state={{ data: location.pathname }}
             onClick={() => {
               setVisible(false);
               setFlipped(false);
-              location.pathname === "/R3F-ES-Portofolio/contact"
-                ? playTransitionSound()
-                : null;
-              location.pathname === "/R3F-ES-Portofolio/projects"
+              location.pathname === "/contact" ? playTransitionSound() : null;
+              location.pathname === "/projects"
                 ? playUnderwaterTransitionSound()
                 : null;
             }}
@@ -51,7 +49,7 @@ export default function Ui() {
           <nav className="overflow-hidden">
             <div className="font-bold">
               <NavLink
-                to="/R3F-ES-Portofolio/"
+                to="/"
                 state={{ data: location.pathname }}
                 // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={
@@ -62,7 +60,7 @@ export default function Ui() {
                 onClick={() => {
                   setVisible((state) => !state);
                   setFlipped(false);
-                  location.pathname === "/R3F-ES-Portofolio/projects"
+                  location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
                     : null;
                 }}
@@ -72,7 +70,7 @@ export default function Ui() {
                 <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
               </NavLink>
               <NavLink
-                to="/R3F-ES-Portofolio/projects"
+                to="/projects"
                 state={{ data: location.pathname }}
                 className={({ isActive }) =>
                   isActive
@@ -82,8 +80,7 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  location.pathname === "/R3F-ES-Portofolio/" ||
-                  location.pathname === "/R3F-ES-Portofolio/contact"
+                  location.pathname === "/" || location.pathname === "/contact"
                     ? playUnderwaterTransitionSound()
                     : null;
                 }}
@@ -93,7 +90,7 @@ export default function Ui() {
                 <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
               </NavLink>
               <NavLink
-                to="/R3F-ES-Portofolio/contact"
+                to="/contact"
                 state={{ data: location.pathname }}
                 // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={({ isActive }) =>
@@ -104,10 +101,8 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  location.pathname === "/R3F-ES-Portofolio/"
-                    ? playTransitionSound()
-                    : null;
-                  location.pathname === "/R3F-ES-Portofolio/projects"
+                  location.pathname === "/" ? playTransitionSound() : null;
+                  location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
                     : null;
                 }}
@@ -124,7 +119,7 @@ export default function Ui() {
         </div>
       </header>
       <footer className="flex justify-end items-end">
-        {location.pathname !== "/R3F-ES-Portofolio/projects" ? (
+        {location.pathname !== "/projects" ? (
           <section className="tooltipWrapper fixed bottom-6 left-4 ">
             <button
               onClick={() => {
