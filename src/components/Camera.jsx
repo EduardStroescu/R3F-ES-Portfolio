@@ -90,7 +90,7 @@ export default function Camera(props) {
     } else if (location.pathname === "/projects") {
       easing.damp3(
         state.camera.position,
-        [6 + state.pointer.x / 2, 5, 2],
+        [6 + state.pointer.x, 5, 2],
         0.5,
         delta
       );

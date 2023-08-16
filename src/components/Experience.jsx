@@ -43,6 +43,7 @@ export default function Experience() {
     playMenuFlipSound,
     isMessageSent,
     setMessageSent,
+    setMessageReceived,
   } = useAppContext();
   const [progress, setProgress] = useState(-2.0);
   const { viewport } = useThree();
@@ -264,6 +265,7 @@ export default function Experience() {
             setFlipped={setFlipped}
             isMessageSent={isMessageSent}
             setMessageSent={setMessageSent}
+            setMessageReceived={setMessageReceived}
             playHoverSound={playHoverSound}
             playMenuFlipSound={playMenuFlipSound}
           />

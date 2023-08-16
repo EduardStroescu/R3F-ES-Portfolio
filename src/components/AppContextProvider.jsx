@@ -20,6 +20,7 @@ export function AppContextProvider({ children }) {
   const [flipped, setFlipped] = useState(false);
   const [visible, setVisible] = useState(false);
   const [isMessageSent, setMessageSent] = useState(false);
+  const [isMessageReceived, setMessageReceived] = useState(false);
   const [isAudioEnabled, setAudioEnabled] = useState(true);
 
   Howler.autoUnlock = false;
@@ -146,7 +147,9 @@ export function AppContextProvider({ children }) {
       visible,
       setVisible,
       isMessageSent,
+      isMessageReceived,
       setMessageSent,
+      setMessageReceived,
       playHoverSound,
       playAmbientSound,
       playTransitionSound,
@@ -160,8 +163,13 @@ export function AppContextProvider({ children }) {
     [
       location,
       flipped,
+      setFlipped,
       visible,
+      setVisible,
       isMessageSent,
+      isMessageReceived,
+      setMessageSent,
+      setMessageReceived,
       playHoverSound,
       playAmbientSound,
       playTransitionSound,

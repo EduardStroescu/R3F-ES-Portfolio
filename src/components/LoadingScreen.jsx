@@ -5,7 +5,7 @@ import { useAppContext } from "./AppContextProvider.jsx";
 export default function LoadingScreen({ started, onStarted }) {
   const { progress, total, loaded } = useProgress();
   const { playAmbientSound, playHoverSound } = useAppContext();
-  const totalProgress = loaded * 10;
+  const totalProgress = loaded * 10 + 20;
 
   const loadingTextAnimation1 = useSpring({
     from: { opacity: 1 },

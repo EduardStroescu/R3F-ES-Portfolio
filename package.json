@@ -16,6 +16,7 @@
     "@react-three/fiber": "^8.13.6",
     "@react-three/postprocessing": "^2.15.0",
     "@types/three": "^0.152.1",
+    "formik": "^2.4.3",
     "howler": "^2.2.3",
     "leva": "^0.9.35",
     "react": "^18.2.0",
@@ -23,7 +24,8 @@
     "react-howler": "^5.2.0",
     "react-router-dom": "^6.14.1",
     "three": "^0.152.2",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.0",
+    "yup": "^1.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",

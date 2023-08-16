@@ -9,57 +9,54 @@ import { useAppContext } from "./AppContextProvider.jsx";
 export default function Camera2(props) {
   const group = useRef();
   const cameraRef = useRef();
-  const { animations } = useGLTF("./models/Camera.glb");
-  const { actions } = useAnimations(animations, group);
-  const [paused, setPaused] = useState(true); // Start animation as paused
+  // const { animations } = useGLTF("./models/Camera.glb");
+  // const { actions } = useAnimations(animations, group);
+  // const [paused, setPaused] = useState(true); // Start animation as paused
 
   const set = useThree((state) => state.set);
   useEffect(() => void set({ camera: cameraRef.current }));
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
-  useEffect(() => {
-    const animation = actions["CameraAction.003"];
-    animation.play();
+  // useEffect(() => {
+  //   const animation = actions["CameraAction.003"];
+  //   animation.play();
 
-    // Check if the animation should reverse
-    if (animation.time === 40) {
-      animation.setEffectiveTimeScale(-1);
-    } else {
-      animation.setEffectiveTimeScale(-1);
-    }
+  //   // Check if the animation should reverse
+  //   if (animation.time === 40) {
+  //     animation.setEffectiveTimeScale(-1);
+  //   } else {
+  //     animation.setEffectiveTimeScale(-1);
+  //   }
 
-    const handleKeyPress = (event) => {
-      if (event.code === "Space") {
-        actions["CameraAction.003"].paused =
-          !actions["CameraAction.003"].paused;
-        setPaused(!paused);
-      }
-    };
+  //   const handleKeyPress = (event) => {
+  //     if (event.code === "Space") {
+  //       actions["CameraAction.003"].paused =
+  //         !actions["CameraAction.003"].paused;
+  //       setPaused(!paused);
+  //     }
+  //   };
 
-    window.addEventListener("keydown", handleKeyPress);
+  //   window.addEventListener("keydown", handleKeyPress);
 
-    return () => {
-      window.removeEventListener("keydown", handleKeyPress);
-    };
-  }, [actions, paused]);
+  //   return () => {
+  //     window.removeEventListener("keydown", handleKeyPress);
+  //   };
+  // }, [actions, paused]);
 
-  // Pause animation if it was initially started as paused
-  useEffect(() => {
-    actions["CameraAction.003"].paused = paused;
-  }, [actions, paused]);
+  // // Pause animation if it was initially started as paused
+  // useEffect(() => {
+  //   actions["CameraAction.003"].paused = paused;
+  // }, [actions, paused]);
 
   // const stopped = false;
   const { location } = useAppContext();
 
   useFrame((state, delta) => {
-    const time = Math.floor(state.clock.elapsedTime);
-    actions["CameraAction.003"].mixer?.update(time);
+    // const time = Math.floor(state.clock.elapsedTime);
+    // actions["CameraAction.003"].mixer?.update(time);
     // const cameraPosition = cameraRef.current.position;
     // console.log("Camera position:", cameraPosition);
-    if (
-      (location.pathname === "/" || location.pathname === "/projects") &&
-      paused
-    ) {
+    if (location.pathname === "/" || location.pathname === "/projects") {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x, 5, 2],
@@ -92,7 +89,7 @@ export default function Camera2(props) {
 
       // Interpolate the camera rotation towards the rotation target
       state.camera.quaternion.slerp(rotationTarget, 0.1);
-    } else if (location.pathname === "/contact" && paused) {
+    } else if (location.pathname === "/contact") {
       easing.damp3(
         state.camera.position,
         [-4 + state.pointer.x, 5 + state.pointer.y, 22],
@@ -122,4 +119,4 @@ export default function Camera2(props) {
   );
 }
 
-useGLTF.preload("./models/Camera.glb");
+// useGLTF.preload("./models/Camera.glb");
