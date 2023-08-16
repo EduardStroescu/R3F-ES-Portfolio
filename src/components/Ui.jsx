@@ -39,12 +39,8 @@ export default function Ui() {
             onClick={() => {
               setVisible(false);
               setFlipped(false);
-              {
-                visible ? playMenuOpenCloseSound() : null;
-              }
-              {
-                flipped ? playMenuFlipSound() : null;
-              }
+              visible ? playMenuOpenCloseSound() : null;
+              flipped ? playMenuFlipSound() : null;
               location.pathname === "/contact" ? playTransitionSound() : null;
               location.pathname === "/projects"
                 ? playUnderwaterTransitionSound()
@@ -70,10 +66,12 @@ export default function Ui() {
                 onClick={() => {
                   setVisible((state) => !state);
                   setFlipped(false);
-                  playMenuOpenCloseSound();
-                  {
-                    flipped ? playMenuFlipSound() : null;
-                  }
+                  location.pathname === "/projects"
+                    ? setTimeout(() => {
+                        playMenuOpenCloseSound();
+                      }, 1000)
+                    : playMenuOpenCloseSound();
+                  flipped ? playMenuFlipSound() : null;
                   location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
                     : null;
@@ -94,12 +92,8 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  {
-                    visible ? playMenuOpenCloseSound() : null;
-                  }
-                  {
-                    flipped ? playMenuFlipSound() : null;
-                  }
+                  visible ? playMenuOpenCloseSound() : null;
+                  flipped ? playMenuFlipSound() : null;
                   location.pathname === "/" || location.pathname === "/contact"
                     ? playUnderwaterTransitionSound()
                     : null;
@@ -121,12 +115,8 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  {
-                    visible ? playMenuOpenCloseSound() : null;
-                  }
-                  {
-                    flipped ? playMenuFlipSound() : null;
-                  }
+                  visible ? playMenuOpenCloseSound() : null;
+                  flipped ? playMenuFlipSound() : null;
                   location.pathname === "/" ? playTransitionSound() : null;
                   location.pathname === "/projects"
                     ? playUnderwaterTransitionSound()
