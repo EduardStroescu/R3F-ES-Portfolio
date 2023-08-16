@@ -23,6 +23,13 @@ export function AppContextProvider({ children }) {
   const [isMessageReceived, setMessageReceived] = useState(false);
   const [isAudioEnabled, setAudioEnabled] = useState(true);
 
+  // Initialize location.state.data for first load
+  useEffect(() => {
+    if (!location.state) {
+      location.state = { data: location.pathname };
+    }
+  }, [location, location.state]);
+
   Howler.autoUnlock = false;
 
   const hoverSound = useMemo(() => {
