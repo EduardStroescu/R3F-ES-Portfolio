@@ -256,6 +256,7 @@ export default function Experience() {
           />
           <AboutSection
             visible={visible}
+            location={location}
             setVisible={setVisible}
             playHoverSound={playHoverSound}
             playMenuOpenCloseSound={playMenuOpenCloseSound}

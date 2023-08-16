@@ -3,6 +3,7 @@ import { Html } from "@react-three/drei";
 
 export default function AboutSection({
   visible,
+  location,
   setVisible,
   playHoverSound,
   playMenuOpenCloseSound,
@@ -11,7 +12,8 @@ export default function AboutSection({
     clipPath: visible
       ? "polygon(0% 0%,100% 0%,100% 40%,0% 40%,0% 40%,100% 40%,100% 75%,0% 75%,0% 75%,100% 75%,100% 100%,0% 100%)"
       : "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 60%,100% 61%,100% 61%,0% 60%,0% 100%,100% 100%,100% 100%,0% 100%)",
-    config: { mass: 1, tension: 500, friction: 60 },
+    config: { mass: 2, tension: 500, friction: 60 },
+    delay: location.state.data === "/projects" ? 1000 : 0,
   });
 
   return (
@@ -38,7 +40,7 @@ export default function AboutSection({
           }}
           onPointerEnter={playHoverSound}
         >
-          &#10094; Back
+          &#10094; Close
         </button>
         <h1 className="font-bold titleColor text-4xl pb-4 mt-[-30px]">About</h1>
         <p className="py-0 px-[15px] text-md text-justify indent-5">
