@@ -22,7 +22,6 @@ export default function ContactSection({
   const form = useRef();
 
   const formik = useFormik({
-    //we have created our initailValues object in a format EmailJS accepts
     initialValues: {
       user_name: "", //user name
       user_email: "", // user email
@@ -78,31 +77,31 @@ export default function ContactSection({
       wrapperClass="z-[-1] overflow-hidden font-[titleFont] m-0 p-0 box-border w-2/4 h-2/4 text-white "
       transform
       scale={0.5}
-      position={[3.8, 7, 37]}
-      rotation={[0, -0.25, 0]}
+      position={[-7, 7, 47]}
+      rotation={[0, -0.78, 0]}
     >
-      <div style={{ transform: "scale(2.5)" }}>
+      <div style={{ transform: "scale(3)" }}>
         <a.div
-          className="flex flex-col text-center sm:text-left sm:flex-row mt-10"
+          className="flex flex-col text-center lg:text-left lg:flex-row mt-10"
           style={{ opacity: opacity.to((o) => 1 - o), transform }}
         >
           <div className="flex flex-col mb-2">
-            <h2 className="text-end text-[4rem] mb-[-20px] italic font-bold">
+            <h2 className="text-center lg:text-end text-[4rem] mb-0 lg:mb-[-20px] italic font-bold">
               <span>Say hello</span>
             </h2>
             <div className="flex flex-col justify-end text-end uppercase ">
-              <p className="self-end">I look forward </p>
-              <p className="self-end">to hearing from you</p>
+              <p className="self-center lg:self-end">I look forward </p>
+              <p className="self-center lg:self-end">to hearing from you</p>
             </div>
           </div>
-          <div className="flex flex-col justify-center pt-3 sm:p-6 ">
+          <div className="flex flex-col justify-center pt-3 lg:p-6 ">
             <div className="self-center ">
               <p className="text-[1.2rem]">Send me an E-mail at:</p>
               <a
                 href="mailto:eduard.stroescu@gmail.com"
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
                 onPointerEnter={playHoverSound}
-                className="hover:scale-105 titleColor text-[1.3rem]"
+                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-4 py-1"
               >
                 eduard.stroescu@gmail.com
               </a>
@@ -113,7 +112,7 @@ export default function ContactSection({
                   playMenuFlipSound();
                 }}
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
-                className="hover:scale-105 titleColor text-[1.3rem]"
+                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-4"
                 onPointerEnter={playHoverSound}
               >
                 Send me a message here

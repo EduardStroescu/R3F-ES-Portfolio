@@ -17,10 +17,15 @@ export default function LoadingScreen({ started, onStarted }) {
     from: { opacity: 0, pointerEvents: "none" },
     to: {
       opacity: totalProgress >= 100 ? 1 : 0,
-      pointerEvents: totalProgress >= 100 ? "auto" : "none",
+      pointerEvents:
+        totalProgress >= 100 && !started
+          ? "auto"
+          : totalProgress >= 100 && started
+          ? "none"
+          : "auto",
     },
     config: { mass: 1, tension: 500, friction: 60 },
-    delay: 1500,
+    delay: !started ? 1500 : 0,
   });
 
   return (

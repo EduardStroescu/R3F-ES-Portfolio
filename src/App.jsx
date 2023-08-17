@@ -28,7 +28,7 @@ function App() {
                 linear
                 flat
                 dpr={[1, 1.5]}
-                gl={{ alpha: false, antialias: false }}
+                gl={{ alpha: true, antialias: false }}
               >
                 <Camera position={[5, 0, 26]} />
                 <Experience start={start} />

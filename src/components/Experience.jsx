@@ -179,7 +179,7 @@ export default function Experience() {
             onPointerMove={onMove}
             rotation={[-Math.PI / 2, 0, 0]}
           >
-            <planeGeometry args={[100, 100, 50, 50]} />
+            <planeGeometry args={[300, 200, 50, 50]} />
             <MeshReflectorMaterial
               args={[100, 100, 50, 50]} // PlaneBufferGeometry arguments
               resolution={1024} // Off-buffer resolution, lower=faster, higher=better quality
@@ -244,11 +244,6 @@ export default function Experience() {
           <Environment
             files={"./Environment/surreal_desert.hdr"}
             background={"only"}
-            ground={{
-              height: 15,
-              radius: 120,
-              scale: 1000,
-            }}
           />
           <Environment
             files={"./Environment/evening_road_01_puresky_1k.hdr"}

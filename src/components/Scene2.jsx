@@ -45,6 +45,8 @@ const damp = THREE.MathUtils.damp;
 function Minimap({ planeGroups }) {
   const ref = useRef();
   const scroll = useScroll();
+  const { viewport } = useThree();
+
   useFrame((delta) => {
     ref.current.children.forEach((child, index) => {
       // Give me a value between 0 and 1
@@ -65,7 +67,13 @@ function Minimap({ planeGroups }) {
           key={i}
           geometry={geometry}
           material={material}
-          position={[i * 0.04 - planeGroups.length * -0.426, 0.7, 4.23]}
+          position={[
+            viewport.width > 70
+              ? i * 0.04 - planeGroups.length * -0.424
+              : i * 0.04 - planeGroups.length * -0.427,
+            -4.3,
+            4.23,
+          ]}
         />
       ))}
     </group>
@@ -91,51 +99,51 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
   const planeGroups = [
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, 5, 5],
+        position: [viewport.width > 70 ? -3 : 8, -5, 5],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, 5, 0],
+        position: [viewport.width > 70 ? 27 : 16, -5, 0],
         material: { map: material2 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, 5, -50],
+        position: [viewport.width > 70 ? -3 : 8, -5, -50],
         material: { map: material2 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, 5, -55],
+        position: [viewport.width > 70 ? 27 : 16, -5, -55],
         material: { map: material1 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, 5, -110],
+        position: [viewport.width > 70 ? -3 : 8, -5, -110],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, 5, -115],
+        position: [viewport.width > 70 ? 27 : 16, -5, -115],
         material: { map: material2 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, 5, -160],
+        position: [viewport.width > 70 ? -3 : 8, -5, -160],
         material: { map: material2 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, 5, -165],
+        position: [viewport.width > 70 ? 27 : 16, -5, -165],
         material: { map: material1 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, 5, -220],
+        position: [viewport.width > 70 ? -3 : 8, -5, -220],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, 5, -225],
+        position: [viewport.width > 70 ? 27 : 16, -5, -225],
         material: { map: material2 },
       },
     ],
@@ -236,7 +244,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
         font={titleFont}
         color={activeProject.color}
         characters={activeProject.title}
-        position={[11, 5, 11]}
+        position={[11, -5, 11]}
         fontSize={viewport.width > 70 ? 13 : 4}
       >
         {/* <shaderMaterial
