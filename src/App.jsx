@@ -24,7 +24,6 @@ function App() {
           <Suspense fallback={null}>
             <div id="canvas">
               <Canvas
-                legacy
                 linear
                 flat
                 dpr={[1, 1.5]}

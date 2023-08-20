@@ -72,7 +72,6 @@ export default function ContactSection({
     <Html
       pointerEvents={"none"}
       style={{ pointerEvents: "none" }}
-      fullscreen
       as="contactSectionWrapper"
       wrapperClass="z-[-1] overflow-hidden font-[titleFont] m-0 p-0 box-border w-2/4 h-2/4 text-white "
       transform
@@ -95,24 +94,24 @@ export default function ContactSection({
             </div>
           </div>
           <div className="flex flex-col justify-center pt-3 lg:p-6 ">
-            <div className="self-center ">
+            <div className="self-center">
               <p className="text-[1.2rem]">Send me an E-mail at:</p>
               <a
                 href="mailto:eduard.stroescu@gmail.com"
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
                 onPointerEnter={playHoverSound}
-                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-4 py-1"
+                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-2 py-1"
               >
                 eduard.stroescu@gmail.com
               </a>
-              <p className="text-[1.2rem]">or</p>
+              <p className="text-[1.2rem] px-2">or</p>
               <button
                 onClick={() => {
                   setFlipped((state) => !state);
                   playMenuFlipSound();
                 }}
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
-                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-4"
+                className="hover:scale-105 titleColor text-[1.3rem] bg-[#220140] rounded-md px-2"
                 onPointerEnter={playHoverSound}
               >
                 Send me a message here

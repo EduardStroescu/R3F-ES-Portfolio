@@ -29,7 +29,7 @@ export default function AboutSection({
     >
       <a.div
         style={{ clipPath, pointerEvents: "none", transform: "scale(2)" }}
-        className="MainFont z-[-5] mx-[-5px] sm:mx-[150px] md:mx-[200px] lg:mx-[30%] 2xl:mx-[35%] flex flex-col justify-center items-center gap-4 rounded-xl border border-[#10D9E182] bg-gradient-to-t from-[#11e8bb]/[0.95] to-[#8200c9]/[0.95]"
+        className="shadow MainFont z-[-5] mx-[-5px] sm:mx-[150px] md:mx-[200px] lg:mx-[30%] 2xl:mx-[35%] flex flex-col justify-center items-center gap-4 rounded-xl border border-[#10D9E182] bg-gradient-to-t from-[#11e8bb]/[0.95] to-[#8200c9]/[0.95]"
       >
         <button
           style={{ pointerEvents: visible ? "auto" : "none" }}

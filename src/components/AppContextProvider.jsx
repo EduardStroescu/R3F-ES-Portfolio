@@ -136,16 +136,6 @@ export function AppContextProvider({ children }) {
     }
   }, [isAudioEnabled, ambientSound]);
 
-  // console.log(location.state.data);
-  // if (
-  //   location.state.data === "/R3F-ES-Portofolio/projects" &&
-  //   location.pathname === "/R3F-ES-Portofolio/"
-  // ) {
-  //   playUnderwaterTransitionSound();
-  // } else {
-  //   console.log("hello");
-  // }
-
   const contextValues = React.useMemo(
     () => ({
       location,

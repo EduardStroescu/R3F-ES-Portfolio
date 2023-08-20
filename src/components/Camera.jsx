@@ -45,11 +45,7 @@ export default function Camera(props) {
       } else
         easing.damp3(
           state.camera.position,
-          [
-            location.state.data === "/camera" ? 0 : 6 + state.pointer.x,
-            0,
-            location.state.data === "/contact" ? 10 : 2,
-          ],
+          [6, 0, location.state.data === "/contact" ? 10 : 2],
           0.5,
           delta,
           location.state.data === "/contact" ? 40 : 10
@@ -60,7 +56,7 @@ export default function Camera(props) {
         0.35,
         delta
       );
-    } else {
+    } else if (location.pathname === "/contact") {
       easing.damp3(
         state.camera.position,
         [-21 + -state.pointer.x, 6 + state.pointer.y / 6, 30],

@@ -57,7 +57,6 @@ export default function Ui() {
               <NavLink
                 to="/"
                 state={{ data: location.pathname }}
-                // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={
                   visible
                     ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
@@ -106,7 +105,6 @@ export default function Ui() {
               <NavLink
                 to="/contact"
                 state={{ data: location.pathname }}
-                // className="relative inline-block hover:text-[#f597e8] hover:italic hover:text-xl py-0.5 mx-2 group"
                 className={({ isActive }) =>
                   isActive
                     ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"

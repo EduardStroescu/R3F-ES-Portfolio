@@ -46,37 +46,53 @@ export default function Experience() {
     setMessageReceived,
   } = useAppContext();
   const [progress, setProgress] = useState(-2.0);
-  const { viewport } = useThree();
+  const { size } = useThree();
+  const viewport = { width: size.width / 10 };
 
   const { nodes } = useGLTF("./models/model.glb");
-  const bakedTexture = useTexture("./models/Bake.jpg");
+  const [bakedTexture, noise] = useTexture([
+    "./models/Bake.jpg",
+    "./models/gradient-noise.jpg",
+  ]);
   bakedTexture.flipY = false;
 
   const TrailConfig = {
-    size: 256,
-    radius: 0.07,
-    maxAge: 400,
-    interpolate: 1,
-    smoothing: 0.5,
-    minForce: 0.2,
-    intensity: 0.1,
-    blend: screen,
+    firstTrail: {
+      size: 256,
+      radius: 0.07,
+      maxAge: 400,
+      interpolate: 1,
+      smoothing: 0.5,
+      minForce: 0.2,
+      intensity: 0.1,
+      blend: screen,
+    },
+    secondTrail: {
+      size: 256,
+      radius: 0.8,
+      maxAge: 500,
+      interpolate: 1,
+      smoothing: 0.5,
+      minForce: 0.5,
+      intensity: 0.5,
+      blend: screen,
+    },
   };
 
-  const TrailConfig2 = {
-    size: 256,
-    radius: 0.8,
-    maxAge: 500,
-    interpolate: 1,
-    smoothing: 0.5,
-    minForce: 0.5,
-    intensity: 0.5,
-    blend: screen,
-  };
+  // const TrailConfig2 = {
+  //   size: 256,
+  //   radius: 0.8,
+  //   maxAge: 500,
+  //   interpolate: 1,
+  //   smoothing: 0.5,
+  //   minForce: 0.5,
+  //   intensity: 0.5,
+  //   blend: screen,
+  // };
 
-  const [texture, onMove] = useTrailTexture(TrailConfig);
-  const [texture2, onMove2] = useTrailTexture(TrailConfig2);
-  const [texture3, onMove3] = useTrailTexture(TrailConfig2);
+  const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
+  const [texture2, onMove2] = useTrailTexture(TrailConfig.secondTrail);
+  const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
 
   const [active, setActive] = useState(true);
   const [active2, setActive2] = useState(false);
@@ -94,15 +110,9 @@ export default function Experience() {
     }
   }, [progress]);
 
-  // let active = true;
-  // if (progress > -1.5) {active = false}
-  // // if (progress >= 1) {active = 1}
-  // let active2 = false;
-  // if (progress > 2) {active2 = true}
-  // // if (progress >= 1) {active2 = 0}
-
   const screenCamera = useRef();
   const screenMesh = useRef();
+  const textRef = useRef();
   const scene1 = useMemo(() => new THREE.Scene(), []);
   const scene2 = useMemo(() => new THREE.Scene(), []);
   const renderTargetA = useFBO();
@@ -110,10 +120,8 @@ export default function Experience() {
   const renderTargetC = useFBO();
   const { gl } = useThree();
 
-  const textRef = useRef();
-
   useFrame((state, delta) => {
-    const { scene, camera } = state;
+    const { camera } = state;
     gl.setRenderTarget(renderTargetA);
     gl.render(scene1, camera);
 
@@ -127,6 +135,7 @@ export default function Experience() {
 
     screenMesh.current.material.uniforms.textureA.value = renderTargetA.texture;
     screenMesh.current.material.uniforms.textureB.value = renderTargetB.texture;
+    screenMesh.current.material.uniforms.uNoise.value = noise;
     screenMesh.current.material.uniforms.uProgress.value = progress;
     screenMesh.current.material.uniforms.uTime.value += delta;
     gl.setRenderTarget(null);
@@ -156,15 +165,6 @@ export default function Experience() {
     return () => clearInterval(progressInterval);
   }, [location.pathname]);
 
-  // const mesh = new Mesh(
-  //   new CylinderGeometry(1.1, 1.1, 1.1, 5),
-  //   new MeshBasicMaterial({
-  //     color: "#e898ad",
-  //   })
-  // );
-  // mesh.position.set(11, 16.5, 11);
-  // mesh.scale.set(4, 1, 4);
-  // const sunRef = useRef();
   return (
     <>
       {createPortal(
@@ -207,16 +207,17 @@ export default function Experience() {
               visible={location.pathname === "/"}
               onPointerMove={onMove2}
               anchorY="middle"
+              anchorX="center"
               font={titleFont}
-              strokeColor={"#f597e8"}
               characters="Web Developer"
               position={[11, 6, 10]}
-              fontSize={viewport.width > 70 ? 2.5 : 2.2}
-              fillOpacity={4}
+              fontSize={viewport.width > 111 ? 3 : 2.1}
+              fillOpacity={1.5}
+              curveRadius={9}
             >
               <MeshWobbleMaterial
                 map={texture2}
-                emissive="#f597e8"
+                emissive="#faf7fa"
                 factor={0.2}
               />
               WEB DEVELOPER
@@ -225,16 +226,17 @@ export default function Experience() {
               visible={location.pathname === "/"}
               onPointerMove={onMove3}
               anchorY="middle"
+              anchorX="center"
               font={titleFont}
-              strokeColor={"#f597e8"}
               characters="Portofolio"
-              position={[11, 3, 10]}
-              fontSize={viewport.width > 70 ? 2.5 : 2.2}
-              fillOpacity={4}
+              position={[11, 3, 11]}
+              fontSize={viewport.width > 111 ? 3 : 2.2}
+              fillOpacity={1.5}
+              curveRadius={9}
             >
               <MeshWobbleMaterial
                 map={texture3}
-                emissive="#f597e8"
+                emissive="#faf7fa"
                 factor={0.2}
               />
               PORTOFOLIO
@@ -326,6 +328,9 @@ export default function Experience() {
               value: null,
             },
             textureB: {
+              value: null,
+            },
+            uNoise: {
               value: null,
             },
             uTime: {

@@ -112,6 +112,9 @@ body {
 .hoverShadow:hover {
   text-shadow: 1px 1px 8px #f74ee0;
 }
+.shadow {
+  text-shadow: 3px 3px 2px red;
+}
 
 .loadingScreen__board {
   transition: all 0.4s;

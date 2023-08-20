@@ -1,11 +1,12 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Vignette, SMAA } from "@react-three/postprocessing";
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import LensFlare from "../shaders/ultimateLensFlare/ultimateLensFlare";
 import { Color } from "three";
 
-export default function Postprocessing({ active2 }) {
-  const { gl, camera, viewport } = useThree();
+export default function Postprocessing2({ active2 }) {
+  const { gl, size } = useThree();
+  const viewport = { width: size.width / 10 };
 
   useFrame((state) => {
     // gl.setRenderTarget(renderTargetA);
@@ -45,7 +46,7 @@ export default function Postprocessing({ active2 }) {
   }, [gl]);
 
   return (
-    <>
+    <Suspense>
       <EffectComposer
         enabled={active2}
         multisampling={0}
@@ -73,6 +74,6 @@ export default function Postprocessing({ active2 }) {
         />
         <Vignette offset={0.35} darkness={0.7} />
       </EffectComposer>
-    </>
+    </Suspense>
   );
 }

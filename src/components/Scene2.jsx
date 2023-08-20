@@ -1,3 +1,4 @@
+/* eslint-disable react/display-name */
 import {
   Html,
   MeshTransmissionMaterial,
@@ -14,13 +15,14 @@ import { projectData } from "../data/projectsData";
 
 const Plane = React.memo(({ position, material }) => {
   const ref = useRef();
-  const { viewport } = useThree();
+  const { size } = useThree();
+  const viewport = { width: size.width / 10 };
 
   return (
     <group
       position={position}
-      scale-x={viewport.width > 70 ? 1.5 : 0.4}
-      scale-y={viewport.width > 70 ? 1.5 : 0.5}
+      scale-x={viewport.width > 111 ? 1.5 : 0.4}
+      scale-y={viewport.width > 111 ? 1.5 : 0.5}
     >
       <mesh ref={ref}>
         <planeGeometry args={[15, 10]} />
@@ -45,7 +47,8 @@ const damp = THREE.MathUtils.damp;
 function Minimap({ planeGroups }) {
   const ref = useRef();
   const scroll = useScroll();
-  const { viewport } = useThree();
+  const { size } = useThree();
+  const viewport = { width: size.width / 10 };
 
   useFrame((delta) => {
     ref.current.children.forEach((child, index) => {
@@ -68,7 +71,7 @@ function Minimap({ planeGroups }) {
           geometry={geometry}
           material={material}
           position={[
-            viewport.width > 70
+            viewport.width > 111
               ? i * 0.04 - planeGroups.length * -0.424
               : i * 0.04 - planeGroups.length * -0.427,
             -4.3,
@@ -94,56 +97,57 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     "./models/Material1.jpg",
     "./models/Material2.jpg",
   ]);
-  const { viewport } = useThree();
+  const { size } = useThree();
+  const viewport = { width: size.width, height: size.height };
 
   const planeGroups = [
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, -5, 5],
+        position: [viewport.width / 10 > 111 ? -3 : 8, -5, 5],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, -5, 0],
+        position: [viewport.width / 10 > 111 ? 27 : 16, -5, 0],
         material: { map: material2 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, -5, -50],
+        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -50],
         material: { map: material2 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, -5, -55],
+        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -55],
         material: { map: material1 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, -5, -110],
+        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -110],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, -5, -115],
+        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -115],
         material: { map: material2 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, -5, -160],
+        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -160],
         material: { map: material2 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, -5, -165],
+        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -165],
         material: { map: material1 },
       },
     ],
     [
       {
-        position: [viewport.width > 70 ? -3 : 8, -5, -220],
+        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -220],
         material: { map: material1 },
       },
       {
-        position: [viewport.width > 70 ? 27 : 16, -5, -225],
+        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -225],
         material: { map: material2 },
       },
     ],
@@ -200,7 +204,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     setActiveProject(activeInfo);
   });
 
-  useFrame((state, delta) => {
+  useFrame(() => {
     // Calculate the total distance covered by the planes in the scroll
     const totalDistance = (planeGroups.length - 0.9) * 73;
 
@@ -245,7 +249,11 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
         color={activeProject.color}
         characters={activeProject.title}
         position={[11, -5, 11]}
-        fontSize={viewport.width > 70 ? 13 : 4}
+        fontSize={
+          viewport.width / 10 > 111
+            ? (viewport.width / viewport.height) * 6
+            : (viewport.width / viewport.height) * 7.5
+        }
       >
         {/* <shaderMaterial
                uniforms={{
@@ -265,7 +273,6 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
           fog={false}
           emissive={activeProject.color}
           transmission={0.8}
-          // color={[0.5, 0, 0]}
           backside
           ior={1.2}
           thickness={2.2}
@@ -281,20 +288,23 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
           fullscreen
           style={{ pointerEvents: "none" }}
           as="projects-html"
-          scale={viewport.width > 70 ? 1.1 : 1}
-          position={[11, viewport.width > 70 ? -2 : -1.1, 15]}
+          scale={viewport.width / 10 > 111 ? 1.1 : 1}
+          position={[
+            viewport.width / 10 > 111 ? 11 : 11.1,
+            viewport.width / 10 > 111
+              ? -viewport.width / viewport.height / 1.2
+              : (-viewport.width / viewport.height) * 2.2,
+            15,
+          ]}
           wrapperClass="m-0 p-0 box-border font-[titleFont] text-white overflow-hidden"
         >
-          <footer
-            // style={{ transform: "scale(1)" }}
-            className="text-md w-[110vw] sm:w-[100vw] md:w-[110vw] xl:w-[80vw] 2xl:w-[60vw] sm:h-[10rem] flex flex-col justify-center items-center"
-          >
-            <div className="absolute top-[75%]">
+          <footer className="text-md w-[100vw] sm:w-[100vw] md:w-[100vw] xl:w-[80vw] 2xl:w-[60vw] sm:h-[10rem] flex flex-col justify-center items-center">
+            <div className="absolute top-[73%] sm:top-[80%]">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 xmlns="http://www.w3.org/2000/svg"
-                width={viewport.width > 70 ? 40.903 : 50.903}
+                width={viewport.width / 10 > 111 ? 40.903 : 50.903}
                 height="47.395"
               >
                 <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
@@ -329,8 +339,8 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
               </svg>
               <p className="text-center text-lg sm:text-sm">Scroll</p>
             </div>
-            <div className="flex flex-row justify-center align-center pb-2 sm:pb-6">
-              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row justify-center align-center my-[2px] mr-12">
+            <div className="flex flex-row place-self-between gap-x-24 pb-2 sm:pb-6">
+              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row">
                 <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
                   View Live
                 </span>
@@ -345,11 +355,11 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
                   </svg>
                 </span>
               </button>
-              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row justify-center align-center my-[2px] ml-12">
+              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row my-[2px]">
                 <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
                   View Code
                 </span>
-                <span className="text-black pl-2 pr-0">
+                <span className="text-black pl-2 mr-[-0.5px]">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="24"
@@ -364,7 +374,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
                 </span>
               </button>
             </div>
-            <div className="flex text-white w-full h-full flex-row justify-around items-center gap-x-[25%] sm:gap-x-[40%] md:gap-x-[25%]">
+            <div className="flex text-white w-[110vw] md:w-[75vw] h-full flex-row justify-around items-center gap-x-[20%] sm:gap-x-[40%] md:gap-x-[0%]">
               <div className="w-1/2 sm:w-1/3 h-full flex flex-row justify-end mb-4">
                 <ul
                   className="flex flex-wrap justify-end items-center"
@@ -372,20 +382,16 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
                 >
                   {activeProject.projectTags.map((tag, index) => (
                     <li key={index} className="mr-1.5 mt-2">
-                      <div className="flex items-center rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
+                      <div className="flex rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
                         {tag}
                       </div>
                     </li>
                   ))}
                 </ul>
               </div>
-              <div className="w-1/2 sm:w-1/3 h-full flex flex-row justify-start self-center mb-0">
-                <p className="flex items-center bg-teal-400/10 px-2 py-1 text-sm font-medium text-teal-300 text-center ">
+              <div className="w-1/2 sm:w-1/3 h-full flex flex-row justify-start self-center mb-2">
+                <p className="flex items-center bg-teal-400/10 px-2 py-2 text-sm font-medium text-teal-300 text-center ml-1.5">
                   {activeProject.projectDescription}
-                  {/* Freelancing project and a personal experiment consisting in a
-                  small E-Commerce Website that seamlessly merges 3D and
-                  Headless Shopify to deliver an interactive customer
-                  experience. */}
                 </p>
               </div>
             </div>

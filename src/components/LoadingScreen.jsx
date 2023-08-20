@@ -3,9 +3,9 @@ import { useSpring, a } from "@react-spring/web";
 import { useAppContext } from "./AppContextProvider.jsx";
 
 export default function LoadingScreen({ started, onStarted }) {
-  const { progress, total, loaded } = useProgress();
+  const { loaded } = useProgress();
   const { playAmbientSound, playHoverSound } = useAppContext();
-  const totalProgress = loaded * 10 + 20;
+  const totalProgress = loaded * 10 + 10;
 
   const loadingTextAnimation1 = useSpring({
     from: { opacity: 1 },
@@ -22,7 +22,7 @@ export default function LoadingScreen({ started, onStarted }) {
           ? "auto"
           : totalProgress >= 100 && started
           ? "none"
-          : "auto",
+          : "none",
     },
     config: { mass: 1, tension: 500, friction: 60 },
     delay: !started ? 1500 : 0,
@@ -34,11 +34,7 @@ export default function LoadingScreen({ started, onStarted }) {
         started ? "loadingScreen--started" : ""
       }`}
     >
-      <a.div
-        className="loadingBg absolute w-screen h-screen bg-gradient-to-t from-[#11e8bb] to-[#8200c9]
-        "
-        // backdrop-blur-[7.4px] blur-sm shadow-[0_4px_30px_rgba(0,0,0,0.1)]
-      />
+      <a.div className="loadingBg absolute w-screen h-screen bg-gradient-to-t from-[#11e8bb] to-[#8200c9]" />
       <div className=" loadingScreen__board w-full h-full text-center flex flex-col justify-between items-center z-[1]">
         <div className="loadingScreen__title text-[5rem] pt-2 lg:pt-8">
           <h1>E/S</h1>
