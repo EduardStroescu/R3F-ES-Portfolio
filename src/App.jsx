@@ -34,7 +34,7 @@ function App() {
               </Canvas>
             </div>
           </Suspense>
-          <Ui className="w-full" />
+          <Ui />
           <LoadingScreen started={start} onStarted={() => setStart(true)} />
         </AppContextProvider>
       </BrowserRouter>

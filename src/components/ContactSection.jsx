@@ -23,9 +23,9 @@ export default function ContactSection({
 
   const formik = useFormik({
     initialValues: {
-      user_name: "", //user name
-      user_email: "", // user email
-      message: "", // message of email
+      user_name: "",
+      user_email: "",
+      message: "",
     },
     validationSchema: Yup.object({
       user_name: Yup.string().required("* Name field is required"),

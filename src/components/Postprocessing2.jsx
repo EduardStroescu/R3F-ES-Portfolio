@@ -9,41 +9,9 @@ export default function Postprocessing2({ active2 }) {
   const viewport = { width: size.width / 10 };
 
   useFrame((state) => {
-    // gl.setRenderTarget(renderTargetA);
-    // state.gl.autoClear = false;
     state.gl.clear();
-    // state.gl.setRenderTarget(renderTargetB);
-    // state.gl.render(scene2, camera);
     gl.autoClear = true;
   });
-
-  // if (!active) {
-  //   return null; // Return null if the effect is inactive
-  // }
-
-  useEffect(() => {
-    const canvas = gl.domElement;
-    const handleContextLost = (event) => {
-      event.preventDefault();
-      console.log("WebGL context lost. Attempting to restore...");
-      setTimeout(() => gl.forceContextRestore(), 1);
-    };
-    const handleContextRestored = () => {
-      console.log("WebGL context restored.");
-      // Re-setup your WebGL state and re-create your WebGL resources here
-    };
-    canvas.addEventListener("webglcontextlost", handleContextLost, false);
-    canvas.addEventListener(
-      "webglcontextrestored",
-      handleContextRestored,
-      false
-    );
-
-    return () => {
-      canvas.removeEventListener("webglcontextlost", handleContextLost);
-      canvas.removeEventListener("webglcontextrestored", handleContextRestored);
-    };
-  }, [gl]);
 
   return (
     <Suspense>

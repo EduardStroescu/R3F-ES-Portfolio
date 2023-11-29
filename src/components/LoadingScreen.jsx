@@ -38,7 +38,7 @@ export default function LoadingScreen({ started, onStarted }) {
       <div className=" loadingScreen__board w-full h-full text-center flex flex-col justify-between items-center z-[1]">
         <div className="loadingScreen__title text-[5rem] pt-2 lg:pt-8">
           <h1>E/S</h1>
-          <h1 className="mt-[-4%]">Portofolio</h1>
+          <h1 className="mt-[-4%]">Portfolio</h1>
         </div>
         <div className="h-1/3 w-full flex justify-center items-center">
           <div className="spinner-box">

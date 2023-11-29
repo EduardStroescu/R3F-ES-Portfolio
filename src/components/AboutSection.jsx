@@ -59,7 +59,6 @@ export default function AboutSection({
           always finely honed, enabling me to deliver top-notch results with
           every project.
         </p>
-        {/* The fusion of aesthetic brilliance and seamless functionality is where I excel, as I aim to not just meet, but exceed user expectations. */}
         <p className=" px-[15px] text-md text-justify indent-5">
           With a forward-thinking approach, I am ready to tackle new challenges
           and create innovative solutions together. If you&apos;re searching for

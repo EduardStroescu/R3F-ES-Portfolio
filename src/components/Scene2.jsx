@@ -5,9 +5,10 @@ import {
   Text,
   useScroll,
   useTexture,
+  useVideoTexture,
 } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useCallback, useRef, useState } from "react";
+import { Suspense, useCallback, useRef, useState } from "react";
 import * as THREE from "three";
 import React from "react";
 
@@ -52,8 +53,8 @@ function Minimap({ planeGroups }) {
 
   useFrame((delta) => {
     ref.current.children.forEach((child, index) => {
-      // Give me a value between 0 and 1
-      //   starting at the position of my item
+      // Generate a value between 0 and 1
+      //   starting at the position of the current item
       //   ranging across 4 / total length
       //   make it a sine, so the value goes from 0 to 1 to 0.
       const y = scroll.curve(
@@ -93,10 +94,28 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
   const scroll = useScroll();
   const ref = useRef();
 
-  const [material1, material2] = useTexture([
-    "./models/Material1.jpg",
-    "./models/Material2.jpg",
+  const [material1, material2, material3, material4, material5] = useTexture([
+    "./models/neuralCouture.jpg",
+    "./models/screenSynced.jpg",
+    "./models/jjk.jpg",
+    "./models/portfolio.jpg",
+    "./models/comingSoon.jpg",
   ]);
+  const videoTextureProps = {
+    unsuspend: "canplaythrough",
+    start: true,
+    loop: true,
+    muted: true,
+  };
+  const videoTexture1 = useVideoTexture(
+    "models/portfolio.mp4",
+    videoTextureProps
+  );
+  const videoTexture2 = useVideoTexture(
+    "models/screenSynced.mp4",
+    videoTextureProps
+  );
+  const videoTexture3 = useVideoTexture("models/jjk.mp4", videoTextureProps);
   const { size } = useThree();
   const viewport = { width: size.width, height: size.height };
 
@@ -108,7 +127,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
       },
       {
         position: [viewport.width / 10 > 111 ? 27 : 16, -5, 0],
-        material: { map: material2 },
+        material: { map: material1 },
       },
     ],
     [
@@ -118,37 +137,37 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
       },
       {
         position: [viewport.width / 10 > 111 ? 27 : 16, -5, -55],
-        material: { map: material1 },
+        material: { map: videoTexture2 },
       },
     ],
     [
       {
         position: [viewport.width / 10 > 111 ? -3 : 8, -5, -110],
-        material: { map: material1 },
+        material: { map: material3 },
       },
       {
         position: [viewport.width / 10 > 111 ? 27 : 16, -5, -115],
-        material: { map: material2 },
+        material: { map: videoTexture3 },
       },
     ],
     [
       {
         position: [viewport.width / 10 > 111 ? -3 : 8, -5, -160],
-        material: { map: material2 },
+        material: { map: material4 },
       },
       {
         position: [viewport.width / 10 > 111 ? 27 : 16, -5, -165],
-        material: { map: material1 },
+        material: { map: videoTexture1 },
       },
     ],
     [
       {
         position: [viewport.width / 10 > 111 ? -3 : 8, -5, -220],
-        material: { map: material1 },
+        material: { map: material5 },
       },
       {
         position: [viewport.width / 10 > 111 ? 27 : 16, -5, -225],
-        material: { map: material2 },
+        material: { map: material5 },
       },
     ],
   ];
@@ -157,6 +176,8 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     if (offset <= -0.8 && offset <= 0.09) {
       return {
         title: projectData.titles[0],
+        liveLink: projectData.liveLinks[0],
+        codeLink: projectData.codeLinks[0],
         color: projectData.titleColors[0],
         projectDescription: projectData.projectDescriptions[0],
         projectTags: projectData.projectTags[0],
@@ -164,6 +185,8 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     } else if (offset >= 0.09 && offset <= 0.27) {
       return {
         title: projectData.titles[1],
+        liveLink: projectData.liveLinks[1],
+        codeLink: projectData.codeLinks[1],
         color: projectData.titleColors[1],
         projectDescription: projectData.projectDescriptions[1],
         projectTags: projectData.projectTags[1],
@@ -171,6 +194,8 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     } else if (offset >= 0.27 && offset <= 0.48) {
       return {
         title: projectData.titles[2],
+        liveLink: projectData.liveLinks[2],
+        codeLink: projectData.codeLinks[2],
         color: projectData.titleColors[2],
         projectDescription: projectData.projectDescriptions[2],
         projectTags: projectData.projectTags[2],
@@ -178,6 +203,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     } else if (offset >= 0.48 && offset <= 0.64) {
       return {
         title: projectData.titles[3],
+        codeLink: projectData.codeLinks[3],
         color: projectData.titleColors[3],
         projectDescription: projectData.projectDescriptions[3],
         projectTags: projectData.projectTags[3],
@@ -192,6 +218,8 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
     } else {
       return {
         title: projectData.titles[0],
+        liveLink: projectData.liveLinks[0],
+        codeLink: projectData.codeLinks[0],
         color: projectData.titleColors[0],
         projectDescription: projectData.projectDescriptions[0],
         projectTags: projectData.projectTags[0],
@@ -232,15 +260,17 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
   return (
     <>
       <Minimap planeGroups={planeGroups} />
-      <group ref={ref}>
-        {planeGroups.map((group, index) => (
-          <group key={index}>
-            {group.map((planeProps, planeIndex) => (
-              <Plane key={planeIndex} {...planeProps} />
-            ))}
-          </group>
-        ))}
-      </group>
+      <Suspense>
+        <group ref={ref}>
+          {planeGroups.map((group, index) => (
+            <group key={index}>
+              {group.map((planeProps, planeIndex) => (
+                <Plane key={planeIndex} {...planeProps} />
+              ))}
+            </group>
+          ))}
+        </group>
+      </Suspense>
       <Text
         visible={active2}
         ref={textRef}
@@ -251,21 +281,10 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
         position={[11, -5, 11]}
         fontSize={
           viewport.width / 10 > 111
-            ? (viewport.width / viewport.height) * 6
-            : (viewport.width / viewport.height) * 7.5
+            ? (viewport.width / viewport.height) * 3.5
+            : (viewport.width / viewport.height) * 4.5
         }
       >
-        {/* <shaderMaterial
-               uniforms={{
-                tDiffuse: { value: renderTargetC.texture }
-              }}
-              fog={false}
-              depthTest={false}
-              depthWrite={false}
-              transparent
-              vertexShader={textVertexShader}
-              fragmentShader={textFragmentShader}
-              /> */}
         <MeshTransmissionMaterial
           buffer={renderTargetC.texture}
           depthTest={false}
@@ -340,7 +359,12 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
               <p className="text-center text-lg sm:text-sm">Scroll</p>
             </div>
             <div className="flex flex-row place-self-between gap-x-24 pb-2 sm:pb-6">
-              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row">
+              <a
+                href={activeProject.liveLink}
+                rel="noreferrer"
+                target="_blank"
+                className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row"
+              >
                 <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
                   View Live
                 </span>
@@ -354,8 +378,13 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
                     <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z" />
                   </svg>
                 </span>
-              </button>
-              <button className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row my-[2px]">
+              </a>
+              <a
+                href={activeProject.codeLink}
+                rel="noreferrer"
+                target="_blank"
+                className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row my-[2px]"
+              >
                 <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
                   View Code
                 </span>
@@ -372,7 +401,7 @@ export default function Scene2({ active2, textRef, titleFont, renderTargetC }) {
                     />
                   </svg>
                 </span>
-              </button>
+              </a>
             </div>
             <div className="flex text-white w-[110vw] md:w-[75vw] h-full flex-row justify-around items-center gap-x-[20%] sm:gap-x-[40%] md:gap-x-[0%]">
               <div className="w-1/2 sm:w-1/3 h-full flex flex-row justify-end mb-4">

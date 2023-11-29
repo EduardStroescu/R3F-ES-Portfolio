@@ -79,17 +79,6 @@ export default function Experience() {
     },
   };
 
-  // const TrailConfig2 = {
-  //   size: 256,
-  //   radius: 0.8,
-  //   maxAge: 500,
-  //   interpolate: 1,
-  //   smoothing: 0.5,
-  //   minForce: 0.5,
-  //   intensity: 0.5,
-  //   blend: screen,
-  // };
-
   const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
   const [texture2, onMove2] = useTrailTexture(TrailConfig.secondTrail);
   const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
@@ -202,46 +191,44 @@ export default function Experience() {
             />
           </mesh>
 
-          <Suspense>
-            <Text
-              visible={location.pathname === "/"}
-              onPointerMove={onMove2}
-              anchorY="middle"
-              anchorX="center"
-              font={titleFont}
-              characters="Web Developer"
-              position={[11, 6, 10]}
-              fontSize={viewport.width > 111 ? 3 : 2.1}
-              fillOpacity={1.5}
-              curveRadius={9}
-            >
-              <MeshWobbleMaterial
-                map={texture2}
-                emissive="#faf7fa"
-                factor={0.2}
-              />
-              WEB DEVELOPER
-            </Text>
-            <Text
-              visible={location.pathname === "/"}
-              onPointerMove={onMove3}
-              anchorY="middle"
-              anchorX="center"
-              font={titleFont}
-              characters="Portofolio"
-              position={[11, 3, 11]}
-              fontSize={viewport.width > 111 ? 3 : 2.2}
-              fillOpacity={1.5}
-              curveRadius={9}
-            >
-              <MeshWobbleMaterial
-                map={texture3}
-                emissive="#faf7fa"
-                factor={0.2}
-              />
-              PORTOFOLIO
-            </Text>
-          </Suspense>
+          <Text
+            visible={location.pathname === "/"}
+            onPointerMove={onMove2}
+            anchorY="middle"
+            anchorX="center"
+            font={titleFont}
+            characters="Web Developer"
+            position={[11, 6, 10]}
+            fontSize={viewport.width > 111 ? 3 : 2.1}
+            fillOpacity={1.5}
+            curveRadius={9}
+          >
+            <MeshWobbleMaterial
+              map={texture2}
+              emissive="#faf7fa"
+              factor={0.2}
+            />
+            WEB DEVELOPER
+          </Text>
+          <Text
+            visible={location.pathname === "/"}
+            onPointerMove={onMove3}
+            anchorY="middle"
+            anchorX="center"
+            font={titleFont}
+            characters="Portfolio"
+            position={[11, 3, 11]}
+            fontSize={viewport.width > 111 ? 3 : 2.2}
+            fillOpacity={1.5}
+            curveRadius={9}
+          >
+            <MeshWobbleMaterial
+              map={texture3}
+              emissive="#faf7fa"
+              factor={0.2}
+            />
+            PORTFOLIO
+          </Text>
 
           <Environment
             files={"./Environment/surreal_desert.hdr"}
