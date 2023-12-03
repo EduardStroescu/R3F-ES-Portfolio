@@ -2,13 +2,13 @@ export const projectData = {
   titles: ["NEURALCOUTURE", "SCREENSYNCED", "JJK", "PORTFOLIO", "COMING SOON"],
   liveLinks: [
     "https://neural-couture.vercel.app/",
-    "https://screensynced-frontend.vercel.app/",
-    "https://jjk-presentation-website.vercel.app/",
+    "https://screensynced.vercel.app/",
+    "https://jjk-promo.vercel.app/",
   ],
   codeLinks: [
-    "https://github.com/EduardStroescu/hydrogen-fashion-store/tree/main",
+    "https://github.com/EduardStroescu/NeuralCouture-Storefront/tree/main",
     "https://github.com/EduardStroescu/ScreenSynced-FrontEnd/tree/main",
-    "https://github.com/EduardStroescu/JJK-PresentationWebsite/tree/main",
+    "https://github.com/EduardStroescu/JJK-promo/tree/main",
     "https://github.com/EduardStroescu/R3F-ES-Portfolio/tree/main",
   ],
   titleColors: ["#9544c7", "#4470c7", "#c73232", "#739ff5", "#adb6c9"],
