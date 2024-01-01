@@ -1,13 +1,8 @@
-import { useRef, Suspense, useMemo, useState, useEffect } from "react";
+import { useRef, useMemo, useState, useEffect } from "react";
 import { createPortal, useFrame, useThree } from "@react-three/fiber";
 import {
   useTexture,
-  useGLTF,
   Environment,
-  Text,
-  MeshWobbleMaterial,
-  Stats,
-  useTrailTexture,
   useFBO,
   PerspectiveCamera,
   ScrollControls,
@@ -16,18 +11,20 @@ import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
 
 import { useAppContext } from "./AppContextProvider.jsx";
+import { useSoundContext } from "./SoundContextProvider.jsx";
 import Camera from "./Camera.jsx";
 import Camera2 from "./Camera2.jsx";
 import Postprocessing from "./Postprocessing.jsx";
 import Postprocessing2 from "./Postprocessing2.jsx";
-import Scene2 from "./Scene2.jsx";
-import { MeshReflectorMaterial } from "../shaders/waterShader/MeshReflectorMaterial.tsx";
-import FullscreenTriangle from "./FullScreenTriangle.jsx";
+import ProjectsScene from "./ProjectsScene.jsx";
+import FullscreenTriangle from "../helpers/FullScreenTriangle.js";
 import vertexShader from "../shaders/transitionShader/vertexShader.jsx";
 import fragmentShader from "../shaders/transitionShader/fragmentShader.jsx";
 import ContactSection from "./ContactSection.jsx";
 import AboutSection from "./AboutSection.jsx";
-import titleFont from "../assets/fonts/Dosis.woff";
+import { WaterComponent } from "./WaterComponent.jsx";
+import { HomeTitle } from "./HomeTitle.jsx";
+import { HomeModel } from "./HomeModel.jsx";
 
 THREE.ColorManagement.enabled = true;
 
@@ -38,72 +35,37 @@ export default function Experience() {
     setFlipped,
     visible,
     setVisible,
-    playHoverSound,
-    playMenuOpenCloseSound,
-    playMenuFlipSound,
     isMessageSent,
     setMessageSent,
     setMessageReceived,
   } = useAppContext();
+  const { playHoverSound, playMenuOpenCloseSound, playMenuFlipSound } =
+    useSoundContext();
   const [progress, setProgress] = useState(-2.0);
-  const { size } = useThree();
-  const viewport = { width: size.width / 10 };
 
-  const { nodes } = useGLTF("./models/model.glb");
-  const [bakedTexture, noise] = useTexture([
-    "./models/Bake.jpg",
-    "./models/gradient-noise.jpg",
-  ]);
-  bakedTexture.flipY = false;
+  const noise = useTexture("./models/gradient-noise.jpg");
 
-  const TrailConfig = {
-    firstTrail: {
-      size: 256,
-      radius: 0.07,
-      maxAge: 400,
-      interpolate: 1,
-      smoothing: 0.5,
-      minForce: 0.2,
-      intensity: 0.1,
-      blend: screen,
-    },
-    secondTrail: {
-      size: 256,
-      radius: 0.8,
-      maxAge: 500,
-      interpolate: 1,
-      smoothing: 0.5,
-      minForce: 0.5,
-      intensity: 0.5,
-      blend: screen,
-    },
-  };
-
-  const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
-  const [texture2, onMove2] = useTrailTexture(TrailConfig.secondTrail);
-  const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
-
-  const [active, setActive] = useState(true);
-  const [active2, setActive2] = useState(false);
+  const [homeSceneActive, setHomeSceneActive] = useState(true);
+  const [projectsSceneActive, setProjectsSceneActive] = useState(false);
 
   useEffect(() => {
     if (progress > -1.5) {
-      setActive(false);
+      setHomeSceneActive(false);
     } else {
-      setActive(true);
+      setHomeSceneActive(true);
     }
     if (progress > 2) {
-      setActive2(true);
+      setProjectsSceneActive(true);
     } else {
-      setActive2(false);
+      setProjectsSceneActive(false);
     }
   }, [progress]);
 
   const screenCamera = useRef();
   const screenMesh = useRef();
   const textRef = useRef();
-  const scene1 = useMemo(() => new THREE.Scene(), []);
-  const scene2 = useMemo(() => new THREE.Scene(), []);
+  const homeScene = useMemo(() => new THREE.Scene(), []);
+  const projectsScene = useMemo(() => new THREE.Scene(), []);
   const renderTargetA = useFBO();
   const renderTargetB = useFBO();
   const renderTargetC = useFBO();
@@ -112,14 +74,14 @@ export default function Experience() {
   useFrame((state, delta) => {
     const { camera } = state;
     gl.setRenderTarget(renderTargetA);
-    gl.render(scene1, camera);
+    gl.render(homeScene, camera);
 
     gl.setRenderTarget(renderTargetB);
-    gl.render(scene2, camera);
+    gl.render(projectsScene, camera);
 
     gl.setRenderTarget(renderTargetC);
     textRef.current.material.visible = false;
-    gl.render(scene2, camera);
+    gl.render(projectsScene, camera);
     textRef.current.material.visible = true;
 
     screenMesh.current.material.uniforms.textureA.value = renderTargetA.texture;
@@ -159,85 +121,10 @@ export default function Experience() {
       {createPortal(
         <>
           <Camera position={[5, 0, 26]} />
-          <mesh geometry={nodes.baked.geometry}>
-            <meshBasicMaterial map={bakedTexture} />
-          </mesh>
-          <mesh
-            visible={active}
-            position={[10, -0.52, 15]}
-            onPointerMove={onMove}
-            rotation={[-Math.PI / 2, 0, 0]}
-          >
-            <planeGeometry args={[300, 200, 50, 50]} />
-            <MeshReflectorMaterial
-              args={[100, 100, 50, 50]} // PlaneBufferGeometry arguments
-              resolution={1024} // Off-buffer resolution, lower=faster, higher=better quality
-              key={MeshReflectorMaterial.key}
-              mapp={texture}
-              distortionMap={texture}
-              distortion={0.05}
-              amount={0.05}
-              depthScale={90}
-              mixStrength={0.8} // Strength of the reflections
-              rotation={[-Math.PI * 0.5, 0, 0]}
-              mirror={1} // Mirror environment, 0 = texture colors, 1 = pick up env colors
-              minDepthThreshold={0.1}
-              maxDepthThreshold={10}
-              color="cyan"
-              roughness={0}
-              metalness={1}
-              blur={0} // Blur ground reflections (width, heigt), 0 skips blur
-              toneMapped={false}
-            />
-          </mesh>
-
-          <Text
-            visible={location.pathname === "/"}
-            onPointerMove={onMove2}
-            anchorY="middle"
-            anchorX="center"
-            font={titleFont}
-            characters="Web Developer"
-            position={[11, 6, 10]}
-            fontSize={viewport.width > 111 ? 3 : 2.1}
-            fillOpacity={1.5}
-            curveRadius={9}
-          >
-            <MeshWobbleMaterial
-              map={texture2}
-              emissive="#faf7fa"
-              factor={0.2}
-            />
-            WEB DEVELOPER
-          </Text>
-          <Text
-            visible={location.pathname === "/"}
-            onPointerMove={onMove3}
-            anchorY="middle"
-            anchorX="center"
-            font={titleFont}
-            characters="Portfolio"
-            position={[11, 3, 11]}
-            fontSize={viewport.width > 111 ? 3 : 2.2}
-            fillOpacity={1.5}
-            curveRadius={9}
-          >
-            <MeshWobbleMaterial
-              map={texture3}
-              emissive="#faf7fa"
-              factor={0.2}
-            />
-            PORTFOLIO
-          </Text>
-
-          <Environment
-            files={"./Environment/surreal_desert.hdr"}
-            background={"only"}
-          />
-          <Environment
-            files={"./Environment/evening_road_01_puresky_1k.hdr"}
-            background={false}
-          />
+          <HomeModel />
+          <WaterComponent homeSceneActive={homeSceneActive} />
+          <HomeTitle location={location} />
+          <HomeSceneEnv />
           <AboutSection
             visible={visible}
             location={location}
@@ -255,15 +142,15 @@ export default function Experience() {
             playMenuFlipSound={playMenuFlipSound}
           />
           <Postprocessing
-            active={active}
+            homeSceneActive={homeSceneActive}
             gl={gl}
             renderTargetA={renderTargetA}
-            scene1={scene1}
+            homeScene={homeScene}
             renderTargetB={renderTargetB}
             progress={progress}
           />
         </>,
-        scene1
+        homeScene
       )}
       <ScrollControls
         enabled={location.pathname === "/projects"}
@@ -273,29 +160,23 @@ export default function Experience() {
       >
         {createPortal(
           <>
-            <Environment
-              files={"./Environment/evening_road_01_puresky_1k.hdr"}
-              background={false}
-            />
-            <color attach="background" args={["black"]} />
+            <ProjectsSceneEnv />
             <Camera2 position={[5, 0, 26]} />
-            <fog attach="fog" args={["#191920", 0, 55]} />
-            <Scene2
-              active2={active2}
+            <ProjectsScene
+              projectsSceneActive={projectsSceneActive}
               textRef={textRef}
-              titleFont={titleFont}
               renderTargetC={renderTargetC}
             />
           </>,
-          scene2
+          projectsScene
         )}
       </ScrollControls>
       <Postprocessing2
-        active2={active2}
+        projectsSceneActive={projectsSceneActive}
         gl={gl}
         renderTarget={renderTargetA}
         renderTargetB={renderTargetB}
-        scene2={scene2}
+        projectsScene={projectsScene}
       />
       <PerspectiveCamera
         position={[0, 0, 0]}
@@ -336,4 +217,30 @@ export default function Experience() {
   );
 }
 
-useGLTF.preload("./models/model.glb");
+function HomeSceneEnv() {
+  return (
+    <>
+      <Environment
+        files={"./Environment/surreal_desert.hdr"}
+        background={"only"}
+      />
+      <Environment
+        files={"./Environment/evening_road_01_puresky_1k.hdr"}
+        background={false}
+      />
+    </>
+  );
+}
+
+function ProjectsSceneEnv() {
+  return (
+    <>
+      <Environment
+        files={"./Environment/evening_road_01_puresky_1k.hdr"}
+        background={false}
+      />
+      <color attach="background" args={["black"]} />
+      <fog attach="fog" args={["#191920", 0, 55]} />
+    </>
+  );
+}

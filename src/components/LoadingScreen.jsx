@@ -1,10 +1,10 @@
 import { useProgress } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/web";
-import { useAppContext } from "./AppContextProvider.jsx";
+import { useSoundContext } from "./SoundContextProvider.jsx";
 
 export default function LoadingScreen({ started, onStarted }) {
   const { loaded } = useProgress();
-  const { playAmbientSound, playHoverSound } = useAppContext();
+  const { playAmbientSound, playHoverSound } = useSoundContext();
   const totalProgress = loaded * 10 + 10;
 
   const loadingTextAnimation1 = useSpring({

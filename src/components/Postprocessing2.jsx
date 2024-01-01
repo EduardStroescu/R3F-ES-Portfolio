@@ -1,10 +1,10 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer, Vignette, SMAA } from "@react-three/postprocessing";
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import LensFlare from "../shaders/ultimateLensFlare/ultimateLensFlare";
 import { Color } from "three";
 
-export default function Postprocessing2({ active2 }) {
+export default function Postprocessing2({ projectsSceneActive }) {
   const { gl, size } = useThree();
   const viewport = { width: size.width / 10 };
 
@@ -16,7 +16,7 @@ export default function Postprocessing2({ active2 }) {
   return (
     <Suspense>
       <EffectComposer
-        enabled={active2}
+        enabled={projectsSceneActive}
         multisampling={0}
         renderPriority={1}
         disableNormalPass

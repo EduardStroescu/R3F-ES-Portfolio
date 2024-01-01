@@ -19,7 +19,7 @@ const Sun = forwardRef(function Sun(props, forwardRef) {
   );
 });
 
-export default function Postprocessing({ active, progress }) {
+export default function Postprocessing({ homeSceneActive }) {
   const sunRef = useRef();
   const { gl } = useThree();
 
@@ -41,7 +41,7 @@ export default function Postprocessing({ active, progress }) {
     };
     const handleContextRestored = () => {
       console.log("WebGL context restored.");
-      // Re-setup your WebGL state and re-create your WebGL resources here
+      // Re-setup WebGL state and re-create WebGL resources
     };
     canvas.addEventListener("webglcontextlost", handleContextLost, false);
     canvas.addEventListener(
@@ -61,7 +61,7 @@ export default function Postprocessing({ active, progress }) {
       <Sun ref={sunRef} />
       {sunRef.current && (
         <EffectComposer
-          enabled={active}
+          enabled={homeSceneActive}
           multisampling={0}
           renderPriority={1}
           disableNormalPass={true}
@@ -74,10 +74,10 @@ export default function Postprocessing({ active, progress }) {
             sun={sunRef.current}
             blendFunction={BlendFunction.SCREEN}
             samples={10}
-            density={0.97} // Gradually reduce density
-            decay={0.93} // Gradually reduce decay
-            weight={0.8} // Gradually reduce weight
-            exposure={0.1} // Gradually reduce exposure
+            density={0.97}
+            decay={0.93}
+            weight={0.8}
+            exposure={0.1}
             clampMax={1}
             kernelSize={KernelSize.SMALL}
             blur={true}
