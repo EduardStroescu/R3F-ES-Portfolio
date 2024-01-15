@@ -1,8 +1,12 @@
 import { useGLTF, useTexture } from "@react-three/drei";
 
 export function HomeModel() {
-  const { nodes } = useGLTF("./models/model.glb");
-  const bakedTexture = useTexture("./models/Bake.jpg");
+  const { nodes } = useGLTF(
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
+  );
+  const bakedTexture = useTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Model/lnac4hlhof7ttgmjuxyl"
+  );
   bakedTexture.flipY = false;
 
   return (
@@ -12,4 +16,6 @@ export function HomeModel() {
   );
 }
 
-useGLTF.preload("./models/model.glb");
+useGLTF.preload(
+  "https://res.cloudinary.com/dgfe1xsgj/image/upload/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
+);

@@ -31,6 +31,7 @@ export const getActiveProject = (offset) => {
   } else if (offset >= 0.48 && offset <= 0.64) {
     return {
       title: projectData.titles[3],
+      liveLink: projectData.liveLinks[2],
       codeLink: projectData.codeLinks[3],
       color: projectData.titleColors[3],
       projectDescription: projectData.projectDescriptions[3],

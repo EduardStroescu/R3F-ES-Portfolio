@@ -1,6 +1,4 @@
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
-import mySound from "/audios/audio.webm";
-import fallbackSound from "/audios/audio.mp3";
 import { Howl, Howler } from "howler";
 import { useLocation } from "react-router-dom";
 
@@ -15,7 +13,10 @@ export function SoundContextProvider({ children }) {
   Howler.autoUnlock = false;
 
   const hoverSound = new Howl({
-    src: [mySound, fallbackSound],
+    src: [
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
+    ],
     autoplay: false,
     sprite: {
       hover: [166300, 500],
@@ -25,7 +26,10 @@ export function SoundContextProvider({ children }) {
 
   const ambientSound = useMemo(() => {
     return new Howl({
-      src: [mySound, fallbackSound],
+      src: [
+        "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
+        "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
+      ],
       autoplay: false,
       sprite: {
         ambient: [0, 148000, true],
@@ -35,7 +39,10 @@ export function SoundContextProvider({ children }) {
   }, []);
 
   const howlerSprite = new Howl({
-    src: [mySound, fallbackSound],
+    src: [
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
+    ],
     autoplay: false,
     sprite: {
       transition: [151300, 4000],

@@ -36,7 +36,7 @@ export default function Ui() {
 
   return (
     <div className="w-full h-full">
-      <header className="text-white text-xl z-2 w-full pt-6 p-4 flex flex-row justify-between items-center">
+      <header className="text-white text-xl z-2 w-full pt-6 px-4 sm:px-8 flex flex-row justify-between items-center">
         <div className="flex items-center">
           <Link
             to="/"

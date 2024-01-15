@@ -1,5 +1,5 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import { EffectComposer, Vignette, SMAA } from "@react-three/postprocessing";
+import { EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Suspense } from "react";
 import LensFlare from "../shaders/ultimateLensFlare/ultimateLensFlare";
 import { Color } from "three";
@@ -23,16 +23,15 @@ export default function Postprocessing2({ projectsSceneActive }) {
         stencilBuffer={false}
         autoClear={false}
       >
-        <SMAA />
         <LensFlare
           position={{
-            x: viewport.width > 30 ? -15 : 5,
-            y: viewport.width > 30 ? 30 : 25,
+            x: viewport.width > 60 ? -15 : 5,
+            y: viewport.width > 60 ? 30 : 25,
             z: 15,
           }}
           starBurst={false}
           secondaryGhosts={false}
-          enabled
+          enabled={viewport.width > 43 ? true : false}
           glareSize={1}
           starPoints={14}
           flareShape={0.1}

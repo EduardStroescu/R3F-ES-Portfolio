@@ -72,13 +72,13 @@ export function FailIcon() {
   );
 }
 
-export function ScrollIcon({ viewport }) {
+export function ScrollIcon() {
   return (
     <svg
       viewBox="0 0 24 24"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      width={viewport.width / 10 > 111 ? 40.903 : 50.903}
+      width="40.903"
       height="47.395"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>

@@ -21,49 +21,58 @@ export function ProjectDetails({ viewport, activeProject }) {
     >
       <footer className="text-md w-[100vw] sm:w-[100vw] md:w-[100vw] xl:w-[80vw] 2xl:w-[60vw] sm:h-[10rem] flex flex-col justify-center items-center">
         <div className="absolute top-[73%] sm:top-[80%]">
-          <ScrollIcon viewport={viewport} />
+          <ScrollIcon />
           <p className="text-center text-lg sm:text-sm">Scroll</p>
         </div>
         <div className="flex flex-row place-self-between gap-x-24 pb-2 sm:pb-6">
-          {activeProject.liveLink && (
-            <a
-              href={activeProject.liveLink}
-              rel="noreferrer"
-              target="_blank"
-              className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row"
-            >
-              <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
-                View Live
-              </span>
-              <span className="pr-2 pt-[3px]">
-                <HyperlinkIcon />
-              </span>
-            </a>
-          )}
-          {activeProject.codeLink && (
-            <a
-              href={activeProject.codeLink}
-              rel="noreferrer"
-              target="_blank"
-              className="pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row my-[2px]"
-            >
-              <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
-                View Code
-              </span>
-              <span className="text-black pl-2 mr-[-0.5px]">
-                <GithubIcon />
-              </span>
-            </a>
-          )}
+          <a
+            href={activeProject.liveLink}
+            rel="noreferrer"
+            target="_blank"
+            className={`${
+              !activeProject.liveLink && "opacity-0"
+            } pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row`}
+          >
+            <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
+              View Live
+            </span>
+            <span className="pr-2 pt-[3px]">
+              <HyperlinkIcon />
+            </span>
+          </a>
+          <a
+            href={activeProject.codeLink}
+            rel="noreferrer"
+            target="_blank"
+            className={`
+            ${!activeProject.codeLink && "opacity-0"} 
+            pointer-events-auto text-black bg-white border-white rounded-full mb-2 flex flex-row my-[2px]`}
+          >
+            <span className="hoverShadow hover:text-[#f597e8] text-md pl-2">
+              View Code
+            </span>
+            <span className="text-black pl-2 mr-[-0.5px]">
+              <GithubIcon />
+            </span>
+          </a>
         </div>
-        <div className="flex text-white w-[110vw] md:w-[75vw] h-full flex-row justify-around items-center gap-x-[20%] sm:gap-x-[40%] md:gap-x-[0%]">
+        <div
+          className={`
+          ${
+            !activeProject.liveLink &&
+            !activeProject.codeLink &&
+            "opacity-0 pointer-events-none"
+          } 
+          flex text-white w-[110vw] md:w-[75vw] h-full flex-row justify-around items-center gap-x-[20%] sm:gap-x-[40%] md:gap-x-[0%]
+          `}
+        >
           <div className="w-1/2 sm:w-1/3 h-full flex flex-row justify-end mb-4">
             <ul
               className="flex flex-wrap justify-end items-center"
               aria-label="Technologies used"
             >
               {activeProject.projectTags.map((tag, index) => (
-                <li key={index} className="mr-1.5 mt-2">
+                <li key={index} className="mr-1.5 mt-1">
                   <div className="flex rounded-full bg-teal-400/10 px-3 py-1 text-xs font-medium leading-5 text-teal-300 ">
                     {tag}
                   </div>

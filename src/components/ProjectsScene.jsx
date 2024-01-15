@@ -1,3 +1,5 @@
+/* eslint-disable react/no-unknown-property */
+/* eslint-disable react/display-name */
 import {
   MeshTransmissionMaterial,
   Text,
@@ -53,96 +55,108 @@ export default function ProjectsScene({
   const ref = useRef();
 
   const [material1, material2, material3, material4, material5] = useTexture([
-    "./photos/neuralCouture.jpg",
-    "./photos/screenSynced.jpg",
-    "./photos/jjk.jpg",
-    "./photos/portfolio.jpg",
-    "./photos/comingSoon.jpg",
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/nq6wzkwk4igedfgfxzyu",
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/mdvltwawjll7babtkyia",
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/j9m7guleaptbuew2uihm",
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/n2zhusifwz47eufpilmq",
   ]);
   const videoTextureProps = {
     unsuspend: "canplaythrough",
     loop: true,
     muted: true,
   };
-  const videoTexture = useVideoTexture("videos/neuralCouture.mp4", {
-    ...videoTextureProps,
-    start: isVideoOnePlaying,
-  });
 
-  const videoTexture2 = useVideoTexture("videos/screenSynced.mp4", {
-    ...videoTextureProps,
-    start: isVideoTwoPlaying,
-  });
+  const videoTexture = useVideoTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/f0lppekipaxjobit4jen",
+    {
+      ...videoTextureProps,
+      start: isVideoOnePlaying,
+    }
+  );
 
-  const videoTexture3 = useVideoTexture("videos/jjk.mp4", {
-    ...videoTextureProps,
-    start: isVideoThreePlaying,
-  });
+  const videoTexture2 = useVideoTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
+    {
+      ...videoTextureProps,
+      start: isVideoTwoPlaying,
+    }
+  );
 
-  const videoTexture4 = useVideoTexture("videos/portfolio.mp4", {
-    ...videoTextureProps,
-    start: isVideoFourPlaying,
-  });
+  const videoTexture3 = useVideoTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
+    {
+      ...videoTextureProps,
+      start: isVideoThreePlaying,
+    }
+  );
+
+  const videoTexture4 = useVideoTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/ndfytt6vbfiysnril4i4",
+    {
+      ...videoTextureProps,
+      start: isVideoFourPlaying,
+    }
+  );
   const { size } = useThree();
   const viewport = { width: size.width, height: size.height };
+  const planeCoords = {
+    planeLeft: { x: viewport.width / 10 > 111 ? -3 : 8, y: -5 },
+    planeRight: { x: viewport.width / 10 > 111 ? 27 : 16, y: -5 },
+  };
 
   const planeGroups = [
     [
       {
-        position: [viewport.width / 10 > 111 ? -3 : 8, -5, 5],
+        position: [planeCoords.planeLeft.x, planeCoords.planeLeft.y, 5],
         material: { map: material1 },
       },
       {
-        position: [viewport.width / 10 > 111 ? 27 : 16, -5, 0],
+        position: [planeCoords.planeRight.x, planeCoords.planeRight.y, 0],
         material: { map: videoTexture },
       },
     ],
     [
       {
-        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -50],
+        position: [planeCoords.planeLeft.x, planeCoords.planeLeft.y, -50],
         material: { map: material2 },
       },
       {
-        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -55],
+        position: [planeCoords.planeRight.x, planeCoords.planeRight.y, -55],
         material: { map: videoTexture2 },
       },
     ],
     [
       {
-        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -110],
+        position: [planeCoords.planeLeft.x, planeCoords.planeLeft.y, -110],
         material: { map: material3 },
       },
       {
-        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -115],
+        position: [planeCoords.planeRight.x, planeCoords.planeRight.y, -115],
         material: { map: videoTexture3 },
       },
     ],
     [
       {
-        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -160],
+        position: [planeCoords.planeLeft.x, planeCoords.planeLeft.y, -160],
         material: { map: material4 },
       },
       {
-        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -165],
+        position: [planeCoords.planeRight.x, planeCoords.planeRight.y, -165],
         material: { map: videoTexture4 },
       },
     ],
     [
       {
-        position: [viewport.width / 10 > 111 ? -3 : 8, -5, -220],
+        position: [planeCoords.planeLeft.x, planeCoords.planeLeft.y, -220],
         material: { map: material5 },
       },
       {
-        position: [viewport.width / 10 > 111 ? 27 : 16, -5, -225],
+        position: [planeCoords.planeRight.x, planeCoords.planeRight.y, -225],
         material: { map: material5 },
       },
     ],
   ];
-
-  useFrame(() => {
-    const activeInfo = getActiveProject(scroll.offset);
-    setActiveProject(activeInfo);
-  });
 
   useEffect(() => {
     if (scroll.offset >= 0.09 && scroll.offset <= 0.27) {
@@ -155,7 +169,7 @@ export default function ProjectsScene({
       setIsVideoThreePlaying(false);
       setIsVideoFourPlaying(true);
     } else {
-      setIsVideoOnePlaying(false);
+      setIsVideoOnePlaying(true);
       setIsVideoTwoPlaying(false);
       setIsVideoThreePlaying(false);
       setIsVideoFourPlaying(false);
@@ -185,6 +199,10 @@ export default function ProjectsScene({
       }
       group.position.z = zPosition;
     });
+
+    // Set Project Details according to the scroll offset
+    const activeInfo = getActiveProject(scroll.offset);
+    setActiveProject(activeInfo);
   });
 
   return (
@@ -230,9 +248,9 @@ export default function ProjectsScene({
         />
         {activeProject.title}
       </Text>
-      {projectsSceneActive ? (
+      {projectsSceneActive && (
         <ProjectDetails viewport={viewport} activeProject={activeProject} />
-      ) : null}
+      )}
     </>
   );
 }

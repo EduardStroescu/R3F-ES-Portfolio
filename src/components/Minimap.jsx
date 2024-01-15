@@ -1,19 +1,21 @@
 import { useFrame, useThree } from "@react-three/fiber";
-import * as THREE from "three";
 import { useRef } from "react";
 import { useScroll } from "@react-three/drei";
+import { Vector3, LineBasicMaterial } from "three";
+import { MathUtils } from "three";
+import { BufferGeometry } from "three";
 
-const material = new THREE.LineBasicMaterial({
+const material = new LineBasicMaterial({
   color: "white",
   depthTest: false,
   depthWrite: false,
 });
-const geometry = new THREE.BufferGeometry().setFromPoints([
-  new THREE.Vector3(0, -0.6, 0),
-  new THREE.Vector3(0, 0.6, 0),
+const geometry = new BufferGeometry().setFromPoints([
+  new Vector3(0, -0.6, 0),
+  new Vector3(0, 0.6, 0),
 ]);
 
-const damp = THREE.MathUtils.damp;
+const damp = MathUtils.damp;
 
 export function Minimap({ planeGroups }) {
   const ref = useRef();

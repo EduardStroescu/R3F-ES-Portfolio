@@ -1,4 +1,5 @@
-import { useRef, useMemo, useState, useEffect } from "react";
+/* eslint-disable react/no-unknown-property */
+import { useRef, useMemo, useState, useEffect, lazy, Suspense } from "react";
 import { createPortal, useFrame, useThree } from "@react-three/fiber";
 import {
   useTexture,
@@ -7,28 +8,27 @@ import {
   PerspectiveCamera,
   ScrollControls,
 } from "@react-three/drei";
-import * as THREE from "three";
 import { v4 as uuidv4 } from "uuid";
 
 import { useAppContext } from "./AppContextProvider.jsx";
 import { useSoundContext } from "./SoundContextProvider.jsx";
 import Camera from "./Camera.jsx";
-import Camera2 from "./Camera2.jsx";
 import Postprocessing from "./Postprocessing.jsx";
 import Postprocessing2 from "./Postprocessing2.jsx";
-import ProjectsScene from "./ProjectsScene.jsx";
 import FullscreenTriangle from "../helpers/FullScreenTriangle.js";
 import vertexShader from "../shaders/transitionShader/vertexShader.jsx";
 import fragmentShader from "../shaders/transitionShader/fragmentShader.jsx";
-import ContactSection from "./ContactSection.jsx";
-import AboutSection from "./AboutSection.jsx";
 import { WaterComponent } from "./WaterComponent.jsx";
 import { HomeTitle } from "./HomeTitle.jsx";
 import { HomeModel } from "./HomeModel.jsx";
+import { Scene } from "three";
 
-THREE.ColorManagement.enabled = true;
+const AboutSection = lazy(() => import("./AboutSection.jsx"));
+const ProjectsScene = lazy(() => import("./ProjectsScene.jsx"));
+const Camera2 = lazy(() => import("./Camera2.jsx"));
+const ContactSection = lazy(() => import("./ContactSection.jsx"));
 
-export default function Experience() {
+export default function Experience({ start }) {
   const {
     location,
     flipped,
@@ -41,34 +41,22 @@ export default function Experience() {
   } = useAppContext();
   const { playHoverSound, playMenuOpenCloseSound, playMenuFlipSound } =
     useSoundContext();
-  const [progress, setProgress] = useState(-2.0);
-
-  const noise = useTexture("./models/gradient-noise.jpg");
+  const noise = useTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Model/mgc28ibcemeqqoztq6vs"
+  );
 
   const [homeSceneActive, setHomeSceneActive] = useState(true);
   const [projectsSceneActive, setProjectsSceneActive] = useState(false);
 
-  useEffect(() => {
-    if (progress > -1.5) {
-      setHomeSceneActive(false);
-    } else {
-      setHomeSceneActive(true);
-    }
-    if (progress > 2) {
-      setProjectsSceneActive(true);
-    } else {
-      setProjectsSceneActive(false);
-    }
-  }, [progress]);
-
   const screenCamera = useRef();
   const screenMesh = useRef();
   const textRef = useRef();
-  const homeScene = useMemo(() => new THREE.Scene(), []);
-  const projectsScene = useMemo(() => new THREE.Scene(), []);
+  const homeScene = useMemo(() => new Scene(), []);
+  const projectsScene = useMemo(() => new Scene(), []);
   const renderTargetA = useFBO();
   const renderTargetB = useFBO();
   const renderTargetC = useFBO();
+  const progress = useRef(-2.0);
   const { gl } = useThree();
 
   useFrame((state, delta) => {
@@ -87,9 +75,21 @@ export default function Experience() {
     screenMesh.current.material.uniforms.textureA.value = renderTargetA.texture;
     screenMesh.current.material.uniforms.textureB.value = renderTargetB.texture;
     screenMesh.current.material.uniforms.uNoise.value = noise;
-    screenMesh.current.material.uniforms.uProgress.value = progress;
+    screenMesh.current.material.uniforms.uProgress.value = progress.current;
     screenMesh.current.material.uniforms.uTime.value += delta;
     gl.setRenderTarget(null);
+
+    // Scene activation logic in every frame
+    if (progress.current > -1.5) {
+      setHomeSceneActive(false);
+    } else {
+      setHomeSceneActive(true);
+    }
+    if (progress.current > 2) {
+      setProjectsSceneActive(true);
+    } else {
+      setProjectsSceneActive(false);
+    }
   });
 
   useEffect(() => {
@@ -97,13 +97,13 @@ export default function Experience() {
     const duration = 1000; // Duration in milliseconds for the progress to change
     const interval = 40; // Interval time in milliseconds for updating the progress
 
-    let currentProgress = progress; // Start from the current progress value
+    let currentProgress = progress.current; // Start from the current progress value
     const increment =
       (targetProgress - currentProgress) / (duration / interval);
 
     const progressInterval = setInterval(() => {
       currentProgress += increment;
-      setProgress(currentProgress);
+      progress.current = currentProgress;
 
       if (
         (increment > 0 && currentProgress >= targetProgress) ||
@@ -125,22 +125,26 @@ export default function Experience() {
           <WaterComponent homeSceneActive={homeSceneActive} />
           <HomeTitle location={location} />
           <HomeSceneEnv />
-          <AboutSection
-            visible={visible}
-            location={location}
-            setVisible={setVisible}
-            playHoverSound={playHoverSound}
-            playMenuOpenCloseSound={playMenuOpenCloseSound}
-          />
-          <ContactSection
-            flipped={flipped}
-            setFlipped={setFlipped}
-            isMessageSent={isMessageSent}
-            setMessageSent={setMessageSent}
-            setMessageReceived={setMessageReceived}
-            playHoverSound={playHoverSound}
-            playMenuFlipSound={playMenuFlipSound}
-          />
+          {start && (
+            <Suspense fallback={null}>
+              <AboutSection
+                visible={visible}
+                location={location}
+                setVisible={setVisible}
+                playHoverSound={playHoverSound}
+                playMenuOpenCloseSound={playMenuOpenCloseSound}
+              />
+              <ContactSection
+                flipped={flipped}
+                setFlipped={setFlipped}
+                isMessageSent={isMessageSent}
+                setMessageSent={setMessageSent}
+                setMessageReceived={setMessageReceived}
+                playHoverSound={playHoverSound}
+                playMenuFlipSound={playMenuFlipSound}
+              />
+            </Suspense>
+          )}
           <Postprocessing
             homeSceneActive={homeSceneActive}
             gl={gl}
@@ -161,7 +165,9 @@ export default function Experience() {
         {createPortal(
           <>
             <ProjectsSceneEnv />
-            <Camera2 position={[5, 0, 26]} />
+            <Suspense fallback={null}>
+              <Camera2 position={[5, 0, 26]} />
+            </Suspense>
             <ProjectsScene
               projectsSceneActive={projectsSceneActive}
               textRef={textRef}
@@ -221,11 +227,15 @@ function HomeSceneEnv() {
   return (
     <>
       <Environment
-        files={"./Environment/surreal_desert.hdr"}
+        files={
+          "https://res.cloudinary.com/dgfe1xsgj/raw/upload/v1/Portfolio/Environment/qldpzf7hd4mid2444htq.hdr"
+        }
         background={"only"}
       />
       <Environment
-        files={"./Environment/evening_road_01_puresky_1k.hdr"}
+        files={
+          "https://res.cloudinary.com/dgfe1xsgj/raw/upload/v1/Portfolio/Environment/o1aavxxiq6alk6xvwdmp.hdr"
+        }
         background={false}
       />
     </>
@@ -236,7 +246,9 @@ function ProjectsSceneEnv() {
   return (
     <>
       <Environment
-        files={"./Environment/evening_road_01_puresky_1k.hdr"}
+        files={
+          "https://res.cloudinary.com/dgfe1xsgj/raw/upload/v1/Portfolio/Environment/o1aavxxiq6alk6xvwdmp.hdr"
+        }
         background={false}
       />
       <color attach="background" args={["black"]} />

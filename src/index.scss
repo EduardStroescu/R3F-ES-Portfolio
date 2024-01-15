@@ -5,14 +5,15 @@
 @font-face {
   font-family: "Dosis";
   src: url(./assets/fonts/Dosis.woff);
+  font-display: swap;
 }
 @layer base {
   html {
-    font-family: Dosis;
+    font-family: Dosis, sans-serif;
   }
 }
 .MainFont {
-  font-family: Dosis;
+  font-family: Dosis, sans-serif;
 }
 
 @keyframes spin {
@@ -105,6 +106,7 @@ body {
   font-family: Dosis;
   font-weight: bold;
   overflow: hidden;
+  background-color: #220140;
 }
 
 .titleColor {

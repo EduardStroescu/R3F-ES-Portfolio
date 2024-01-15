@@ -7,7 +7,7 @@ export function AudioButton({
   playHoverSound,
 }) {
   return (
-    <section className="tooltipWrapper fixed bottom-6 left-4 ">
+    <aside className="tooltipWrapper fixed bottom-6 left-4 scale-[0.8]">
       <button
         onClick={() => {
           switchAudio();
@@ -27,6 +27,6 @@ export function AudioButton({
           <AudioIcon isAudioEnabled={isAudioEnabled} />
         </span>
       </button>
-    </section>
+    </aside>
   );
 }
