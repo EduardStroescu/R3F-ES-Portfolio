@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useFrame, useThree } from "@react-three/fiber";
 import { useRef } from "react";
 import { useScroll } from "@react-three/drei";

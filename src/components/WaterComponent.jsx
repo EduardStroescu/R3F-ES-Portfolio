@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useTrailTexture } from "@react-three/drei";
 import { MeshReflectorMaterial } from "../shaders/waterShader/MeshReflectorMaterial";
 import { TrailConfig } from "../data/trailConfig";
@@ -14,14 +15,14 @@ export function WaterComponent({ homeSceneActive }) {
     >
       <planeGeometry args={[300, 200, 50, 50]} />
       <MeshReflectorMaterial
-        args={[100, 100, 50, 50]} // PlaneBufferGeometry arguments
+        args={[1, 1, 1, 1]} // PlaneBufferGeometry arguments
         resolution={1024} // Off-buffer resolution, lower=faster, higher=better quality
         key={MeshReflectorMaterial.key}
         mapp={texture}
         distortionMap={texture}
         distortion={0.05}
         amount={0.05}
-        depthScale={90}
+        depthScale={40}
         mixStrength={0.8} // Strength of the reflections
         rotation={[-Math.PI * 0.5, 0, 0]}
         mirror={1} // Mirror environment, 0 = texture colors, 1 = pick up env colors

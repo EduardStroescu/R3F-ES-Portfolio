@@ -46,10 +46,7 @@ export default function ProjectsScene({
     projectDescription: null,
     projectTags: null,
   });
-  const [isVideoOnePlaying, setIsVideoOnePlaying] = useState(true);
-  const [isVideoTwoPlaying, setIsVideoTwoPlaying] = useState(false);
-  const [isVideoThreePlaying, setIsVideoThreePlaying] = useState(false);
-  const [isVideoFourPlaying, setIsVideoFourPlaying] = useState(false);
+  const [videoNowPlaying, setVideoNowPlaying] = useState("one");
 
   const scroll = useScroll();
   const ref = useRef();
@@ -61,41 +58,32 @@ export default function ProjectsScene({
     "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
     "https://res.cloudinary.com/dgfe1xsgj/image/upload/f_auto,q_auto/v1/Portfolio/Photos/n2zhusifwz47eufpilmq",
   ]);
-  const videoTextureProps = {
-    unsuspend: "canplaythrough",
-    loop: true,
-    muted: true,
-  };
 
   const videoTexture = useVideoTexture(
     "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/f0lppekipaxjobit4jen",
     {
-      ...videoTextureProps,
-      start: isVideoOnePlaying,
+      start: videoNowPlaying === "one",
     }
   );
 
   const videoTexture2 = useVideoTexture(
     "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
     {
-      ...videoTextureProps,
-      start: isVideoTwoPlaying,
+      start: videoNowPlaying === "two",
     }
   );
 
   const videoTexture3 = useVideoTexture(
     "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
     {
-      ...videoTextureProps,
-      start: isVideoThreePlaying,
+      start: videoNowPlaying === "three",
     }
   );
 
   const videoTexture4 = useVideoTexture(
     "https://res.cloudinary.com/dgfe1xsgj/video/upload/f_auto:video,q_auto/v1/Portfolio/Videos/ndfytt6vbfiysnril4i4",
     {
-      ...videoTextureProps,
-      start: isVideoFourPlaying,
+      start: videoNowPlaying === "four",
     }
   );
   const { size } = useThree();
@@ -160,19 +148,13 @@ export default function ProjectsScene({
 
   useEffect(() => {
     if (scroll.offset >= 0.09 && scroll.offset <= 0.27) {
-      setIsVideoOnePlaying(false);
-      setIsVideoTwoPlaying(true);
+      setVideoNowPlaying("two");
     } else if (scroll.offset >= 0.27 && scroll.offset <= 0.48) {
-      setIsVideoTwoPlaying(false);
-      setIsVideoThreePlaying(true);
+      setVideoNowPlaying("three");
     } else if (scroll.offset >= 0.48 && scroll.offset <= 0.64) {
-      setIsVideoThreePlaying(false);
-      setIsVideoFourPlaying(true);
+      setVideoNowPlaying("four");
     } else {
-      setIsVideoOnePlaying(true);
-      setIsVideoTwoPlaying(false);
-      setIsVideoThreePlaying(false);
-      setIsVideoFourPlaying(false);
+      setVideoNowPlaying("one");
     }
   }, [scroll.offset]);
 
@@ -227,11 +209,7 @@ export default function ProjectsScene({
         color={activeProject.color}
         characters={activeProject.title}
         position={[11, -5, 11]}
-        fontSize={
-          viewport.width / 10 > 111
-            ? (viewport.width / viewport.height) * 3.5
-            : (viewport.width / viewport.height) * 3.5
-        }
+        fontSize={(viewport.width / viewport.height) * 3.5}
       >
         <MeshTransmissionMaterial
           buffer={renderTargetC.texture}
@@ -240,7 +218,6 @@ export default function ProjectsScene({
           fog={false}
           emissive={activeProject.color}
           transmission={0.8}
-          backside
           ior={1.2}
           thickness={2.2}
           anisotropy={0.1}
@@ -248,9 +225,7 @@ export default function ProjectsScene({
         />
         {activeProject.title}
       </Text>
-      {projectsSceneActive && (
-        <ProjectDetails viewport={viewport} activeProject={activeProject} />
-      )}
+      {projectsSceneActive && <ProjectDetails activeProject={activeProject} />}
     </>
   );
 }

@@ -34,6 +34,21 @@ export default function Ui() {
     config: { mass: 10, tension: 500, friction: 100 },
   });
 
+  const handleAboutClick = () => {
+    setVisible((state) => !state);
+    setFlipped(false);
+    if (location.pathname === "/projects") {
+      const timeout = setTimeout(() => {
+        playMenuOpenCloseSound();
+        clearTimeout(timeout);
+      }, 1000);
+      playUnderwaterTransitionSound();
+    } else {
+      playMenuOpenCloseSound();
+    }
+    flipped && playMenuFlipSound();
+  };
+
   return (
     <div className="w-full h-full">
       <header className="text-white text-xl z-2 w-full pt-6 px-4 sm:px-8 flex flex-row justify-between items-center">
@@ -44,12 +59,11 @@ export default function Ui() {
             onClick={() => {
               setVisible(false);
               setFlipped(false);
-              visible ? playMenuOpenCloseSound() : null;
-              flipped ? playMenuFlipSound() : null;
-              location.pathname === "/contact" ? playTransitionSound() : null;
-              location.pathname === "/projects"
-                ? playUnderwaterTransitionSound()
-                : null;
+              visible && playMenuOpenCloseSound();
+              flipped && playMenuFlipSound();
+              location.pathname === "/contact" && playTransitionSound();
+              location.pathname === "/projects" &&
+                playUnderwaterTransitionSound();
             }}
             onPointerEnter={playHoverSound}
           >
@@ -67,19 +81,7 @@ export default function Ui() {
                     ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
                     : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
                 }
-                onClick={() => {
-                  setVisible((state) => !state);
-                  setFlipped(false);
-                  location.pathname === "/projects"
-                    ? setTimeout(() => {
-                        playMenuOpenCloseSound();
-                      }, 1000)
-                    : playMenuOpenCloseSound();
-                  flipped ? playMenuFlipSound() : null;
-                  location.pathname === "/projects"
-                    ? playUnderwaterTransitionSound()
-                    : null;
-                }}
+                onClick={() => handleAboutClick()}
                 onPointerEnter={playHoverSound}
               >
                 About
@@ -96,16 +98,15 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  visible ? playMenuOpenCloseSound() : null;
-                  flipped ? playMenuFlipSound() : null;
-                  location.pathname === "/" || location.pathname === "/contact"
-                    ? playUnderwaterTransitionSound()
-                    : null;
+                  visible && playMenuOpenCloseSound();
+                  flipped && playMenuFlipSound();
+                  location.pathname !== "/projects" &&
+                    playUnderwaterTransitionSound();
                 }}
                 onPointerEnter={playHoverSound}
               >
                 Projects
-                <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
+                <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
               </NavLink>
               <NavLink
                 to="/contact"
@@ -118,17 +119,16 @@ export default function Ui() {
                 onClick={() => {
                   setVisible(false);
                   setFlipped(false);
-                  visible ? playMenuOpenCloseSound() : null;
-                  flipped ? playMenuFlipSound() : null;
-                  location.pathname === "/" ? playTransitionSound() : null;
-                  location.pathname === "/projects"
-                    ? playUnderwaterTransitionSound()
-                    : null;
+                  visible && playMenuOpenCloseSound();
+                  flipped && playMenuFlipSound();
+                  location.pathname === "/"
+                    ? playTransitionSound()
+                    : playUnderwaterTransitionSound();
                 }}
                 onPointerEnter={playHoverSound}
               >
                 Contact
-                <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100"></span>
+                <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
               </NavLink>
             </div>
           </nav>

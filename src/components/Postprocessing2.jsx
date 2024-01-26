@@ -1,46 +1,51 @@
-import { useFrame, useThree } from "@react-three/fiber";
+import { useThree } from "@react-three/fiber";
 import { EffectComposer, Vignette } from "@react-three/postprocessing";
 import { Suspense } from "react";
 import LensFlare from "../shaders/ultimateLensFlare/ultimateLensFlare";
 import { Color } from "three";
 
 export default function Postprocessing2({ projectsSceneActive }) {
-  const { gl, size } = useThree();
+  const { size } = useThree();
   const viewport = { width: size.width / 10 };
 
-  useFrame((state) => {
-    state.gl.clear();
-    gl.autoClear = true;
-  });
+  // In case of need to enable for smaller devices
+  // const position = {x: viewport.width > 60 ? -15 : 5,
+  // y: viewport.width > 60 ? 30 : 25,
+  // z: 15}
 
-  return (
-    <Suspense>
-      <EffectComposer
-        enabled={projectsSceneActive}
-        multisampling={0}
-        renderPriority={1}
-        disableNormalPass
-        stencilBuffer={false}
-        autoClear={false}
-      >
-        <LensFlare
-          position={{
-            x: viewport.width > 60 ? -15 : 5,
-            y: viewport.width > 60 ? 30 : 25,
-            z: 15,
-          }}
-          starBurst={false}
-          secondaryGhosts={false}
-          enabled={viewport.width > 43 ? true : false}
-          glareSize={1}
-          starPoints={14}
-          flareShape={0.1}
-          flareSpeed={0}
-          colorGain={new Color(42, 108, 101)}
-          additionalStreaks
-        />
-        <Vignette offset={0.35} darkness={0.7} />
-      </EffectComposer>
-    </Suspense>
-  );
+  if (viewport.width > 76) {
+    return (
+      <Suspense>
+        <EffectComposer
+          enabled={projectsSceneActive}
+          multisampling={0}
+          renderPriority={1}
+          disableNormalPass={true}
+          stencilBuffer={false}
+          autoClear={false}
+        >
+          <LensFlare
+            position={{
+              x: -15,
+              y: 30,
+              z: 15,
+            }}
+            starBurst={false}
+            secondaryGhosts={false}
+            // Only uncomment for Small Devices
+            // enabled={viewport.width > 43 ? true : false}
+            glareSize={1}
+            starPoints={14}
+            flareShape={0.1}
+            flareSpeed={0}
+            colorGain={new Color(42, 108, 101)}
+            additionalStreaks
+          />
+          <Vignette offset={0.35} darkness={0.7} />
+        </EffectComposer>
+      </Suspense>
+    );
+  } else {
+    return null;
+  }
 }

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unknown-property */
 import { useGLTF, useTexture } from "@react-three/drei";
 
 export function HomeModel() {

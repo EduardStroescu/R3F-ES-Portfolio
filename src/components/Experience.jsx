@@ -5,7 +5,6 @@ import {
   useTexture,
   Environment,
   useFBO,
-  PerspectiveCamera,
   ScrollControls,
 } from "@react-three/drei";
 import { v4 as uuidv4 } from "uuid";
@@ -48,7 +47,6 @@ export default function Experience({ start }) {
   const [homeSceneActive, setHomeSceneActive] = useState(true);
   const [projectsSceneActive, setProjectsSceneActive] = useState(false);
 
-  const screenCamera = useRef();
   const screenMesh = useRef();
   const textRef = useRef();
   const homeScene = useMemo(() => new Scene(), []);
@@ -79,13 +77,13 @@ export default function Experience({ start }) {
     screenMesh.current.material.uniforms.uTime.value += delta;
     gl.setRenderTarget(null);
 
-    // Scene activation logic in every frame
+    // Scene activation logic according to progress
     if (progress.current > -1.5) {
       setHomeSceneActive(false);
     } else {
       setHomeSceneActive(true);
     }
-    if (progress.current > 2) {
+    if (progress.current > 1.5) {
       setProjectsSceneActive(true);
     } else {
       setProjectsSceneActive(false);
@@ -183,12 +181,6 @@ export default function Experience({ start }) {
         renderTarget={renderTargetA}
         renderTargetB={renderTargetB}
         projectsScene={projectsScene}
-      />
-      <PerspectiveCamera
-        position={[0, 0, 0]}
-        near={0.01}
-        far={1}
-        ref={screenCamera}
       />
       <mesh
         ref={screenMesh}
