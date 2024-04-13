@@ -1,33 +1,40 @@
 import LogoSvg from "/logo/EsLogo.svg";
-import { Link, NavLink } from "react-router-dom";
-import { useAppContext } from "./AppContextProvider.jsx";
-import { useSoundContext } from "./SoundContextProvider.jsx";
+import { Link, NavLink, useLocation } from "react-router-dom";
+import { useSoundContext } from "../lib/providers/SoundContextProvider.jsx";
 import { a, useTransition } from "@react-spring/web";
 import { AudioButton } from "./AudioButton.jsx";
 import { FailIcon, SuccessIcon } from "./Icons.jsx";
+import {
+  useAboutStore,
+  useAboutStoreActions,
+  useContactStore,
+  useContactStoreActions,
+} from "../lib/store.js";
+import { useShallow } from "zustand/react/shallow";
 
 export default function Ui() {
-  const {
-    location,
-    flipped,
-    setFlipped,
-    visible,
-    setVisible,
-    isMessageSent,
-    isMessageReceived,
-  } = useAppContext();
+  const location = useLocation();
   const {
     playHoverSound,
     playTransitionSound,
     playMenuOpenCloseSound,
     playMenuFlipSound,
     playUnderwaterTransitionSound,
-    switchAudio,
-    isAudioEnabled,
-    setAudioEnabled,
   } = useSoundContext();
 
-  const notificationTransition = useTransition(isMessageSent, {
+  const { flipped, messageSent, messageReceived } = useContactStore(
+    useShallow((state) => ({
+      flipped: state.flipped,
+      messageSent: state.messageSent,
+      messageReceived: state.messageReceived,
+    }))
+  );
+
+  const visible = useAboutStore((state) => state.visible);
+  const { setFlipped } = useContactStoreActions();
+  const { setVisible } = useAboutStoreActions();
+
+  const notificationTransition = useTransition(messageSent, {
     from: { opacity: 0, height: 0 },
     enter: { opacity: 1, height: 50 },
     leave: { opacity: 0, height: 0 },
@@ -35,7 +42,7 @@ export default function Ui() {
   });
 
   const handleAboutClick = () => {
-    setVisible((state) => !state);
+    setVisible((prev) => !prev);
     setFlipped(false);
     if (location.pathname === "/projects") {
       const timeout = setTimeout(() => {
@@ -81,7 +88,7 @@ export default function Ui() {
                     ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
                     : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
                 }
-                onClick={() => handleAboutClick()}
+                onClick={handleAboutClick}
                 onPointerEnter={playHoverSound}
               >
                 About
@@ -135,14 +142,7 @@ export default function Ui() {
         </div>
       </header>
       <footer className="flex justify-end items-end">
-        {location.pathname !== "/projects" && (
-          <AudioButton
-            isAudioEnabled={isAudioEnabled}
-            setAudioEnabled={setAudioEnabled}
-            switchAudio={switchAudio}
-            playHoverSound={playHoverSound}
-          />
-        )}
+        {location.pathname !== "/projects" && <AudioButton />}
         <section className="fixed bottom-0 right-0 p-4">
           {notificationTransition(
             (styles, item) =>
@@ -153,10 +153,10 @@ export default function Ui() {
                     role="alert"
                   >
                     <span className="flex rounded-full bg-[#410578] uppercase px-2 py-1 text-xs font-bold mr-3">
-                      {isMessageReceived ? <SuccessIcon /> : <FailIcon />}
+                      {messageReceived ? <SuccessIcon /> : <FailIcon />}
                     </span>
                     <span className="font-semibold mr-2 text-left flex-auto">
-                      {isMessageReceived
+                      {messageReceived
                         ? "Message Sent"
                         : "Failed: Please try again later"}
                     </span>

@@ -8,18 +8,12 @@ import {
   SMAA,
 } from "@react-three/postprocessing";
 import { BlendFunction, KernelSize } from "postprocessing";
-import { Suspense, forwardRef, useEffect, useRef } from "react";
+import { Suspense, useEffect, useRef } from "react";
+import { useAppStore } from "../../lib/store";
+import Sun from "./Sun";
 
-const Sun = forwardRef(function Sun(props, forwardRef) {
-  return (
-    <mesh ref={forwardRef} position={[11, 16, 11]} scale={[4, 1, 4]}>
-      <cylinderGeometry args={[1.1, 1.1, 1.1, 5]} />
-      <meshBasicMaterial color={"#fac5f3"} />
-    </mesh>
-  );
-});
-
-export default function Postprocessing({ homeSceneActive }) {
+export default function Postprocessing() {
+  const homeSceneActive = useAppStore((state) => state.homeSceneActive);
   const sunRef = useRef();
   const { size } = useThree();
   const viewport = { width: size.width / 10 };
@@ -28,7 +22,7 @@ export default function Postprocessing({ homeSceneActive }) {
   useFrame((state) => {
     state.gl.autoClear = false;
     state.gl.clear();
-    gl.autoClear = true;
+    state.gl.autoClear = true;
   });
 
   useEffect(() => {

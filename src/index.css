@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "Dosis";
-  src: url(./assets/fonts/Dosis.woff);
+  src: url(./assets/fonts/Dosis-Medium.woff);
   font-display: swap;
 }
 @layer base {
@@ -57,6 +57,17 @@
   }
   100% {
     transform: rotate(-315deg);
+  }
+}
+
+@keyframes bounceAnimation {
+  0%, 100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(5%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 
@@ -118,6 +129,10 @@ body {
 }
 .shadow {
   text-shadow: 3px 3px 2px red;
+}
+
+.bounce {
+  animation: bounceAnimation 1s infinite; 
 }
 
 .loadingScreen__board {
@@ -243,7 +258,7 @@ body {
   animation: spin 0.8s linear 0s infinite;
 }
 
-// Autofill override
+ /* Autofill override */
 
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -353,4 +368,88 @@ input:-webkit-autofill:active {
   ); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #11e8bb 0%, #8200c9 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
+}
+
+.viewCodeTransition {
+  transition: color 1s, box-shadow 1s;
+}
+
+.viewCodeTransition:hover {
+  transition-delay: 0s, .5s;
+  color: #fff;
+  box-shadow:
+      0 0 10px #0ef,
+      0 0 20px #0ef,
+      0 0 30px #0ef,
+      0 0 40px #0ef;
+}
+.viewCodeTransition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 0;
+  height: 100%;
+  background: #0ef;
+  transform: skewX(35deg);
+  z-index: -1;
+  transition: 1s;
+}
+.viewCodeTransition::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -5px;
+  width: 37px;
+  height: 100%;
+  background: rgb(255, 255, 255);
+  transform: skewX(35deg);
+  z-index: -1;
+  transition: 1s;
+}
+
+.viewCodeTransition:hover:before {
+  width: 100%;
+}
+
+.viewLiveTransition {
+  transition: color 1s, box-shadow 1s;
+}
+
+.viewLiveTransition:hover {
+  transition-delay: 0s, .5s;
+  color: #fff;
+  box-shadow:
+      0 0 0px #f00,
+      0 0 20px #f00,
+      0 0 30px #f00,
+      0 0 40px #f00;
+}
+.viewLiveTransition::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -5px;
+  width: 0;
+  height: 100%;
+  background: #f00;
+  transform: skewX(35deg);
+  z-index: -1;
+  transition: 1s;
+}
+.viewLiveTransition::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: -5px;
+  width: 37px;
+  height: 100%;
+  background: rgb(255, 255, 255);
+  transform: skewX(35deg);
+  z-index: -1;
+  transition: 1s;
+}
+
+.viewLiveTransition:hover:before {
+  width: 100%;
 }

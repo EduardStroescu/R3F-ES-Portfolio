@@ -4,15 +4,15 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
+import { useContactStore, useContactStoreActions } from "../../lib/store";
+import { useSoundContext } from "../../lib/providers/SoundContextProvider";
 
-export default function ContactSection({
-  flipped,
-  setFlipped,
-  playHoverSound,
-  playMenuFlipSound,
-  setMessageSent,
-  setMessageReceived,
-}) {
+export default function ContactSection() {
+  const flipped = useContactStore((state) => state.flipped);
+  const { setFlipped, setMessageSent, setMessageReceived } =
+    useContactStoreActions();
+  const { playHoverSound, playMenuFlipSound } = useSoundContext();
+
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
@@ -73,7 +73,7 @@ export default function ContactSection({
       pointerEvents={"none"}
       style={{ pointerEvents: "none" }}
       as="contactSectionWrapper"
-      wrapperClass="z-[-1] overflow-hidden font-[titleFont] m-0 p-0 box-border w-2/4 h-2/4 text-white "
+      wrapperClass="z-[-1] overflow-hidden font-[titleFont] w-2/4 h-2/4 text-white "
       transform
       scale={0.5}
       position={[-7, 7, 47]}
@@ -107,7 +107,7 @@ export default function ContactSection({
               <p className="text-[1.2rem] px-2">or</p>
               <button
                 onClick={() => {
-                  setFlipped((state) => !state);
+                  setFlipped((prev) => !prev);
                   playMenuFlipSound();
                 }}
                 style={{ pointerEvents: flipped ? "none" : "auto" }}
@@ -134,7 +134,7 @@ export default function ContactSection({
                 playMenuFlipSound();
               }}
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
-              className="hover:text-[#f597e8] hoverShadow hover:italic hover:-translate-x-1 mb-4"
+              className="hover:text-[#f597e8] hoverShadow hover:italic hover:scale-110 mb-4"
               onPointerEnter={playHoverSound}
             >
               &#10094; Back
@@ -214,6 +214,7 @@ export default function ContactSection({
                 disabled={formik.isSubmitting}
                 className="titleColor  mt-5 rounded-md bg-[#220140] hover:scale-105 hover:bg-[#410578] px-10 py-2"
                 style={{ pointerEvents: !flipped ? "none" : "auto" }}
+                onPointerEnter={playHoverSound}
               >
                 {formik.isSubmitting ? "Sending..." : "Send Message"}
               </button>

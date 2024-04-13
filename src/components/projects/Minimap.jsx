@@ -1,10 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 import { useFrame, useThree } from "@react-three/fiber";
-import { useRef } from "react";
+import { memo, useRef } from "react";
 import { useScroll } from "@react-three/drei";
 import { Vector3, LineBasicMaterial } from "three";
 import { MathUtils } from "three";
 import { BufferGeometry } from "three";
+import PropTypes from "prop-types";
 
 const material = new LineBasicMaterial({
   color: "white",
@@ -18,7 +19,7 @@ const geometry = new BufferGeometry().setFromPoints([
 
 const damp = MathUtils.damp;
 
-export function Minimap({ planeGroups }) {
+const Minimap = memo(function Minimap({ planeGroups }) {
   const ref = useRef();
   const scroll = useScroll();
   const { size } = useThree();
@@ -31,7 +32,7 @@ export function Minimap({ planeGroups }) {
       //   ranging across 4 / total length
       //   make it a sine, so the value goes from 0 to 1 to 0.
       const y = scroll.curve(
-        index / planeGroups.length - 1.2 / planeGroups.length,
+        index / planeGroups.length - 1.8 / planeGroups.length,
         4 / planeGroups.length
       );
       child.scale.y = damp(child.scale.y, 0.1 + y / 3, 8, 8, delta);
@@ -47,13 +48,19 @@ export function Minimap({ planeGroups }) {
           material={material}
           position={[
             viewport.width > 111
-              ? i * 0.04 - planeGroups.length * -0.424
-              : i * 0.04 - planeGroups.length * -0.427,
-            -4.3,
+              ? i * 0.04 - planeGroups.length * -0.35
+              : i * 0.04 - planeGroups.length * -0.35,
+            -4.25,
             4.23,
           ]}
         />
       ))}
     </group>
   );
-}
+});
+
+export default Minimap;
+
+Minimap.propTypes = {
+  planeGroups: PropTypes.arrayOf(PropTypes.array).isRequired,
+};

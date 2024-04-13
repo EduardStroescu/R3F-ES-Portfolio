@@ -1,7 +1,9 @@
-export function AudioIcon({ isAudioEnabled }) {
+import PropTypes from "prop-types";
+
+export function AudioIcon({ audioEnabled }) {
   return (
     <svg
-      fill={isAudioEnabled ? "#3ff9dc" : "#fc003f"}
+      fill={audioEnabled ? "#3ff9dc" : "#fc003f"}
       width="100%"
       height="100%"
       viewBox="0 0 56 56"
@@ -75,11 +77,11 @@ export function FailIcon() {
 export function ScrollIcon() {
   return (
     <svg
-      viewBox="0 0 24 24"
+      viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      width="40.903"
-      height="47.395"
+      width="34"
+      height="34"
     >
       <g id="SVGRepo_bgCarrier" strokeWidth="0"></g>
       <g
@@ -95,20 +97,22 @@ export function ScrollIcon() {
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
-        <path
-          d="M12 6V14"
-          stroke="#ffffff"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
-        <path
-          d="M15 11L12 14L9 11"
-          stroke="#ffffff"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        ></path>
+        <g className="bounce">
+          <path
+            d="M12 6V14"
+            stroke="#ffffff"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></path>
+          <path
+            d="M15 11L12 14L9 11"
+            stroke="#ffffff"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          ></path>
+        </g>
       </g>
     </svg>
   );
@@ -117,9 +121,10 @@ export function ScrollIcon() {
 export function HyperlinkIcon() {
   return (
     <svg
+      className="absolute right-1 top-0 h-full group-hover:animate-ping"
       xmlns="http://www.w3.org/2000/svg"
-      width="20"
-      height="20"
+      width="24"
+      height="24"
       viewBox="0 0 24 24"
     >
       <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z" />
@@ -130,6 +135,7 @@ export function HyperlinkIcon() {
 export function GithubIcon() {
   return (
     <svg
+      className="absolute right-1 top-0 h-full group-hover:animate-ping"
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -142,3 +148,7 @@ export function GithubIcon() {
     </svg>
   );
 }
+
+AudioIcon.propTypes = {
+  audioEnabled: PropTypes.bool,
+};

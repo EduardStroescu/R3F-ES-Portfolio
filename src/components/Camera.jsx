@@ -2,11 +2,10 @@ import { useRef, useEffect } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
-
-import { useAppContext } from "./AppContextProvider.jsx";
+import { useLocation } from "react-router-dom";
 
 export default function Camera(props) {
-  const { location } = useAppContext();
+  const location = useLocation();
   const group = useRef();
   const cameraRef = useRef();
 

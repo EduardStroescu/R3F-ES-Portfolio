@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import { useTrailTexture } from "@react-three/drei";
-import { MeshReflectorMaterial } from "../shaders/waterShader/MeshReflectorMaterial";
-import { TrailConfig } from "../data/trailConfig";
+import { MeshReflectorMaterial } from "../../lib/shaders/waterShader/MeshReflectorMaterial";
+import { TrailConfig } from "../../lib/data/trailConfig";
+import { useAppStore } from "../../lib/store";
 
-export function WaterComponent({ homeSceneActive }) {
+export function WaterComponent() {
   const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
+  const homeSceneActive = useAppStore((state) => state.homeSceneActive);
 
   return (
     <mesh
