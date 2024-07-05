@@ -1,4 +1,8 @@
-# Portfolio
+<p align="center">
+  <a href="https://www.eduardstroescu.com/" target="blank"><img src="https://raw.githubusercontent.com/EduardStroescu/PubImages/main/WebsiteImages/portfolio.jpg" alt="ES Portfolio Preview" /></a>
+</p>
+
+# ES Portfolio
 
 ## Introduction
 

@@ -26,17 +26,19 @@ const Minimap = memo(function Minimap({ planeGroups }) {
   const viewport = { width: size.width / 10 };
 
   useFrame((delta) => {
-    ref.current.children.forEach((child, index) => {
-      // Generate a value between 0 and 1
-      //   starting at the position of the current item
-      //   ranging across 4 / total length
-      //   make it a sine, so the value goes from 0 to 1 to 0.
-      const y = scroll.curve(
-        index / planeGroups.length - 1.8 / planeGroups.length,
-        4 / planeGroups.length
-      );
-      child.scale.y = damp(child.scale.y, 0.1 + y / 3, 8, 8, delta);
-    });
+    if (ref.current) {
+      ref.current.children.forEach((child, index) => {
+        // Generate a value between 0 and 1
+        //   starting at the position of the current item
+        //   ranging across 4 / total length
+        //   make it a sine, so the value goes from 0 to 1 to 0.
+        const y = scroll.curve(
+          index / planeGroups.length - 1.8 / planeGroups.length,
+          4 / planeGroups.length
+        );
+        child.scale.y = damp(child.scale.y, 0.1 + y / 3, 8, 8, delta);
+      });
+    }
   });
 
   return (
