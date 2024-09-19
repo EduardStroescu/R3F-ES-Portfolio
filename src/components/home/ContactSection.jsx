@@ -158,7 +158,10 @@ export default function ContactSection() {
                     className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 caret-[#f597e8] "
                     placeholder=""
                   />
-                  <label className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:italic peer-focus:scale-75 peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]">
+                  <label
+                    htmlFor="user_name"
+                    className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:italic peer-focus:scale-75 peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]"
+                  >
                     Your name
                   </label>
                   {formik.touched.user_name && formik.errors.user_name && (
@@ -178,7 +181,10 @@ export default function ContactSection() {
                     className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 caret-[#f597e8]"
                     placeholder=""
                   />
-                  <label className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:italic peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]">
+                  <label
+                    htmlFor="user_email"
+                    className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:italic peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]"
+                  >
                     Your email
                   </label>
                   {formik.touched.user_email && formik.errors.user_email && (
@@ -198,7 +204,10 @@ export default function ContactSection() {
                     className="peer block w-full h-[100px] sm:h-auto appearance-none border-0 border-b border-white bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 resize-none overflow-y-auto caret-[#f597e8]"
                     placeholder=" "
                   ></textarea>
-                  <label className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:italic peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]">
+                  <label
+                    htmlFor="message"
+                    className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:italic peer-focus:text-[#f597e8] peer-focus:dark:text-[#f597e8]"
+                  >
                     Your message
                   </label>
                   {formik.touched.message && formik.errors.message && (
@@ -211,6 +220,7 @@ export default function ContactSection() {
               <button
                 type="submit"
                 value="Send"
+                aria-label="Send Message"
                 disabled={formik.isSubmitting}
                 className="titleColor  mt-5 rounded-md bg-[#220140] hover:scale-105 hover:bg-[#410578] px-10 py-2"
                 style={{ pointerEvents: !flipped ? "none" : "auto" }}

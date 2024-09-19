@@ -154,15 +154,6 @@ body {
   pointer-events: none;
 }
 
-/* .loadingScreen--started {
-  opacity: 0;
-  pointer-events: none;
-}
-
-.loadingScreen--started .loadingScreen__board {
-  opacity: 0;
-} */
-
 .loadingCanvas {
   pointer-events: none !important;
 }
