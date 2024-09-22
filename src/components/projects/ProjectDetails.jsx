@@ -24,7 +24,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
       position={[11, 5, 0]}
       wrapperClass="font-[titleFont] text-white pointer-events-none"
     >
-      <footer className="absolute bottom-0 sm:bottom-10 lg:bottom-8 2xl:bottom-14 left-0 lg:text-xl w-full flex flex-col justify-center items-center sm:px-4 lg:px-6 2xl:px-40">
+      <section className="absolute bottom-0 sm:bottom-10 lg:bottom-8 2xl:bottom-14 left-0 lg:text-xl w-full flex flex-col justify-center items-center sm:px-4 lg:px-6 2xl:px-40">
         <div className="absolute flex flex-row items-center bottom-0 sm:bottom-[-30px] lg:bottom-[-10px] 2xl:-bottom-6">
           <p className="text-xs lg:text-lg">SCR</p>
           <ScrollIcon />
@@ -96,7 +96,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
             </p>
           </div>
         </div>
-      </footer>
+      </section>
     </Html>
   );
 });

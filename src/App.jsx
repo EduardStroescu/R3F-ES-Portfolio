@@ -20,8 +20,8 @@ function App() {
 
   return (
     <SoundContextProvider>
-      <Suspense fallback={null}>
-        <main id="canvas">
+      <main id="canvas">
+        <Suspense fallback={<LoadingScreen />}>
           <Canvas
             linear
             flat
@@ -37,8 +37,8 @@ function App() {
             <Camera position={[5, 0, 26]} />
             <Experience />
           </Canvas>
-        </main>
-      </Suspense>
+        </Suspense>
+      </main>
       <Ui />
       <LoadingScreen />
     </SoundContextProvider>

@@ -35,6 +35,7 @@ export default function LoadingScreen() {
   });
 
   const handleEnterWebsite = () => {
+    setStarted(true);
     setAudioEnabled(true);
     playAmbientSound();
     playHoverSound();
@@ -47,16 +48,10 @@ export default function LoadingScreen() {
   return (
     <div className="titleColor loadingScreen">
       <a.div className="loadingBg absolute w-screen h-screen bg-gradient-to-t from-[#11e8bb] to-[#8200c9]" />
-      <div className=" loadingScreen__board w-full h-full text-center flex flex-col justify-between items-center z-[1]">
+      <div className=" loadingScreen__board w-full h-full text-center flex flex-col justify-between items-center z-10">
         <div className="loadingScreen__title text-[5rem] pt-2 lg:pt-8">
           <h1>E/S</h1>
           <h1 className="mt-[-4%]">Portfolio</h1>
-          <noscript>
-            <p>
-              It seems JavaScript is disabled. Please enable it for the best
-              experience.
-            </p>
-          </noscript>
         </div>
         <div className="h-1/3 w-full flex justify-center items-center">
           <div className="spinner-box">
@@ -92,19 +87,12 @@ export default function LoadingScreen() {
             <button
               className="loadingScreen__button flex justify-center items-center text-3xl font-bold text-white "
               disabled={active}
-              onClick={() => setStarted(true)}
+              onClick={handleEnterWebsite}
             >
-              <a.p
-                style={loadingTextAnimation1}
-                className="absolute pointer-events-none"
-              >
+              <a.p style={loadingTextAnimation1} className="absolute">
                 Loading
               </a.p>
-              <a.p
-                style={loadingTextAnimation2}
-                className="absolute"
-                onClick={handleEnterWebsite}
-              >
+              <a.p style={loadingTextAnimation2} className="absolute">
                 Enter
               </a.p>
             </button>

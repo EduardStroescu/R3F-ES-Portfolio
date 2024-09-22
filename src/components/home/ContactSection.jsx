@@ -73,13 +73,13 @@ export default function ContactSection() {
       pointerEvents={"none"}
       style={{ pointerEvents: "none" }}
       as="contactSectionWrapper"
-      wrapperClass="z-[-1] overflow-hidden font-[titleFont] w-2/4 h-2/4 text-white "
+      wrapperClass="z-40 overflow-hidden font-[titleFont] w-2/4 h-2/4 text-white "
       transform
       scale={0.5}
       position={[-7, 7, 47]}
       rotation={[0, -0.78, 0]}
     >
-      <div style={{ transform: "scale(3)" }}>
+      <div style={{ transform: "scale(3)" }} className="z-40">
         <a.div
           className="flex flex-col text-center lg:text-left lg:flex-row mt-10"
           style={{ opacity: opacity.to((o) => 1 - o), transform }}
@@ -147,7 +147,7 @@ export default function ContactSection() {
               className="mt-6 sm:mt-4"
             >
               <div className="grid gap-6 sm:grid-cols-2 ">
-                <div className="relative z-0">
+                <div className="relative z-5">
                   <input
                     type="text"
                     name="user_name"
@@ -170,7 +170,7 @@ export default function ContactSection() {
                     </div>
                   )}
                 </div>
-                <div className="relative z-0">
+                <div className="relative z-5">
                   <input
                     type="email"
                     name="user_email"
@@ -193,7 +193,7 @@ export default function ContactSection() {
                     </div>
                   )}
                 </div>
-                <div className="relative z-0 col-span-2">
+                <div className="relative z-5 col-span-2">
                   <textarea
                     name="message"
                     id="message"

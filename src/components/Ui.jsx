@@ -57,8 +57,8 @@ export default function Ui() {
   };
 
   return (
-    <div className="w-full h-full">
-      <header className="text-white text-xl z-2 w-full pt-6 px-4 sm:px-8 flex flex-row justify-between items-center">
+    <div className="relative w-full h-full z-50">
+      <header className="text-white text-xl w-full pt-6 px-4 sm:px-8 flex flex-row justify-between items-center">
         <div className="flex items-center">
           <Link
             to="/"
@@ -141,7 +141,7 @@ export default function Ui() {
           </nav>
         </div>
       </header>
-      <footer className="flex justify-end items-end">
+      <aside className="flex justify-end items-end">
         {location.pathname !== "/projects" && <AudioButton />}
         <section className="fixed bottom-0 right-0 p-4">
           {notificationTransition(
@@ -165,7 +165,7 @@ export default function Ui() {
               )
           )}
         </section>
-      </footer>
+      </aside>
     </div>
   );
 }
