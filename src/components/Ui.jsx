@@ -42,15 +42,17 @@ export default function Ui() {
   });
 
   const handleAboutClick = () => {
-    setVisible((prev) => !prev);
     setFlipped(false);
-    if (location.pathname === "/projects") {
-      const timeout = setTimeout(() => {
+    if (location.pathname === "/projects" || location.pathname === "/contact") {
+      setTimeout(() => {
+        setVisible((prev) => !prev);
         playMenuOpenCloseSound();
-        clearTimeout(timeout);
-      }, 1000);
-      playUnderwaterTransitionSound();
+      }, 1100);
+      if (location.pathname === "/projects") {
+        playUnderwaterTransitionSound();
+      }
     } else {
+      setVisible((prev) => !prev);
       playMenuOpenCloseSound();
     }
     flipped && playMenuFlipSound();

@@ -1,11 +1,9 @@
 import { a, useSpring } from "@react-spring/web";
 import { Html } from "@react-three/drei";
 import { useAboutStore, useAboutStoreActions } from "../../lib/store";
-import { useLocation } from "react-router-dom";
 import { useSoundContext } from "../../lib/providers/SoundContextProvider";
 
 export default function AboutSection() {
-  const location = useLocation();
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
   const { playHoverSound, playMenuOpenCloseSound } = useSoundContext();
@@ -15,7 +13,6 @@ export default function AboutSection() {
       ? "polygon(0% 0%,100% 0%,100% 40%,0% 40%,0% 40%,100% 40%,100% 75%,0% 75%,0% 75%,100% 75%,100% 100%,0% 100%)"
       : "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 60%,100% 61%,100% 61%,0% 60%,0% 100%,100% 100%,100% 100%,0% 100%)",
     config: { mass: 2, tension: 500, friction: 60 },
-    delay: location.state.data === "/projects" ? 1000 : 0,
   });
 
   return (
@@ -27,7 +24,7 @@ export default function AboutSection() {
       transform
       scale={0.5}
       position={[11, 5.1, 15]}
-      wrapperClass="text-white z-40"
+      wrapperClass="text-white"
     >
       <a.div
         style={{ clipPath, pointerEvents: "none", transform: "scale(2)" }}

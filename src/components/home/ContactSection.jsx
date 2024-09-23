@@ -33,7 +33,7 @@ export default function ContactSection() {
         .email("Invalid email address")
         .required("* Email field is required")
         .matches(
-          /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
           "* Please enter a valid email address"
         ),
       message: Yup.string().required("* Message field is required"),
@@ -76,12 +76,12 @@ export default function ContactSection() {
       wrapperClass="z-40 overflow-hidden font-[titleFont] w-2/4 h-2/4 text-white "
       transform
       scale={0.5}
-      position={[-7, 7, 47]}
+      position={[-7.3, 7, 46.8]}
       rotation={[0, -0.78, 0]}
     >
       <div style={{ transform: "scale(3)" }} className="z-40">
         <a.div
-          className="flex flex-col text-center lg:text-left lg:flex-row mt-10"
+          className="flex flex-col lg:gap-6 text-center lg:text-left lg:flex-row mt-10"
           style={{ opacity: opacity.to((o) => 1 - o), transform }}
         >
           <div className="flex flex-col mb-2">
@@ -93,7 +93,7 @@ export default function ContactSection() {
               <p className="self-center lg:self-end">to hearing from you</p>
             </div>
           </div>
-          <div className="flex flex-col justify-center pt-3 lg:p-6 ">
+          <div className="flex flex-col justify-center ">
             <div className="self-center">
               <p className="text-[1.2rem]">Send me an E-mail at:</p>
               <a

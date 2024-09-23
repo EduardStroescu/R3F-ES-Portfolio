@@ -36,7 +36,7 @@ export default function Camera(props) {
       if (state.clock.elapsedTime >= startTime + 0.6) {
         easing.damp3(
           state.camera.position,
-          [6 + state.pointer.x / 2.5, -5 + -state.pointer.y / 6, 2],
+          [6 + state.pointer.x / 2, -5 + -state.pointer.y / 6, 2],
           0.5,
           delta,
           10
@@ -51,26 +51,28 @@ export default function Camera(props) {
         );
       easing.dampE(
         state.camera.rotation,
-        [state.pointer.y * 0.02, state.pointer.x * 0.03, 0],
+        [state.pointer.y * 0.03, state.pointer.x * 0.03, 0],
         0.35,
         delta
       );
     } else if (location.pathname === "/contact") {
       easing.damp3(
         state.camera.position,
-        [-21 + -state.pointer.x, 6 + state.pointer.y / 6, 30],
+        [-23 + state.pointer.x / 4, 6, 31.5],
         0.5,
         delta,
         location.pathname === "/projects" ? 100 : 30
       );
       easing.dampE(
         state.camera.rotation,
-        [state.pointer.y * 0.02, -Math.PI / 4 + -state.pointer.x * 0.03, 0],
+        [
+          state.pointer.y * 0.1,
+          -Math.PI / 4 + state.pointer.x * 0.05,
+          state.pointer.y * 0.07,
+        ],
         0.5,
-        delta,
-        100
+        delta
       );
-      // state.camera.lookAt(30, 6, 15);
     }
   });
 
@@ -81,6 +83,7 @@ export default function Camera(props) {
           ref={cameraRef}
           damping={true}
           name="Camera"
+          position={[6, 5, 2]}
           far={location.pathname === "/projects" ? 60 : 90}
           near={0.01}
           fov={75}
