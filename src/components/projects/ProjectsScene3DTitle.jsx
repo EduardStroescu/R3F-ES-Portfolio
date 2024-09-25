@@ -1,5 +1,5 @@
 import { MeshTransmissionMaterial, Text } from "@react-three/drei";
-import titleFont from "../../assets/fonts/Dosis-SemiBold.woff";
+import titleFont from "/fonts/Dosis-SemiBold.woff";
 import { useThree } from "@react-three/fiber";
 import PropTypes from "prop-types";
 import { forwardRef, memo } from "react";

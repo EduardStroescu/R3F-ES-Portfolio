@@ -3,27 +3,19 @@ import {
   useSoundStoreActions,
 } from "../lib/stores/useSoundStore";
 import { AudioIcon } from "./Icons";
-import { Howler } from "howler";
 
 import { useLocation } from "react-router-dom";
 
-export function AudioButton() {
+function AudioButton() {
   const location = useLocation();
   const audioEnabled = useSoundStore((state) => state.audioEnabled);
-  const { setAudioEnabled, playAmbientSound, playHoverSound } =
-    useSoundStoreActions();
+  const { setAudioEnabled, playHoverSound } = useSoundStoreActions();
 
   const switchAudio = () => {
     if (audioEnabled) {
       setAudioEnabled(false);
-      localStorage.setItem("audioEnabled", false);
-      Howler.stop();
-      Howler.volume(0);
     } else {
       setAudioEnabled(true);
-      localStorage.setItem("audioEnabled", true);
-      Howler.volume(0.5);
-      playAmbientSound();
     }
   };
 
@@ -53,3 +45,5 @@ export function AudioButton() {
     </aside>
   );
 }
+
+export default AudioButton;

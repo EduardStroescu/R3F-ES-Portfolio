@@ -1,4 +1,4 @@
-import { forwardRef, memo } from "react";
+import { forwardRef, memo, Suspense } from "react";
 import { ProjectsSceneEnv } from "../Environments";
 import PropTypes from "prop-types";
 import Camera2 from "../Camera2";
@@ -12,13 +12,15 @@ const ProjectsScene = memo(
       <>
         <ProjectsSceneEnv />
         <Camera2 position={[5, 0, 26]} />
-        <ManualLazyComponent
-          ref={textRef}
-          shouldLoad={started || location.pathname === "/projects"}
-          delay={location.pathname === "/projects" ? 0 : 500}
-          loadComponent={() => import("./ProjectsSceneContent")}
-          renderTargetC={renderTargetC}
-        />
+        <Suspense fallback={null}>
+          <ManualLazyComponent
+            ref={textRef}
+            shouldLoad={started || location.pathname === "/projects"}
+            delay={location.pathname === "/projects" ? 0 : 500}
+            loadComponent={() => import("./ProjectsSceneContent")}
+            renderTargetC={renderTargetC}
+          />
+        </Suspense>
       </>
     );
   })

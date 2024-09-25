@@ -2,7 +2,7 @@
 import { useGLTF, useTexture } from "@react-three/drei";
 import { memo } from "react";
 
-export const HomeModel = memo(function HomeModel() {
+const HomeModel = memo(function HomeModel() {
   const { nodes } = useGLTF(
     "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
   );
@@ -21,3 +21,5 @@ export const HomeModel = memo(function HomeModel() {
 useGLTF.preload(
   "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
 );
+
+export default HomeModel;

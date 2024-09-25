@@ -1,6 +1,5 @@
 import { Link } from "react-router-dom";
 
-// ToDO finish this
 export default function ErrorBoundary() {
   return (
     <div className="w-full h-[100vh] flex flex-col justify-center items-center gap-10 p-10 bg-black">

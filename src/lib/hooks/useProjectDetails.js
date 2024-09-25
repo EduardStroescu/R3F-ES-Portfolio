@@ -171,11 +171,10 @@ export default function useProjectDetails() {
     ]
   );
 
+  // Calculate the total distance covered by the planes in the scroll
+  const totalDistance = (planeGroups.length - 0.9) * 73;
   useFrame(() => {
     if (planeGroupRef.current) {
-      // Calculate the total distance covered by the planes in the scroll
-      const totalDistance = (planeGroups.length - 0.9) * 73;
-
       // Calculate the adjusted offset to create a seamless loop
       let adjustedOffset = scroll.progress % 2;
       if (adjustedOffset < 0) {

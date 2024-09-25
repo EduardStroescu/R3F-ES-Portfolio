@@ -1,13 +1,14 @@
-import React from "react";
+import React, { lazy } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ErrorBoundary from "./components/ErrorBoundary";
-import NotFound from "./components/NotFound";
 import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml";
 import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml";
 import { ContactHtml } from "./components/SeoRelatedHtml/ContactHtml";
+
+const NotFound = lazy(() => import("./components/NotFound"));
+const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));
 
 const router = createBrowserRouter([
   {

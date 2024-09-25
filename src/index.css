@@ -4,7 +4,7 @@
 
 @font-face {
   font-family: "Dosis";
-  src: url(./assets/fonts/Dosis-Medium.woff);
+  src: url(/fonts/Dosis-Medium.woff);
   font-display: swap;
 }
 @layer base {
@@ -254,7 +254,7 @@ input:-webkit-autofill:active {
 }
 
 .loadingBg {
-  background-image: url("./assets/svg/bgsvg.svg");
+  background-image: url("/svg/bgsvg.svg");
   background-repeat: no-repeat;
   background-size: cover;
 }

@@ -32,18 +32,18 @@ export function useDirectionalSound() {
       modifySoundSetting({
         soundInstanceName: "ambientSound",
         settingType: "pos",
-        settingValue: [0, 15, 0],
+        settingValue: [0, 3, 0],
       });
       modifySoundSetting({
         soundInstanceName: "ambientSound",
         settingType: "orientation",
-        settingValue: [0, -10, 0],
+        settingValue: [0, -1, 0],
       });
     } else {
       modifySoundSetting({
         soundInstanceName: "ambientSound",
         settingType: "pos",
-        settingValue: [0, 0, 5],
+        settingValue: [0, 0, 1],
       });
       modifySoundSetting({
         soundInstanceName: "ambientSound",

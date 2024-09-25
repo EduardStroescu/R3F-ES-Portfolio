@@ -1,7 +1,6 @@
 import LogoSvg from "/logo/EsLogo.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
 import { a, useTransition } from "@react-spring/web";
-import { AudioButton } from "./AudioButton";
 import { FailIcon, SuccessIcon } from "./Icons";
 import {
   useAboutStore,
@@ -13,6 +12,9 @@ import {
 } from "../lib/stores/useContactStore";
 import { useShallow } from "zustand/react/shallow";
 import { useSoundStoreActions } from "../lib/stores/useSoundStore";
+import { lazy, Suspense } from "react";
+
+const AudioButton = lazy(() => import("./AudioButton"));
 
 export default function Ui() {
   const location = useLocation();
@@ -146,7 +148,9 @@ export default function Ui() {
         </div>
       </header>
       <aside className="flex justify-end items-end">
-        <AudioButton />
+        <Suspense fallback={null}>
+          <AudioButton />
+        </Suspense>
         <section className="fixed bottom-0 right-0 p-4">
           {notificationTransition(
             (styles, item) =>

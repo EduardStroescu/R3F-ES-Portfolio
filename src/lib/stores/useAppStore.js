@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { projectsData } from "../data/projectsData";
 
-export const useAppStore = create((set) => ({
+export const useAppStore = create((set, get) => ({
   started: false,
   homeSceneActive: location.pathname !== "/projects",
   projectsSceneActive: location.pathname === "/projects",
@@ -28,7 +28,11 @@ export const useAppStore = create((set) => ({
             ? newValue(prevState.projectsSceneActive)
             : newValue,
       })),
-    setActiveProject: (activeProject) => set({ activeProject }),
+    setActiveProject: (newProject) => {
+      if (get().activeProject !== newProject) {
+        set({ activeProject: newProject });
+      }
+    },
   },
 }));
 

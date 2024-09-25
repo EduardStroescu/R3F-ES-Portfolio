@@ -1,10 +1,10 @@
 import { MeshWobbleMaterial, Text, useTrailTexture } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { TrailConfig } from "../../lib/data/trailConfig";
-import titleFont from "../../assets/fonts/Dosis-SemiBold.woff";
+import titleFont from "/fonts/Dosis-SemiBold.woff";
 import { useLocation } from "react-router-dom";
 
-export function HomeTitle() {
+function HomeTitle() {
   const location = useLocation();
   const { size } = useThree();
   const viewport = { width: size.width / 10 };
@@ -47,3 +47,5 @@ export function HomeTitle() {
     </>
   );
 }
+
+export default HomeTitle;

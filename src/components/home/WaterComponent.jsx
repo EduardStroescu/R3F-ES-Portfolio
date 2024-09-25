@@ -4,7 +4,7 @@ import { MeshReflectorMaterial } from "../../lib/shaders/waterShader/MeshReflect
 import { TrailConfig } from "../../lib/data/trailConfig";
 import { useAppStore } from "../../lib/stores/useAppStore";
 
-export function WaterComponent() {
+function WaterComponent() {
   const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
   const homeSceneActive = useAppStore((state) => state.homeSceneActive);
 
@@ -39,3 +39,5 @@ export function WaterComponent() {
     </mesh>
   );
 }
+
+export default WaterComponent;
