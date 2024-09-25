@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./App.jsx";
+import App from "./App";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ErrorBoundary from "./components/ErrorBoundary.jsx";
-import NotFound from "./components/NotFound.jsx";
-import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml.jsx";
-import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml.jsx";
-import { ContactHtml } from "./components/SeoRelatedHtml/ContactHtml.jsx";
+import ErrorBoundary from "./components/ErrorBoundary";
+import NotFound from "./components/NotFound";
+import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml";
+import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml";
+import { ContactHtml } from "./components/SeoRelatedHtml/ContactHtml";
 
 const router = createBrowserRouter([
   {

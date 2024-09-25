@@ -1,12 +1,12 @@
 import { Html } from "@react-three/drei";
 import { GithubIcon, HyperlinkIcon, ScrollIcon } from "../Icons";
 import { memo } from "react";
-import { useSoundContext } from "../../lib/providers/SoundContextProvider";
-import { useAppStore } from "../../lib/store";
+import { useAppStore } from "../../lib/stores/useAppStore";
+import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 
 export const ProjectDetails = memo(function ProjectDetails() {
   const activeProject = useAppStore((state) => state.activeProject);
-  const { playHoverSound } = useSoundContext();
+  const { playHoverSound } = useSoundStoreActions();
 
   if (!activeProject || !activeProject.codeLink || !activeProject.liveLink)
     return;

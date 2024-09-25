@@ -113,7 +113,6 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: all 1s;
   font-family: Dosis;
   font-weight: bold;
   overflow: hidden;
@@ -141,22 +140,14 @@ body {
 }
 
 .loadingScreen__button {
+  cursor: default;
   text-shadow: 1px 1px 8px #f74ee0;
   transition: background-color 0.4s;
 }
 
 .loadingScreen__button:hover {
-  cursor: pointer;
   color: #f597e8;
   text-shadow: 1px 1px 8px #f74ee0;
-}
-
-.loadingScreen__button:disabled {
-  pointer-events: none;
-}
-
-.loadingCanvas {
-  pointer-events: none !important;
 }
 
 .spinner-box {
@@ -315,6 +306,15 @@ input:-webkit-autofill:active {
   opacity: 1;
   visibility: visible;
   pointer-events: auto;
+}
+
+.tooltipWrapper[data-projectsactive="true"] .icon:hover .tooltip {
+  top: 70px;
+}
+
+.tooltipWrapper[data-projectsactive="true"] .tooltip::before {
+  bottom: auto;
+  top: -4px;
 }
 
 .tooltipWrapper .icon:hover span,

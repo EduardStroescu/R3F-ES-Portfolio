@@ -1,16 +1,18 @@
 import LogoSvg from "/logo/EsLogo.svg";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { useSoundContext } from "../lib/providers/SoundContextProvider.jsx";
 import { a, useTransition } from "@react-spring/web";
-import { AudioButton } from "./AudioButton.jsx";
-import { FailIcon, SuccessIcon } from "./Icons.jsx";
+import { AudioButton } from "./AudioButton";
+import { FailIcon, SuccessIcon } from "./Icons";
 import {
   useAboutStore,
   useAboutStoreActions,
+} from "../lib/stores/useAboutStore";
+import {
   useContactStore,
   useContactStoreActions,
-} from "../lib/store.js";
+} from "../lib/stores/useContactStore";
 import { useShallow } from "zustand/react/shallow";
+import { useSoundStoreActions } from "../lib/stores/useSoundStore";
 
 export default function Ui() {
   const location = useLocation();
@@ -20,7 +22,7 @@ export default function Ui() {
     playMenuOpenCloseSound,
     playMenuFlipSound,
     playUnderwaterTransitionSound,
-  } = useSoundContext();
+  } = useSoundStoreActions();
 
   const { flipped, messageSent, messageReceived } = useContactStore(
     useShallow((state) => ({
@@ -47,7 +49,7 @@ export default function Ui() {
       setTimeout(() => {
         setVisible((prev) => !prev);
         playMenuOpenCloseSound();
-      }, 1100);
+      }, 1200);
       if (location.pathname === "/projects") {
         playUnderwaterTransitionSound();
       }
@@ -144,7 +146,7 @@ export default function Ui() {
         </div>
       </header>
       <aside className="flex justify-end items-end">
-        {location.pathname !== "/projects" && <AudioButton />}
+        <AudioButton />
         <section className="fixed bottom-0 right-0 p-4">
           {notificationTransition(
             (styles, item) =>

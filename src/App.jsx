@@ -1,7 +1,6 @@
 import { Suspense, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 
-import { SoundContextProvider } from "./lib/providers/SoundContextProvider";
 import LoadingScreen from "./components/LoadingScreen";
 import Experience from "./components/Experience";
 import Camera from "./components/Camera";
@@ -19,7 +18,7 @@ function App() {
   }, [location, location.state]);
 
   return (
-    <SoundContextProvider>
+    <>
       <main id="canvas">
         <Suspense fallback={<LoadingScreen />}>
           <Canvas
@@ -41,7 +40,7 @@ function App() {
       </main>
       <Ui />
       <LoadingScreen />
-    </SoundContextProvider>
+    </>
   );
 }
 

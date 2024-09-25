@@ -2,25 +2,19 @@
 import { createPortal } from "@react-three/fiber";
 import { ScrollControls } from "@react-three/drei";
 
-import Postprocessing2 from "./projects/Postprocessing2.jsx";
-import ScreenMesh from "./ScreenMesh.jsx";
+import Postprocessing2 from "./projects/Postprocessing2";
+import ScreenMesh from "./ScreenMesh";
 import { useLocation } from "react-router-dom";
-import ProjectsScene from "./projects/ProjectsScene.jsx";
-import useRenderScenePortals from "../lib/hooks/useRenderScenePortals.jsx";
-import useSceneTransition from "../lib/hooks/useSceneTransition.jsx";
-import HomeScene from "./home/HomeScene.jsx";
+import ProjectsScene from "./projects/ProjectsScene";
+import useRenderScenePortals from "../lib/hooks/useRenderScenePortals";
+import HomeScene from "./home/HomeScene";
+import { useDirectionalSound } from "../lib/hooks/useDirectionalSound";
 
 export default function Experience() {
   const location = useLocation();
-  const {
-    screenMesh,
-    renderTargetC,
-    textRef,
-    progress,
-    homeScene,
-    projectsScene,
-  } = useRenderScenePortals(location);
-  useSceneTransition(progress, location);
+  const { screenMesh, renderTargetC, textRef, homeScene, projectsScene } =
+    useRenderScenePortals(location);
+  useDirectionalSound();
 
   return (
     <>

@@ -1,15 +1,15 @@
 import { Suspense, lazy } from "react";
-import Camera from "../Camera.jsx";
-import { HomeSceneEnv } from "../Environments.jsx";
-import { HomeModel } from "./HomeModel.jsx";
+import Camera from "../Camera";
+import { HomeSceneEnv } from "../Environments";
+import { HomeModel } from "./HomeModel";
 import { WaterComponent } from "./WaterComponent";
 import { HomeTitle } from "./HomeTitle";
 import Postprocessing from "./Postprocessing";
-import { useAppStore } from "../../lib/store.js";
+import { useAppStore } from "../../lib/stores/useAppStore";
 import { useShallow } from "zustand/react/shallow";
 
-const AboutSection = lazy(() => import("./AboutSection.jsx"));
-const ContactSection = lazy(() => import("./ContactSection.jsx"));
+const AboutSection = lazy(() => import("./AboutSection"));
+const ContactSection = lazy(() => import("./ContactSection"));
 
 export default function HomeScene() {
   const { started, homeSceneActive } = useAppStore(

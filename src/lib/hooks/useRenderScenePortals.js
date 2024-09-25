@@ -2,7 +2,8 @@ import { useFBO, useTexture } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import { Scene } from "three";
-import { useAppStoreActions } from "../store";
+import { useAppStoreActions } from "../stores/useAppStore";
+import { useSpring } from "@react-spring/three";
 
 export default function useRenderScenePortals(location) {
   const { setHomeSceneActive, setProjectsSceneActive } = useAppStoreActions();
@@ -20,6 +21,26 @@ export default function useRenderScenePortals(location) {
   const renderTargetC = useFBO();
   const progress = useRef(location.pathname !== "/projects" ? -2.0 : 2.0);
   const { gl } = useThree();
+  // Animate the transition between home and projects scenes -2 to 2
+  useSpring({
+    from: { progress: progress.current },
+    to: { progress: location.pathname !== "/projects" ? -2.0 : 2.0 },
+    config: { duration: 1000, precision: 0.0001 },
+    onChange: (e) => {
+      progress.current = e.value.progress;
+      // Scene activation logic according to progress
+      if (e.value.progress > -0.5) {
+        setHomeSceneActive(false);
+      } else {
+        setHomeSceneActive(true);
+      }
+      if (e.value.progress > 0.5) {
+        setProjectsSceneActive(true);
+      } else {
+        setProjectsSceneActive(false);
+      }
+    },
+  });
 
   useFrame((state, delta) => {
     const { camera } = state;
@@ -42,24 +63,11 @@ export default function useRenderScenePortals(location) {
     screenMesh.current.material.uniforms.uProgress.value = progress.current;
     screenMesh.current.material.uniforms.uTime.value += delta;
     gl.setRenderTarget(null);
-
-    // Scene activation logic according to progress
-    if (progress.current > -1.5) {
-      setHomeSceneActive(false);
-    } else {
-      setHomeSceneActive(true);
-    }
-    if (progress.current > 1.5) {
-      setProjectsSceneActive(true);
-    } else {
-      setProjectsSceneActive(false);
-    }
   });
   return {
     screenMesh,
     renderTargetC,
     textRef,
-    progress,
     homeScene,
     projectsScene,
   };

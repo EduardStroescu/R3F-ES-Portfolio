@@ -9,7 +9,7 @@ import {
 } from "@react-three/postprocessing";
 import { BlendFunction, KernelSize } from "postprocessing";
 import { Suspense, useEffect, useRef } from "react";
-import { useAppStore } from "../../lib/store";
+import { useAppStore } from "../../lib/stores/useAppStore";
 import Sun from "./Sun";
 
 export default function Postprocessing() {

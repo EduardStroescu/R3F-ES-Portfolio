@@ -1,6 +1,6 @@
 import { useVideoTexture } from "@react-three/drei";
 import { useEffect, useMemo } from "react";
-import { useAppStore } from "../store";
+import { useAppStore } from "../stores/useAppStore";
 
 export default function useVideoTextures() {
   const activeProject = useAppStore((state) => state.activeProject);
@@ -24,7 +24,7 @@ export default function useVideoTextures() {
   );
 
   const videoTexture3 = useVideoTexture(
-    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ExpoDash_stlgkv",
     {
       start: activeProject.video === "three",
       playsInline: true,
@@ -33,7 +33,7 @@ export default function useVideoTextures() {
   );
 
   const videoTexture4 = useVideoTexture(
-    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
     {
       start: activeProject.video === "four",
       playsInline: true,
@@ -42,9 +42,18 @@ export default function useVideoTextures() {
   );
 
   const videoTexture5 = useVideoTexture(
-    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ndfytt6vbfiysnril4i4",
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
     {
       start: activeProject.video === "five",
+      playsInline: true,
+      muted: true,
+    }
+  );
+
+  const videoTexture6 = useVideoTexture(
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ndfytt6vbfiysnril4i4",
+    {
+      start: activeProject.video === "six",
       playsInline: true,
       muted: true,
     }
@@ -67,7 +76,15 @@ export default function useVideoTextures() {
       videoTexture3,
       videoTexture4,
       videoTexture5,
+      videoTexture6,
     }),
-    [videoTexture, videoTexture2, videoTexture3, videoTexture4, videoTexture5]
+    [
+      videoTexture,
+      videoTexture2,
+      videoTexture3,
+      videoTexture4,
+      videoTexture5,
+      videoTexture6,
+    ]
   );
 }

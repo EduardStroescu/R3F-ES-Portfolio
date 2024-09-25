@@ -1,52 +1,68 @@
 import { useProgress } from "@react-three/drei";
 import { useSpring, a } from "@react-spring/web";
-import { useSoundContext } from "../lib/providers/SoundContextProvider.jsx";
-import {
-  useAppStore,
-  useAppStoreActions,
-  useSoundStoreActions,
-} from "../lib/store.js";
+import { useAppStore, useAppStoreActions } from "../lib/stores/useAppStore";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 export default function LoadingScreen() {
   const started = useAppStore((state) => state.started);
   const { setStarted } = useAppStoreActions();
-  const { setAudioEnabled } = useSoundStoreActions();
+  const [loaded, setLoaded] = useState(false);
 
-  const { active } = useProgress();
-  const { playAmbientSound, playHoverSound } = useSoundContext();
+  const progressRef = useRef(0);
+  const rafRef = useRef(0);
+  const loadCompleteRef = useRef(false); // Ref to track if load is complete
 
-  // Make "Loading" disappear
+  const { active, progress } = useProgress();
+
+  useEffect(() => {
+    let t;
+    // Only update `started` when progress is 100 and `active` becomes false
+    if (!active && progress === 100 && !loaded) {
+      t = setTimeout(() => {
+        setLoaded(true);
+        loadCompleteRef.current = true; // Mark as fully loaded
+      }, 2000); // Adding a slight delay to ensure smooth transition
+    } else if (active && loaded && loadCompleteRef.current) {
+      // If it becomes active again after the load, mark as not fully loaded
+      loadCompleteRef.current = false;
+    }
+    return () => clearTimeout(t);
+  }, [loaded, active, progress]);
+
+  const updateProgress = useCallback(() => {
+    progressRef.current += (progress - progressRef.current) / 2;
+    if (progressRef.current > 0.95 * progress || progress === 100)
+      progressRef.current = progress;
+    if (progressRef.current < progress)
+      rafRef.current = requestAnimationFrame(updateProgress);
+  }, [progress]);
+
+  useEffect(() => {
+    updateProgress();
+    return () => cancelAnimationFrame(rafRef.current);
+  }, [updateProgress]);
+
   const loadingTextAnimation1 = useSpring({
-    from: { opacity: 1 },
-    to: { opacity: !active ? 0 : 1 },
+    from: { opacity: 0 },
+    to: { opacity: active ? 1 : 0 },
     config: { mass: 5, tension: 500, friction: 80 },
   });
 
-  // Make "Enter" appear
-  const loadingTextAnimation2 = useSpring({
-    from: { opacity: 0, pointerEvents: "none" },
-    to: {
-      opacity: !active ? 1 : 0,
-      pointerEvents:
-        !active && !started ? "auto" : active && started ? "none" : "none",
+  const loadingScreenFadeOut = useSpring({
+    from: { opacity: 1 },
+    to: { opacity: loaded ? 0 : 1 },
+    config: { mass: 5, tension: 500, friction: 80 },
+    onRest: (e) => {
+      if (e.finished) {
+        setStarted(true);
+      }
     },
-    config: { mass: 1, tension: 500, friction: 60 },
-    delay: !started ? 1500 : 0,
   });
 
-  const handleEnterWebsite = () => {
-    setStarted(true);
-    setAudioEnabled(true);
-    playAmbientSound();
-    playHoverSound();
-  };
-
-  if (started) {
-    return null;
-  }
+  if (started) return null;
 
   return (
-    <div className="titleColor loadingScreen">
+    <a.div style={loadingScreenFadeOut} className="titleColor loadingScreen">
       <a.div className="loadingBg absolute w-screen h-screen bg-gradient-to-t from-[#11e8bb] to-[#8200c9]" />
       <div className=" loadingScreen__board w-full h-full text-center flex flex-col justify-between items-center z-10">
         <div className="loadingScreen__title text-[5rem] pt-2 lg:pt-8">
@@ -84,21 +100,14 @@ export default function LoadingScreen() {
             </div>
           </div>
           <div className="loadingText absolute">
-            <button
-              className="loadingScreen__button flex justify-center items-center text-3xl font-bold text-white "
-              disabled={active}
-              onClick={handleEnterWebsite}
-            >
+            <div className="loadingScreen__button flex justify-center items-center text-3xl font-bold text-white ">
               <a.p style={loadingTextAnimation1} className="absolute">
                 Loading
               </a.p>
-              <a.p style={loadingTextAnimation2} className="absolute">
-                Enter
-              </a.p>
-            </button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </a.div>
   );
 }

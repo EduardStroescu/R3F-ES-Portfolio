@@ -2,7 +2,7 @@
 import { useTrailTexture } from "@react-three/drei";
 import { MeshReflectorMaterial } from "../../lib/shaders/waterShader/MeshReflectorMaterial";
 import { TrailConfig } from "../../lib/data/trailConfig";
-import { useAppStore } from "../../lib/store";
+import { useAppStore } from "../../lib/stores/useAppStore";
 
 export function WaterComponent() {
   const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);

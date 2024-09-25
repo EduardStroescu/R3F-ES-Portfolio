@@ -1,30 +1,41 @@
-import { useSoundStore, useSoundStoreActions } from "../lib/store";
+import {
+  useSoundStore,
+  useSoundStoreActions,
+} from "../lib/stores/useSoundStore";
 import { AudioIcon } from "./Icons";
 import { Howler } from "howler";
-import { useSoundContext } from "../lib/providers/SoundContextProvider";
+
+import { useLocation } from "react-router-dom";
 
 export function AudioButton() {
+  const location = useLocation();
   const audioEnabled = useSoundStore((state) => state.audioEnabled);
-  const { setAudioEnabled } = useSoundStoreActions();
-  const { playAmbientSound, playHoverSound } = useSoundContext();
+  const { setAudioEnabled, playAmbientSound, playHoverSound } =
+    useSoundStoreActions();
 
   const switchAudio = () => {
     if (audioEnabled) {
+      setAudioEnabled(false);
+      localStorage.setItem("audioEnabled", false);
       Howler.stop();
       Howler.volume(0);
     } else {
+      setAudioEnabled(true);
+      localStorage.setItem("audioEnabled", true);
       Howler.volume(0.5);
       playAmbientSound();
     }
   };
 
   return (
-    <aside className="tooltipWrapper fixed bottom-6 left-4 scale-[0.8]">
+    <aside
+      data-projectsactive={location.pathname === "/projects"}
+      className={`
+        ${location.pathname !== "/projects" ? "bottom-6" : "top-20"}
+        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8]`}
+    >
       <button
-        onClick={() => {
-          switchAudio();
-          setAudioEnabled((prev) => !prev);
-        }}
+        onClick={switchAudio}
         onPointerEnter={playHoverSound}
         className={`icon ${
           audioEnabled ? "soundIconEnabled" : "soundIconDisabled"

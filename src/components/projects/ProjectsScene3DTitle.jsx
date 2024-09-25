@@ -3,7 +3,11 @@ import titleFont from "../../assets/fonts/Dosis-SemiBold.woff";
 import { useThree } from "@react-three/fiber";
 import PropTypes from "prop-types";
 import { forwardRef, memo } from "react";
-import { useAppStore } from "../../lib/store";
+import { useAppStore } from "../../lib/stores/useAppStore";
+import { animated, easings, useSpring } from "@react-spring/three";
+
+const AnimatedMeshTransmissionMaterial = animated(MeshTransmissionMaterial);
+const AnimatedText = animated(Text);
 
 const ProjectsScene3DTitle = memo(
   forwardRef(function ProjectsScene3DTitle({ renderTargetC }, textRef) {
@@ -11,25 +15,35 @@ const ProjectsScene3DTitle = memo(
     const { size } = useThree();
     const viewport = { width: size.width, height: size.height };
 
+    const spring = useSpring({
+      from: { fillOpacity: 0, position: [11, -5.5, 11] },
+      color: activeProject.titleColor,
+      fillOpacity: 1,
+      position: [11, -5, 11],
+      reset: true,
+      config: { duration: 500, easing: easings.easeInOut },
+    });
+
     if (!activeProject.title) return;
 
     return (
-      <Text
+      <AnimatedText
         ref={textRef}
         anchorY="middle"
         font={titleFont}
         characters={activeProject.title}
-        position={[11, -5, 11]}
+        position={spring.position}
         fontSize={(viewport.width / viewport.height) * 3.5}
         maxWidth={viewport.width}
+        fillOpacity={spring.fillOpacity}
       >
-        <MeshTransmissionMaterial
+        <AnimatedMeshTransmissionMaterial
           buffer={renderTargetC.texture}
           samples={5}
           depthTest={false}
           depthWrite={false}
           fog={false}
-          emissive={activeProject.titleColor}
+          emissive={spring.color}
           transmission={1}
           ior={1}
           thickness={10}
@@ -37,7 +51,7 @@ const ProjectsScene3DTitle = memo(
           chromaticAberration={0.1}
         />
         {activeProject.title}
-      </Text>
+      </AnimatedText>
     );
   })
 );

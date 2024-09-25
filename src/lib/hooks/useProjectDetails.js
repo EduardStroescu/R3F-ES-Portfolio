@@ -3,7 +3,7 @@ import { useMemo, useRef } from "react";
 import { getActiveProject } from "../helpers/getActiveProject";
 import { useScroll, useTexture } from "@react-three/drei";
 import useVideoTextures from "./useVideoTextures";
-import { useAppStoreActions } from "../store";
+import { useAppStoreActions } from "../stores/useAppStore";
 
 export default function useProjectDetails() {
   const { setActiveProject } = useAppStoreActions();
@@ -13,11 +13,13 @@ export default function useProjectDetails() {
   const [material1, material2, material3, material4, material5, material6] =
     useTexture([
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/nq6wzkwk4igedfgfxzyu",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/ws9l0i09h7yhxuijemgm",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/n2zhusifwz47eufpilmq",
+      // Uncomment for Coming Soon Placeholder
+      // "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/n2zhusifwz47eufpilmq",
     ]);
 
   const {
@@ -26,6 +28,7 @@ export default function useProjectDetails() {
     videoTexture3,
     videoTexture4,
     videoTexture5,
+    videoTexture6,
   } = useVideoTextures();
 
   const { size } = useThree();
@@ -143,7 +146,7 @@ export default function useProjectDetails() {
             planeCoords.planeRight.y,
             (planeStartPosition - 55) * 5 - 5,
           ],
-          material: { map: material6 },
+          material: { map: videoTexture6 },
         },
       ],
     ],
@@ -159,6 +162,7 @@ export default function useProjectDetails() {
       videoTexture3,
       videoTexture4,
       videoTexture5,
+      videoTexture6,
       planeCoords.planeLeft.x,
       planeCoords.planeRight.x,
       planeCoords.planeLeft.y,

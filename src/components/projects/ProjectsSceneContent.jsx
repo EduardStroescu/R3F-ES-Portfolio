@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import Minimap from "./Minimap";
 import { ProjectDetails } from "./ProjectDetails";
 import { Plane } from "../ProjectsPlane";
-import { useAppStore } from "../../lib/store";
+import { useAppStore } from "../../lib/stores/useAppStore";
 import useProjectDetails from "../../lib/hooks/useProjectDetails";
 import ProjectsScene3DTitle from "./ProjectsScene3DTitle";
 

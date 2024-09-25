@@ -1,16 +1,13 @@
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { easing } from "maath";
 import { useLocation } from "react-router-dom";
 
 export default function Camera(props) {
   const location = useLocation();
-  const group = useRef();
   const cameraRef = useRef();
 
-  const set = useThree((state) => state.set);
-  useEffect(() => void set({ camera: cameraRef.current }));
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
   let startTime;
@@ -41,7 +38,7 @@ export default function Camera(props) {
           delta,
           10
         );
-      } else
+      } else {
         easing.damp3(
           state.camera.position,
           [6, 0, location.state.data === "/contact" ? 10 : 2],
@@ -49,6 +46,7 @@ export default function Camera(props) {
           delta,
           location.state.data === "/contact" ? 40 : 10
         );
+      }
       easing.dampE(
         state.camera.rotation,
         [state.pointer.y * 0.03, state.pointer.x * 0.03, 0],
@@ -77,19 +75,17 @@ export default function Camera(props) {
   });
 
   return (
-    <group ref={group} {...props}>
-      <group name="Scene">
-        <PerspectiveCamera
-          ref={cameraRef}
-          damping={true}
-          name="Camera"
-          position={[6, 5, 2]}
-          far={location.pathname === "/projects" ? 60 : 90}
-          near={0.01}
-          fov={75}
-          makeDefault
-        />
-      </group>
+    <group name="Scene" {...props}>
+      <PerspectiveCamera
+        ref={cameraRef}
+        damping={true}
+        name="Camera"
+        position={[6, 5, 2]}
+        far={location.pathname !== "/projects" ? 90 : 60}
+        near={0.01}
+        fov={75}
+        makeDefault
+      />
     </group>
   );
 }

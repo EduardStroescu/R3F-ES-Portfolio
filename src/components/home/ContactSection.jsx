@@ -4,14 +4,17 @@ import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
-import { useContactStore, useContactStoreActions } from "../../lib/store";
-import { useSoundContext } from "../../lib/providers/SoundContextProvider";
+import {
+  useContactStore,
+  useContactStoreActions,
+} from "../../lib/stores/useContactStore";
+import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 
 export default function ContactSection() {
   const flipped = useContactStore((state) => state.flipped);
   const { setFlipped, setMessageSent, setMessageReceived } =
     useContactStoreActions();
-  const { playHoverSound, playMenuFlipSound } = useSoundContext();
+  const { playHoverSound, playMenuFlipSound } = useSoundStoreActions();
 
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,

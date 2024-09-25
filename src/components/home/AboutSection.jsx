@@ -1,12 +1,15 @@
 import { a, useSpring } from "@react-spring/web";
 import { Html } from "@react-three/drei";
-import { useAboutStore, useAboutStoreActions } from "../../lib/store";
-import { useSoundContext } from "../../lib/providers/SoundContextProvider";
+import {
+  useAboutStore,
+  useAboutStoreActions,
+} from "../../lib/stores/useAboutStore";
+import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 
 export default function AboutSection() {
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
-  const { playHoverSound, playMenuOpenCloseSound } = useSoundContext();
+  const { playHoverSound, playMenuOpenCloseSound } = useSoundStoreActions();
 
   const { clipPath } = useSpring({
     clipPath: visible
