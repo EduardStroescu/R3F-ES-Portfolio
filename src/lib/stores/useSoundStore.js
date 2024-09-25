@@ -47,8 +47,13 @@ const sounds = {
   howlerSprite,
 };
 
+const soundIds = {};
+
 export const useSoundStore = create((set, get) => ({
-  audioEnabled: JSON.parse(localStorage.getItem("audioEnabled")) || true,
+  audioEnabled:
+    localStorage.getItem("audioEnabled") !== null
+      ? JSON.parse(localStorage.getItem("audioEnabled"))
+      : true,
   actions: {
     setAudioEnabled: (newValue) =>
       set((prevState) => ({
@@ -57,9 +62,21 @@ export const useSoundStore = create((set, get) => ({
             ? newValue(prevState.audioEnabled)
             : newValue,
       })),
-    playHoverSound: () => get().audioEnabled && sounds.hoverSound.play("hover"),
-    playAmbientSound: () =>
-      get().audioEnabled && sounds.ambientSound.play("ambient"),
+    playHoverSound: () => {
+      if (get().audioEnabled) {
+        soundIds.hoverSound = sounds.hoverSound.play(
+          soundIds.hoverSound || "hover"
+        );
+      }
+    },
+    playAmbientSound: () => {
+      if (get().audioEnabled) {
+        soundIds.ambientSound = sounds.ambientSound.play(
+          soundIds.ambientSound || "ambient"
+        );
+      }
+    },
+    pauseAmbientSound: () => sounds.ambientSound.pause(),
     playTransitionSound: () =>
       get().audioEnabled && sounds.howlerSprite.play("transition"),
     playMenuOpenCloseSound: () =>

@@ -1,6 +1,5 @@
 /* eslint-disable react/no-unknown-property */
 import { createPortal } from "@react-three/fiber";
-import { ScrollControls } from "@react-three/drei";
 
 import Postprocessing2 from "./projects/Postprocessing2";
 import ScreenMesh from "./ScreenMesh";
@@ -19,18 +18,10 @@ export default function Experience() {
   return (
     <>
       {createPortal(<HomeScene />, homeScene)}
-      <ScrollControls
-        enabled={location.pathname === "/projects"}
-        infinite
-        distance={1.2}
-        pages={4}
-        damping={0.6}
-      >
-        {createPortal(
-          <ProjectsScene renderTargetC={renderTargetC} ref={textRef} />,
-          projectsScene
-        )}
-      </ScrollControls>
+      {createPortal(
+        <ProjectsScene renderTargetC={renderTargetC} ref={textRef} />,
+        projectsScene
+      )}
       <Postprocessing2 />
       <ScreenMesh ref={screenMesh} />
       {/* Only enable in development */}

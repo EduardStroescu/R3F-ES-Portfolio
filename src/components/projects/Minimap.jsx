@@ -1,11 +1,11 @@
 /* eslint-disable react/no-unknown-property */
 import { useFrame, useThree } from "@react-three/fiber";
 import { memo, useRef } from "react";
-import { useScroll } from "@react-three/drei";
 import { Vector3, LineBasicMaterial } from "three";
 import { MathUtils } from "three";
 import { BufferGeometry } from "three";
 import PropTypes from "prop-types";
+import { useScrollContext } from "../../lib/providers/ScrollProvider";
 
 const material = new LineBasicMaterial({
   color: "white",
@@ -21,7 +21,7 @@ const damp = MathUtils.damp;
 
 const Minimap = memo(function Minimap({ planeGroups }) {
   const ref = useRef();
-  const scroll = useScroll();
+  const { scroll } = useScrollContext();
   const { size } = useThree();
   const viewport = { width: size.width / 10 };
 

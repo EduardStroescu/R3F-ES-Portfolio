@@ -1,14 +1,15 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { useMemo, useRef } from "react";
 import { getActiveProject } from "../helpers/getActiveProject";
-import { useScroll, useTexture } from "@react-three/drei";
+import { useTexture } from "@react-three/drei";
 import useVideoTextures from "./useVideoTextures";
 import { useAppStoreActions } from "../stores/useAppStore";
+import { useScrollContext } from "../providers/ScrollProvider";
 
 export default function useProjectDetails() {
   const { setActiveProject } = useAppStoreActions();
   const planeGroupRef = useRef();
-  const scroll = useScroll();
+  const { scroll } = useScrollContext();
 
   const [material1, material2, material3, material4, material5, material6] =
     useTexture([
@@ -176,7 +177,7 @@ export default function useProjectDetails() {
       const totalDistance = (planeGroups.length - 0.9) * 73;
 
       // Calculate the adjusted offset to create a seamless loop
-      let adjustedOffset = scroll.offset % 2;
+      let adjustedOffset = scroll.progress % 2;
       if (adjustedOffset < 0) {
         adjustedOffset += 1;
       }
@@ -195,7 +196,7 @@ export default function useProjectDetails() {
         group.position.z = zPosition;
       });
       // Set Project Details according to the scroll offset
-      const activeInfo = getActiveProject(scroll.offset);
+      const activeInfo = getActiveProject(scroll.progress);
       setActiveProject(activeInfo);
     }
   });

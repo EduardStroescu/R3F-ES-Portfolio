@@ -2,10 +2,21 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useSoundStoreActions } from "../stores/useSoundStore";
 import { setupAmbientSoundListener } from "../helpers/setupAmbientSoundListener";
+import { useWindowVisibility } from "./useWindowVisibility";
 
 export function useDirectionalSound() {
   const location = useLocation();
-  const { modifySoundSetting } = useSoundStoreActions();
+  const { modifySoundSetting, playAmbientSound, pauseAmbientSound } =
+    useSoundStoreActions();
+  const isWindowActive = useWindowVisibility();
+
+  useEffect(() => {
+    if (isWindowActive === false) {
+      pauseAmbientSound();
+    } else if (isWindowActive === true) {
+      playAmbientSound();
+    }
+  }, [isWindowActive, pauseAmbientSound, playAmbientSound]);
 
   useEffect(() => {
     const cleanupListener = setupAmbientSoundListener();

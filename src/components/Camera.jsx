@@ -17,9 +17,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x, 5 + -state.pointer.y / 6, 2],
-        0.5,
+        0.35,
         delta,
-        25
+        50
       );
       easing.dampE(
         state.camera.rotation,
