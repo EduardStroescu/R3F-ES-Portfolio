@@ -27,15 +27,17 @@ export default function AboutSection() {
       transform
       scale={0.5}
       position={[11, 5.1, 15]}
-      wrapperClass="text-white"
+      wrapperClass={`text-white will-change-transform ${
+        visible ? "backdrop-blur-sm" : "backdrop-blur-none"
+      }`}
     >
       <a.div
         style={{ clipPath, pointerEvents: "none", transform: "scale(2)" }}
-        className="shadow MainFont z-40 mx-[-5px] sm:mx-[150px] md:mx-[150px] lg:mx-[25%] 2xl:mx-[35%] flex flex-col justify-center items-center gap-4 rounded-xl border border-[#10D9E182] bg-gradient-to-t from-[#11e8bb]/[0.95] to-[#8200c9]/[0.95]"
+        className=" z-40 py-2 sm:mx-[150px] md:mx-[150px] lg:mx-[25%] 2xl:mx-[35%] flex flex-col justify-center items-center rounded-xl border border-[#10D9E182] bg-cyan-800/90 text-base"
       >
         <button
           style={{ pointerEvents: visible ? "auto" : "none" }}
-          className="hover:text-[#f597e8] hover:italic hoverShadow hover:hover:scale-110 flex flex-row self-start pl-4 pt-4"
+          className="hover:text-[#f597e8] hover:italic hover:hover:scale-110 flex flex-row self-start pl-4 pt-4"
           onClick={() => {
             setVisible(false);
             playMenuOpenCloseSound();
@@ -44,33 +46,35 @@ export default function AboutSection() {
         >
           &#10094; Close
         </button>
-        <h1 className="font-bold titleColor text-4xl pb-4 mt-[-30px]">About</h1>
-        <p className="py-0 px-[15px] text-justify indent-5">
-          I&apos;m Eduard, a Front-End developer specializing in web-based
-          technologies and frameworks. In my pursuit of excellence, I am driven
-          by a profound passion for both creativity and functionality. I believe
-          that design and user experience are two sides of the same coin, and my
-          goal is to seamlessly blend them to create interfaces that leave a
-          lasting impact on users.
-        </p>
-        <p className="px-[15px] text-justify indent-5">
-          My dedication to self-improvement serves as the backbone of my career.
-          Staying ahead in the fast-paced world of technology is my aim, and I
-          am relentless in my pursuit of mastering the latest trends and
-          techniques. This unyielding commitment ensures that my skills are
-          always finely honed, enabling me to deliver top-notch results with
-          every project.
-        </p>
-        <p className=" px-[15px] text-justify indent-5">
-          With a forward-thinking approach, I am ready to tackle new challenges
-          and create innovative solutions together. If you&apos;re searching for
-          a versatile and dedicated developer to strengthen your team, I invite
-          you to explore my portfolio.
-        </p>
-        <p className="pb-8 px-[15px] text-lg text-center">
-          Let&apos;s connect and craft digital experiences that make a lasting
-          impact!
-        </p>
+        <h1 className="titleColor font-bold text-4xl pb-4 mt-[-30px]">About</h1>
+        <div className="flex flex-col gap-1 md:gap-2 text-[1.03rem] leading-tight md:leading-normal hyphens-auto">
+          <p className="px-[15px] text-justify indent-5">
+            I&apos;m Eduard, a Front-End developer specializing in web-based
+            technologies and frameworks. In my pursuit of excellence, I am
+            driven by a profound passion for both creativity and functionality.
+            I believe that design and user experience are two sides of the same
+            coin, and my goal is to seamlessly blend them to create interfaces
+            that leave a lasting impact on users.
+          </p>
+          <p className="px-[15px] text-justify indent-5">
+            My dedication to self-improvement serves as the backbone of my
+            career. Staying ahead in the fast-paced world of technology is my
+            aim, and I am relentless in my pursuit of mastering the latest
+            trends and techniques. This unyielding commitment ensures that my
+            skills are always finely honed, enabling me to deliver top-notch
+            results with every project.
+          </p>
+          <p className="px-[15px] text-justify indent-5">
+            With a forward-thinking approach, I am ready to tackle new
+            challenges and create innovative solutions together. If you&apos;re
+            searching for a versatile and dedicated developer to strengthen your
+            team, I invite you to explore my portfolio.
+          </p>
+          <p className="pb-4 px-[15px] text-center text-lg leading-tight">
+            Let&apos;s connect and craft digital experiences that make a lasting
+            impact!
+          </p>
+        </div>
       </a.div>
     </Html>
   );
