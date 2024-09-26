@@ -4,70 +4,12 @@
 
 @font-face {
   font-family: "Dosis";
-  src: url(/fonts/Dosis-Medium.woff);
+  src: url(/fonts/Dosis-Medium.woff2);
   font-display: swap;
 }
 @layer base {
   html {
     font-family: Dosis, sans-serif;
-  }
-}
-.MainFont {
-  font-family: Dosis, sans-serif;
-}
-
-@keyframes spin {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
-@keyframes configure-clockwise {
-  0% {
-    transform: rotate(0);
-  }
-  25% {
-    transform: rotate(90deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  75% {
-    transform: rotate(270deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes configure-xclockwise {
-  0% {
-    transform: rotate(45deg);
-  }
-  25% {
-    transform: rotate(-45deg);
-  }
-  50% {
-    transform: rotate(-135deg);
-  }
-  75% {
-    transform: rotate(-225deg);
-  }
-  100% {
-    transform: rotate(-315deg);
-  }
-}
-
-@keyframes bounceAnimation {
-  0%, 100% {
-    transform: translateY(-5%);
-    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
-  }
-  50% {
-    transform: translateY(5%);
-    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
 
@@ -87,14 +29,6 @@ body {
   background-color: #220140;
 }
 
-*::-webkit-scrollbar {
-  display: none;
-}
-* {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
-}
-
 #canvas {
   height: 100%;
   width: 100%;
@@ -104,39 +38,34 @@ body {
   background-color: #220140;
 }
 
+.MainFont {
+  font-family: Dosis, sans-serif;
+}
+
 .loadingScreen {
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100dvh;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
+  text-align: center;
+  justify-content: space-between;
   align-items: center;
   font-family: Dosis;
   font-weight: bold;
-  overflow: hidden;
   z-index: 100;
   background-color: #220140;
+  background-image: url("/svg/bgsvg.svg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  will-change: transform;
 }
 
 .titleColor {
   color: #f597e8;
   text-shadow: 1px 1px 8px #f74ee0;
-}
-.hoverShadow:hover {
-  text-shadow: 1px 1px 8px #f74ee0;
-}
-.shadow {
-  text-shadow: 3px 3px 2px red;
-}
-
-.bounce {
-  animation: bounceAnimation 1s infinite; 
-}
-
-.loadingScreen__board {
-  transition: all 0.4s;
 }
 
 .loadingScreen__button {
@@ -150,17 +79,15 @@ body {
   text-shadow: 1px 1px 8px #f74ee0;
 }
 
+ /* Loading Screen Spinner */
 .spinner-box {
-  width: 300px;
-  height: 300px;
+  width: 150px;
+  height: 150px;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: transparent;
 }
 .circle-border {
-  width: 150px;
-  height: 150px;
   padding: 3px;
   display: flex;
   justify-content: center;
@@ -174,45 +101,43 @@ body {
   );
   animation: spin 0.8s linear 0s infinite;
 }
+.circle-border1 {
+  width: 150px;
+  height: 150px;
+}
+.circle-border2 {
+  width: 130px;
+  height: 130px;
+  position: absolute;
+}
 .circle-core {
   width: 100%;
   height: 100%;
   background-color: #220140;
   border-radius: 50%;
 }
-.configure-border-1 {
+.configure-border {
   width: 115px;
   height: 115px;
   padding: 3px;
-  position: absolute;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.configure-border-1 {
+  position: absolute;
   background: #f597e8;
   animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
 }
 
 .configure-border-2 {
-  width: 115px;
-  height: 115px;
-  padding: 3px;
-  left: -115px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #3ff9dc;
   transform: rotate(45deg);
   animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
 }
 
 .configure-border-3 {
-  width: 115px;
-  height: 115px;
-  padding: 3px;
   position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background: #f597e8;
   animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
 }
@@ -223,26 +148,31 @@ body {
   background-color: #220140;
 }
 
-.circle-border2 {
-  width: 130px;
-  height: 130px;
-  padding: 3px;
-  position: absolute;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background: rgb(63, 249, 220);
-  background: linear-gradient(
-    0deg,
-    rgba(63, 249, 220, 0.1) 33%,
-    rgba(63, 249, 220, 1) 100%
-  );
-  animation: spin 0.8s linear 0s infinite;
+@media screen and (max-width: 767px) {
+  .spinner-box {
+    width: 120px;
+    height: 120px;
 }
 
- /* Autofill override */
+.circle-border1 {
+    width: 120px;
+    height: 120px;
+}
+/* smaller 20 */
+.circle-border2 {
+    width: 100px;
+    height: 100px;
+}
 
+/* smaller 5 */
+.configure-border {
+    width: 95px;
+    height: 95px;
+}
+}
+/* Stops Here */
+
+ /* Input Autofill override */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
 input:-webkit-autofill:focus,
@@ -253,12 +183,16 @@ input:-webkit-autofill:active {
   box-shadow: inset 0 0 20px 20px #23232329;
 }
 
-.loadingBg {
-  background-image: url("/svg/bgsvg.svg");
-  background-repeat: no-repeat;
-  background-size: cover;
+/* Scrollbar override */
+*::-webkit-scrollbar {
+  display: none;
+}
+* {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 
+ /* ToolTip */
 .tooltipWrapper .icon {
   position: relative;
   border-radius: 50%;
@@ -361,75 +295,57 @@ input:-webkit-autofill:active {
   background: linear-gradient(to bottom, #11e8bb 0%, #8200c9 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
 }
+/* Stops Here */
 
-.viewCodeTransition {
+
+/* Projects buttons: View Code, View Live */
+.viewButtonTransition {
   transition: color 1s, box-shadow 1s;
 }
 
+.viewButtonTransition:hover {
+  transition-delay: 0s, .5s;
+  color: #fff;
+  
+}
 .viewCodeTransition:hover {
-  transition-delay: 0s, .5s;
-  color: #fff;
   box-shadow:
-      0 0 10px #0ef,
-      0 0 20px #0ef,
-      0 0 30px #0ef,
-      0 0 40px #0ef;
+  0 0 10px #0ef,
+  0 0 20px #0ef,
+  0 0 30px #0ef,
+  0 0 40px #0ef;
 }
-.viewCodeTransition::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -5px;
-  width: 0;
-  height: 100%;
-  background: #0ef;
-  transform: skewX(35deg);
-  z-index: -1;
-  transition: 1s;
-}
-.viewCodeTransition::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  right: -5px;
-  width: 37px;
-  height: 100%;
-  background: rgb(255, 255, 255);
-  transform: skewX(35deg);
-  z-index: -1;
-  transition: 1s;
-}
-
-.viewCodeTransition:hover:before {
-  width: 100%;
-}
-
-.viewLiveTransition {
-  transition: color 1s, box-shadow 1s;
-}
-
 .viewLiveTransition:hover {
-  transition-delay: 0s, .5s;
-  color: #fff;
   box-shadow:
       0 0 0px #f00,
       0 0 20px #f00,
       0 0 30px #f00,
       0 0 40px #f00;
 }
-.viewLiveTransition::before {
+
+.viewButtonTransition::before {
   content: '';
   position: absolute;
   top: 0;
   left: -5px;
   width: 0;
   height: 100%;
-  background: #f00;
   transform: skewX(35deg);
   z-index: -1;
   transition: 1s;
 }
-.viewLiveTransition::after {
+.viewCodeTransition::before {
+  background: #0ef;
+}
+.viewLiveTransition::before {
+  background: #f00;
+}
+
+.viewButtonTransition:hover:before {
+  width: 100%;
+}
+
+.viewButtonTransition::after {
   content: '';
   position: absolute;
   top: 0;
@@ -441,7 +357,64 @@ input:-webkit-autofill:active {
   z-index: -1;
   transition: 1s;
 }
+/* Stops Here */
 
-.viewLiveTransition:hover:before {
-  width: 100%;
+/* Animations */
+.bounce {
+  animation: bounceAnimation 1s infinite; 
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(359deg);
+  }
+}
+@keyframes configure-clockwise {
+  0% {
+    transform: rotate(0);
+  }
+  25% {
+    transform: rotate(90deg);
+  }
+  50% {
+    transform: rotate(180deg);
+  }
+  75% {
+    transform: rotate(270deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes configure-xclockwise {
+  0% {
+    transform: rotate(45deg);
+  }
+  25% {
+    transform: rotate(-45deg);
+  }
+  50% {
+    transform: rotate(-135deg);
+  }
+  75% {
+    transform: rotate(-225deg);
+  }
+  100% {
+    transform: rotate(-315deg);
+  }
+}
+
+@keyframes bounceAnimation {
+  0%, 100% {
+    transform: translateY(-5%);
+    animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
+  }
+  50% {
+    transform: translateY(5%);
+    animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
+  }
 }

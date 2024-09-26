@@ -1,6 +1,5 @@
 import { a, useSpring } from "@react-spring/web";
 import { Html } from "@react-three/drei";
-import { useRef } from "react";
 import emailjs from "@emailjs/browser";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -12,20 +11,19 @@ import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useThree } from "@react-three/fiber";
 
 export default function ContactSection() {
+  const { size } = useThree();
+  const viewport = { width: size.width / 10 };
+
   const flipped = useContactStore((state) => state.flipped);
   const { setFlipped, setMessageSent, setMessageReceived } =
     useContactStoreActions();
   const { playHoverSound, playMenuFlipSound } = useSoundStoreActions();
-  const { size } = useThree();
-  const viewport = { width: size.width / 10 };
 
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
     transform: `perspective(600px) rotateX(${flipped ? 180 : 0}deg)`,
     config: { mass: 5, tension: 500, friction: 80 },
   });
-
-  const form = useRef();
 
   const formik = useFormik({
     initialValues: {
@@ -69,7 +67,7 @@ export default function ContactSection() {
         setMessageReceived(false);
         setTimeout(() => {
           setMessageSent(false);
-        }, 5000);
+        }, 5000); // Time to autodismiss notifications
       }
     },
   });
@@ -150,11 +148,7 @@ export default function ContactSection() {
             &#10094; Back
           </button>
           <h1 className="text-4xl font-medium">Contact me</h1>
-          <form
-            ref={form}
-            onSubmit={formik.handleSubmit}
-            className="mt-6 sm:mt-4"
-          >
+          <form onSubmit={formik.handleSubmit} className="mt-6 sm:mt-4">
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="relative z-5">
                 <input

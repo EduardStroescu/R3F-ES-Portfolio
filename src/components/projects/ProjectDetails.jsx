@@ -36,6 +36,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
             rel="noreferrer"
             target="_blank"
             className="group
+            viewButtonTransition
             viewLiveTransition
             overflow-hidden
             items-center relative
@@ -56,6 +57,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
             target="_blank"
             className="
             group
+            viewButtonTransition
             viewCodeTransition
             overflow-hidden
             items-center relative

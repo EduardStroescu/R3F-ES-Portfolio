@@ -22,7 +22,7 @@ function App() {
     <>
       <main id="canvas">
         <ScrollProvider>
-          <Suspense fallback={<LoadingScreen />}>
+          <Suspense fallback={<LoadingScreen suspenseLoading={true} />}>
             <Canvas
               linear
               flat
