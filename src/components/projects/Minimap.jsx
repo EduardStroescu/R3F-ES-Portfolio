@@ -52,7 +52,7 @@ const Minimap = memo(function Minimap({ planeGroups }) {
             viewport.width > 111
               ? i * 0.04 - planeGroups.length * -0.35
               : i * 0.04 - planeGroups.length * -0.35,
-            -4.25,
+            -6.95,
             4.23,
           ]}
         />

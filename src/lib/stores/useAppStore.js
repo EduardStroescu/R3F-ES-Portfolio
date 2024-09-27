@@ -2,9 +2,9 @@ import { create } from "zustand";
 import { projectsData } from "../data/projectsData";
 
 export const useAppStore = create((set, get) => ({
+  sun: null,
   started: false,
-  homeSceneActive: location.pathname !== "/projects",
-  projectsSceneActive: location.pathname === "/projects",
+  activeScene: location.pathname !== "/projects" ? "home" : "projects",
   activeProject: projectsData[0],
   actions: {
     setStarted: (newValue) =>
@@ -14,18 +14,11 @@ export const useAppStore = create((set, get) => ({
             ? newValue(prevState.started)
             : newValue,
       })),
-    setHomeSceneActive: (newValue) =>
+    setActiveScene: (newValue) =>
       set((prevState) => ({
-        homeSceneActive:
+        activeScene:
           typeof newValue === "function"
-            ? newValue(prevState.homeSceneActive)
-            : newValue,
-      })),
-    setProjectsSceneActive: (newValue) =>
-      set((prevState) => ({
-        projectsSceneActive:
-          typeof newValue === "function"
-            ? newValue(prevState.projectsSceneActive)
+            ? newValue(prevState.activeScene)
             : newValue,
       })),
     setActiveProject: (newProject) => {
@@ -33,6 +26,7 @@ export const useAppStore = create((set, get) => ({
         set({ activeProject: newProject });
       }
     },
+    setSun: (newSun) => set(() => ({ sun: newSun })),
   },
 }));
 

@@ -1,10 +1,12 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 
 export default function Camera2(props) {
   const cameraRef = useRef();
 
+  const set = useThree((state) => state.set);
+  useEffect(() => void set({ camera: cameraRef.current }));
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
   return (

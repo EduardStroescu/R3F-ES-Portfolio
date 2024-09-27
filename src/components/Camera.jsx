@@ -1,6 +1,6 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
-import { useFrame } from "@react-three/fiber";
+import { useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
 import { useLocation } from "react-router-dom";
 
@@ -8,6 +8,8 @@ export default function Camera(props) {
   const location = useLocation();
   const cameraRef = useRef();
 
+  const set = useThree((state) => state.set);
+  useEffect(() => void set({ camera: cameraRef.current }));
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
   let startTime;
@@ -17,9 +19,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x, 5 + -state.pointer.y / 6, 2],
-        0.35,
+        0.3,
         delta,
-        50
+        100
       );
       easing.dampE(
         state.camera.rotation,
@@ -33,7 +35,7 @@ export default function Camera(props) {
       if (state.clock.elapsedTime >= startTime + 0.6) {
         easing.damp3(
           state.camera.position,
-          [6 + state.pointer.x / 2, -5 + -state.pointer.y / 6, 2],
+          [6 + state.pointer.x / 2, -10 + -state.pointer.y / 6, 2],
           0.5,
           delta,
           10
@@ -41,8 +43,8 @@ export default function Camera(props) {
       } else {
         easing.damp3(
           state.camera.position,
-          [6, 0, location.state.data === "/contact" ? 10 : 2],
-          0.5,
+          [6, 0.3, location.state.data === "/contact" ? 10 : 2],
+          0.55,
           delta,
           location.state.data === "/contact" ? 40 : 10
         );

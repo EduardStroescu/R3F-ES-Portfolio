@@ -25,7 +25,7 @@ body {
   width: 100%;
   overflow: hidden;
   box-sizing: border-box;
-  position: absolute;
+  position: relative;
   background-color: #220140;
 }
 

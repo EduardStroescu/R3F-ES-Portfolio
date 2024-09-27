@@ -1,16 +1,15 @@
-import { Suspense, useMemo } from "react";
+import { Suspense } from "react";
 import Camera from "../Camera";
 import { HomeSceneEnv } from "../Environments";
-import Postprocessing from "./Postprocessing";
 import { useAppStore } from "../../lib/stores/useAppStore";
-import { useShallow } from "zustand/react/shallow";
 import { ManualLazyComponent } from "../LazyComponent";
+import { useShallow } from "zustand/react/shallow";
 
 export default function HomeScene() {
-  const { started, homeSceneActive } = useAppStore(
+  const { started, activeScene } = useAppStore(
     useShallow((state) => ({
       started: state.started,
-      homeSceneActive: state.homeSceneActive,
+      activeScene: state.activeScene,
     }))
   );
 
@@ -38,7 +37,7 @@ export default function HomeScene() {
         />
       </Suspense>
       <HomeSceneEnv />
-      {started && homeSceneActive && (
+      {started && activeScene !== "projects" && (
         <Suspense fallback={null}>
           <ManualLazyComponent
             shouldLoad={started || location.pathname === "/"}
@@ -52,7 +51,11 @@ export default function HomeScene() {
           />
         </Suspense>
       )}
-      <Postprocessing />
+      <ManualLazyComponent
+        shouldLoad={started || location.pathname === "/"}
+        delay={location.pathname !== "/projects" ? 0 : 500}
+        loadComponent={() => import("./Sun")}
+      />
     </>
   );
 }

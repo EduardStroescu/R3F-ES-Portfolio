@@ -51,7 +51,7 @@ export default function Ui() {
       setTimeout(() => {
         setVisible((prev) => !prev);
         playMenuOpenCloseSound();
-      }, 1200);
+      }, 800);
       if (location.pathname === "/projects") {
         playUnderwaterTransitionSound();
       }

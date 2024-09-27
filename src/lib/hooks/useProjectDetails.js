@@ -14,7 +14,7 @@ export default function useProjectDetails() {
   const [material1, material2, material3, material4, material5, material6] =
     useTexture([
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/nq6wzkwk4igedfgfxzyu",
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/ws9l0i09h7yhxuijemgm",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/fdcj0ojlfsqggtwiias5",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia",
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
@@ -35,8 +35,8 @@ export default function useProjectDetails() {
   const { size } = useThree();
   const viewport = { width: size.width, height: size.height };
   const planeCoords = {
-    planeLeft: { x: viewport.width / 10 > 111 ? -3 : 8, y: -5 },
-    planeRight: { x: viewport.width / 10 > 111 ? 27 : 16, y: -5 },
+    planeLeft: { x: viewport.width / 10 > 111 ? -3 : 8, y: -10 },
+    planeRight: { x: viewport.width / 10 > 111 ? 27 : 16, y: -10 },
   };
 
   const planeStartPosition = 0;

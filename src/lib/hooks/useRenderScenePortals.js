@@ -6,7 +6,7 @@ import { useAppStoreActions } from "../stores/useAppStore";
 import { easings, useSpring } from "@react-spring/three";
 
 export default function useRenderScenePortals(location) {
-  const { setHomeSceneActive, setProjectsSceneActive } = useAppStoreActions();
+  const { setActiveScene } = useAppStoreActions();
 
   const noise = useTexture(
     "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318276/Portfolio/Model/mgc28ibcemeqqoztq6vs.jpg"
@@ -26,19 +26,16 @@ export default function useRenderScenePortals(location) {
   useSpring({
     from: { progress: progress.current },
     to: { progress: location.pathname !== "/projects" ? -2.0 : 2.0 },
-    config: { duration: 1000, easing: easings.easeInOut },
+    config: { duration: 1500, easing: easings.easeInOut, precision: 0.0001 },
     onChange: (e) => {
       progress.current = e.value.progress;
       // Scene activation logic according to progress
-      if (e.value.progress > -1.0) {
-        setHomeSceneActive(false);
+      if (e.value.progress < -0.05) {
+        setActiveScene("home");
+      } else if (e.value.progress > 0.76) {
+        setActiveScene("projects");
       } else {
-        setHomeSceneActive(true);
-      }
-      if (e.value.progress > 1.0) {
-        setProjectsSceneActive(true);
-      } else {
-        setProjectsSceneActive(false);
+        setActiveScene(null);
       }
     },
   });

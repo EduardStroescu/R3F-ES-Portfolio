@@ -1,17 +1,16 @@
 export function ContactHtml() {
   return (
-    <section className="relative -left-[9999px]">
-      <h2>Contact</h2>
-      <div>
-        <h3>
-          <span>Say hello</span>
-        </h3>
-        <div>
-          <p>I look forward </p>
-          <p>to hearing from you</p>
-        </div>
+    <section className="relative flex flex-col items-center justify-center overflow-hidden w-full h-screen select-none text-[#220140]">
+      <div className="flex flex-col items-center justify-center gap-4">
+        <h2 className="text-xl">Contact</h2>
+        <div className="flex flex-col items-center justify-center gap-2">
+          <h3>
+            <span>Say hello</span>
+          </h3>
+          <div>
+            <p>I look forward to hearing from you</p>
+          </div>
 
-        <div>
           <p>Send me an E-mail at:</p>
           <a href="mailto:eduard.stroescu@gmail.com">
             eduard.stroescu@gmail.com

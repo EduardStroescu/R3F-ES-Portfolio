@@ -22,7 +22,7 @@ export default function Experience() {
         <ProjectsScene renderTargetC={renderTargetC} ref={textRef} />,
         projectsScene
       )}
-      <Postprocessing2 />
+      <Postprocessing2 homeScene={homeScene} projectsScene={projectsScene} />
       <ScreenMesh ref={screenMesh} />
       {/* Only enable in development */}
       {/* <Stats /> */}

@@ -6,11 +6,11 @@ import { useAppStore } from "../../lib/stores/useAppStore";
 
 function WaterComponent() {
   const [texture, onMove] = useTrailTexture(TrailConfig.firstTrail);
-  const homeSceneActive = useAppStore((state) => state.homeSceneActive);
+  const activeScene = useAppStore((state) => state.activeScene);
 
   return (
     <mesh
-      visible={homeSceneActive}
+      visible={activeScene !== "projects"}
       position={[10, -0.52, 15]}
       onPointerMove={onMove}
       rotation={[-Math.PI / 2, 0, 0]}

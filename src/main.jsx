@@ -12,36 +12,24 @@ const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: (
-      <>
-        <App />
-        <HomeHtml />
-      </>
-    ),
+    element: <App />,
     errorElement: <ErrorBoundary />,
+    children: [
+      {
+        path: "/",
+        element: <HomeHtml />,
+      },
+      {
+        path: "/projects",
+        element: <ProjectsHtml />,
+      },
+      {
+        path: "/contact",
+        element: <ContactHtml />,
+      },
+      { path: "*", element: <NotFound /> },
+    ],
   },
-  {
-    path: "/projects",
-    element: (
-      <>
-        <App />
-        <ProjectsHtml />
-      </>
-    ),
-    errorElement: <ErrorBoundary />,
-  },
-  {
-    path: "/contact",
-    element: (
-      <>
-        <App />
-        <ContactHtml />
-      </>
-    ),
-    errorElement: <ErrorBoundary />,
-  },
-  { path: "*", element: <NotFound />, errorElement: <ErrorBoundary /> },
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(

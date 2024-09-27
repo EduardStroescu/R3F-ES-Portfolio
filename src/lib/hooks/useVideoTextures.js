@@ -15,7 +15,7 @@ export default function useVideoTextures() {
   );
 
   const videoTexture2 = useVideoTexture(
-    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ExpoDash_stlgkv",
+    "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/esarbodri3cgjtlgpukn",
     {
       start: activeProject.video === "two",
       playsInline: true,

@@ -12,9 +12,11 @@ const HomeModel = memo(function HomeModel() {
   bakedTexture.flipY = false;
 
   return (
-    <mesh geometry={nodes.baked.geometry}>
-      <meshBasicMaterial map={bakedTexture} />
-    </mesh>
+    <group dispose={null}>
+      <mesh geometry={nodes.baked.geometry}>
+        <meshBasicMaterial map={bakedTexture} />
+      </mesh>
+    </group>
   );
 });
 

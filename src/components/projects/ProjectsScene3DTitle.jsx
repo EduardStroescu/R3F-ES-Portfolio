@@ -16,10 +16,10 @@ const ProjectsScene3DTitle = memo(
     const viewport = { width: size.width, height: size.height };
 
     const spring = useSpring({
-      from: { fillOpacity: 0, position: [11, -5.5, 11] },
+      from: { fillOpacity: 0, position: [11, -10.5, 11] },
       color: activeProject.titleColor,
       fillOpacity: 1,
-      position: [11, -5, 11],
+      position: [11, -10, 11],
       reset: true,
       config: { duration: 500, easing: easings.easeInOut },
     });

@@ -5,7 +5,7 @@ import LoadingScreen from "./components/LoadingScreen";
 import Experience from "./components/Experience";
 import Camera from "./components/Camera";
 import Ui from "./components/Ui";
-import { useLocation } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import { ScrollProvider } from "./lib/providers/ScrollProvider";
 
 function App() {
@@ -40,6 +40,9 @@ function App() {
             </Canvas>
           </Suspense>
         </ScrollProvider>
+        <div className="w-full h-full flex flex-col justify-center items-center">
+          <Outlet />
+        </div>
       </main>
       <Ui />
       <LoadingScreen />
