@@ -19,9 +19,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [6 + state.pointer.x, 5 + -state.pointer.y / 6, 2],
-        0.3,
+        location.state.data === "/projects" ? 0.3 : 0.5,
         delta,
-        100
+        location.state.data === "/projects" ? 150 : 60
       );
       easing.dampE(
         state.camera.rotation,
@@ -46,7 +46,7 @@ export default function Camera(props) {
           [6, 0.3, location.state.data === "/contact" ? 10 : 2],
           0.55,
           delta,
-          location.state.data === "/contact" ? 40 : 10
+          location.state.data === "/contact" ? 30 : 10
         );
       }
       easing.dampE(
@@ -59,9 +59,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [-23 + state.pointer.x / 4, 6, 31.5],
-        0.5,
+        0.35,
         delta,
-        location.pathname === "/projects" ? 100 : 30
+        location.state.data === "/projects" ? 50 : 40
       );
       easing.dampE(
         state.camera.rotation,

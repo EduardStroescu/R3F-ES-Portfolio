@@ -21,7 +21,10 @@ export const projectsData = [
       "Drizzle-ORM",
       "React-Hook-Form",
     ],
-    video: "one",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/nq6wzkwk4igedfgfxzyu",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/f0lppekipaxjobit4jen",
   },
   {
     title: "RIPPLELINK",
@@ -46,7 +49,10 @@ export const projectsData = [
       "React-Hook-Form",
       "Tanstack-Virtual",
     ],
-    video: "two",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/fdcj0ojlfsqggtwiias5",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/esarbodri3cgjtlgpukn",
   },
   {
     title: "EXPODASH",
@@ -69,7 +75,10 @@ export const projectsData = [
       "React-Hook-Form",
       "React-Native-Reanimated",
     ],
-    video: "three",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ExpoDash_stlgkv",
   },
   {
     title: "NEURALCOUTURE",
@@ -90,7 +99,10 @@ export const projectsData = [
       "Studio-Freight/Lenis",
       "Shopify StoreFront API",
     ],
-    video: "four",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
   },
   {
     title: "SCREENSYNCED",
@@ -114,7 +126,10 @@ export const projectsData = [
       "Tanstack-Router",
       "Studio-Freight/Lenis",
     ],
-    video: "five",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
   },
   {
     title: "JJK",
@@ -133,7 +148,10 @@ export const projectsData = [
       "Tanstack-Router",
       "Studio-Freight/Lenis",
     ],
-    video: "six",
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ndfytt6vbfiysnril4i4",
   },
   // Uncomment for Coming Soon Placeholder
   // {
@@ -144,6 +162,7 @@ export const projectsData = [
   //   sceneColor: [104, 79, 26],
   //   projectDescription: null,
   //   projectTags: null,
+  //   image: "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/n2zhusifwz47eufpilmq",
   //   video: null,
   // },
 ];
