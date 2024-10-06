@@ -102,7 +102,7 @@ export const projectsData = [
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia",
     video:
-      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/dmp4nnl23fl11yyvsqex",
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/g5fq9xr37useoe5wevax",
   },
   {
     title: "SCREENSYNCED",
@@ -129,7 +129,7 @@ export const projectsData = [
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
     video:
-      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/hbmhctwlxvieqacvw0r3",
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/amysfaqbrnes7oujei91",
   },
   {
     title: "JJK",
@@ -151,7 +151,7 @@ export const projectsData = [
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
     video:
-      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ndfytt6vbfiysnril4i4",
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/bnsh5ncerdjezhzsnu5j",
   },
   // Uncomment for Coming Soon Placeholder
   // {
