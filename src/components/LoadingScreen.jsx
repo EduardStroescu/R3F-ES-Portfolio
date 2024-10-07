@@ -45,14 +45,17 @@ export default function LoadingScreen({ suspenseLoading }) {
 
   const loadingTextAnimation1 = useSpring({
     from: { opacity: 0 },
-    to: { opacity: active || suspenseLoading ? 1 : 0 },
+    to: { opacity: !loaded || suspenseLoading ? 1 : 0 },
     config: { mass: 5, tension: 500, friction: 80 },
   });
 
   const loadingScreenFadeOut = useSpring({
     from: { opacity: 1 },
-    to: { opacity: loaded ? 0 : 1 },
+    to: {
+      opacity: loaded ? 0 : 1,
+    },
     config: { mass: 5, tension: 500, friction: 80 },
+    delay: 500,
     onRest: (e) => {
       if (e.finished) {
         setStarted(true);
@@ -60,39 +63,58 @@ export default function LoadingScreen({ suspenseLoading }) {
     },
   });
 
+  const { hueRotation } = useSpring({
+    from: { hueRotation: -50 },
+    to: { hueRotation: loaded ? 0 : -50 },
+    config: { mass: 5, tension: 500, friction: 80 },
+  });
+
   if (started) return null;
 
   return (
-    <a.div
-      style={loadingScreenFadeOut}
-      className="titleColor loadingScreen py-8 md:py-20"
-    >
-      <h1 className="text-[4rem] md:text-[5.5rem] lg:text-[6rem] flex flex-col whitespace-nowrap leading-none tracking-wider">
-        E/S <span>Portfolio</span>
-      </h1>
-      <div className="flex justify-center items-center">
-        <Spinner />
-        <div className="absolute loadingScreen__button flex justify-center items-center text-2xl md:text-3xl font-bold text-white">
-          <a.p style={loadingTextAnimation1}>Loading</a.p>
-        </div>
+    <a.div style={loadingScreenFadeOut} className="loadingScreen">
+      <Spinner hueRotation={hueRotation} />
+      <div className="absolute inset-0 flex flex-col gap-4 lg:gap-16 justify-center items-center">
+        <h1 className="titleColor font-extrabold uppercase text-[15vw] lg:text-[10vw] landscape:text-[13dvh] flex flex-col whitespace-nowrap leading-none tracking-wider">
+          E/S <span>Portfolio</span>
+        </h1>
+        <a.p
+          style={loadingTextAnimation1}
+          className="text-[6vw] md:text-[5vw] landscape:text-[3dvh] lg:text-4xl font-bold text-white"
+        >
+          Please wait
+        </a.p>
       </div>
     </a.div>
   );
 }
 
-function Spinner() {
+function Spinner({ hueRotation }) {
   return (
-    <div className="spinner-box">
+    <a.div
+      className="spinner-box spinner-box1"
+      style={{ backdropFilter: hueRotation.to((h) => `hue-rotate(${h}deg)`) }}
+    >
       <div className="configure-border configure-border-1">
         <div className="configure-border configure-border-2">
           <div className="configure-border configure-border-2">
             <div className="configure-border configure-border-1">
               <div className="spinner-box">
                 <div className="circle-border circle-border1">
-                  <div className="circle-core"></div>
+                  <a.div
+                    className="circle-core"
+                    style={{
+                      filter: hueRotation.to((h) => `hue-rotate(${h}deg)`),
+                    }}
+                  />
                   <div className="spinner-box">
                     <div className="circle-border circle-border1">
-                      <div className="circle-core" />
+                      <a.div
+                        className="circle-core"
+                        style={{
+                          filter: hueRotation.to((h) => `hue-rotate(${h}deg)`),
+                        }}
+                      />
                     </div>
                   </div>
                 </div>
@@ -108,12 +130,19 @@ function Spinner() {
         </div>
       </div>
       <div className="circle-border circle-border2">
-        <div className="circle-core"></div>
+        <a.div
+          className="circle-core"
+          style={{ filter: hueRotation.to((h) => `hue-rotate(${h}deg)`) }}
+        />
       </div>
-    </div>
+    </a.div>
   );
 }
 
 LoadingScreen.propTypes = {
   suspenseLoading: PropTypes.bool,
+};
+
+Spinner.propTypes = {
+  hueRotation: PropTypes.object,
 };
