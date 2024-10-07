@@ -149,8 +149,8 @@ body {
 }
 
 .configure-core {
-  width: 90%;
-  height: 90%;
+  width: 99%;
+  aspect-ratio: 1/1;
   background-color: #220140;
 }
 /* Stops Here */

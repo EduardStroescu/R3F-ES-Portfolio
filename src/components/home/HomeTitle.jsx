@@ -20,10 +20,10 @@ function HomeTitle() {
         anchorX="center"
         font={titleFont}
         characters="Web Developer"
-        position={[11, 6, 10]}
-        fontSize={viewport.width > 111 ? 3 : 2}
+        position={[11, viewport.width > 111 ? 6 : 5.6, 10]}
+        fontSize={viewport.width > 111 ? 3.2 : 1.95}
         fillOpacity={1.5}
-        curveRadius={9}
+        curveRadius={viewport.width > 111 ? 10 : 7}
         maxWidth={size.width}
       >
         <MeshWobbleMaterial map={texture2} emissive="#faf7fa" factor={0.2} />
@@ -36,10 +36,10 @@ function HomeTitle() {
         anchorX="center"
         font={titleFont}
         characters="Portfolio"
-        position={[11, 3, 11]}
-        fontSize={viewport.width > 111 ? 3 : 2.1}
+        position={[11, viewport.width > 111 ? 3 : 3.4, 11]}
+        fontSize={viewport.width > 111 ? 3.2 : 2.1}
         fillOpacity={1.5}
-        curveRadius={9}
+        curveRadius={viewport.width > 111 ? 10 : 7}
       >
         <MeshWobbleMaterial map={texture3} emissive="#faf7fa" factor={0.2} />
         PORTFOLIO

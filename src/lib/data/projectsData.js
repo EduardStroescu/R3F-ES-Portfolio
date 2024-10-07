@@ -40,13 +40,12 @@ export const projectsData = [
       "Zustand",
       "SocketIO",
       "Tailwind",
-      "Mutative",
       "Shadcn/UI",
       "TypeScript",
       "Simple-Peer",
+      "React-Hook-Form",
       "Tanstack-Query",
       "Tanstack-Router",
-      "React-Hook-Form",
       "Tanstack-Virtual",
     ],
     image:
@@ -61,19 +60,19 @@ export const projectsData = [
     titleColor: "#c7b344",
     sceneColor: [88, 30, 68],
     projectDescription:
-      "Cross-platform food ordering application for small businesses who want to be able to manage everything from a single endpoint. Includes user/admin accounts, dashboard for real-time order tracking and managing products, Stripe integrated purchases.",
+      "Cross-platform food ordering application for small businesses who want to be able to manage everything from a single endpoint. It includes user / admin accounts, dashboard for real-time order tracking and managing products, Stripe integrated purchases.",
     projectTags: [
       "Expo",
       "Stripe",
       "Tamagui",
       "Supabase",
+      "Lottie",
+      "Redux",
       "TypeScript",
-      "LottieFiles",
-      "React-Redux",
       "React-Native",
       "Tanstack-Query",
       "React-Hook-Form",
-      "React-Native-Reanimated",
+      "RN-Reanimated",
     ],
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9",
@@ -91,12 +90,12 @@ export const projectsData = [
       "Freelancing project consisting in a fully functional Headless Shopify E-Commerce Website that seamlessly merges 3D and HTML elements to deliver a memorable and interactive customer experience.",
     projectTags: [
       "Remix",
+      "Lenis",
       "Tailwind",
       "JavaScript",
       "Formik | Yup",
       "ThreeJS | R3F",
       "Shopify Hydrogen",
-      "Studio-Freight/Lenis",
       "Shopify StoreFront API",
     ],
     image:
@@ -112,9 +111,10 @@ export const projectsData = [
     titleColor: "#739ff5",
     sceneColor: [128, 105, 59],
     projectDescription:
-      "Full-Stack Content streaming platform powered by the TMDB API, built with React and tied to a NestJS REST API for authentication and bookmarking. It provides users with information about the latest releases of their favorite movies and TV shows or offers reccomandations regarding what to watch next.",
+      "Full-Stack media streaming platform powered by the TMDB API, built with React and tied to a NestJS REST API for authentication and bookmarking. It provides users with information on the latest releases of their favorite movies and TV shows or offers recommendations on what to watch next.",
     projectTags: [
       "React",
+      "Lenis",
       "NestJS",
       "Zustand",
       "Tailwind",
@@ -124,7 +124,6 @@ export const projectsData = [
       "Framer-Motion",
       "Tanstack-Query",
       "Tanstack-Router",
-      "Studio-Freight/Lenis",
     ],
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
@@ -146,7 +145,7 @@ export const projectsData = [
       "JavaScript",
       "Framer-Motion",
       "Tanstack-Router",
-      "Studio-Freight/Lenis",
+      "Lenis",
     ],
     image:
       "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",

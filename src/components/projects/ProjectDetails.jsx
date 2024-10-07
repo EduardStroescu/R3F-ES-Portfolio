@@ -92,8 +92,8 @@ export const ProjectDetails = memo(function ProjectDetails() {
               ))}
             </ul>
           </div>
-          <div className="w-full">
-            <p className="bg-teal-400/10 px-2 lg:px-4 py-2 lg:py-4 text-xs lg:text-sm 2xl:text-xl font-medium text-teal-300 text-center">
+          <div className="w-full hyphens-auto text-center break-words leading-tight">
+            <p className="bg-teal-400/10 px-2 lg:px-4 py-2 lg:py-4 text-xs lg:text-sm 2xl:text-xl text-teal-300">
               {activeProject?.projectDescription}
             </p>
           </div>

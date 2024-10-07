@@ -5,11 +5,14 @@ import {
   useAboutStoreActions,
 } from "../../lib/stores/useAboutStore";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
+import { useNavigate } from "react-router-dom";
 
 export default function AboutSection() {
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
-  const { playHoverSound, playMenuOpenCloseSound } = useSoundStoreActions();
+  const { playHoverSound, playMenuOpenCloseSound, playTransitionSound } =
+    useSoundStoreActions();
+  const navigate = useNavigate();
 
   const { clipPath } = useSpring({
     clipPath: visible
@@ -17,6 +20,13 @@ export default function AboutSection() {
       : "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 60%,100% 61%,100% 61%,0% 60%,0% 100%,100% 100%,100% 100%,0% 100%)",
     config: { mass: 2, tension: 500, friction: 60 },
   });
+
+  const handleNavigate = () => {
+    setVisible(false);
+    visible && playMenuOpenCloseSound();
+    playTransitionSound();
+    navigate("/contact");
+  };
 
   return (
     <Html
@@ -71,8 +81,15 @@ export default function AboutSection() {
             team, I invite you to explore my portfolio.
           </p>
           <p className="pb-4 px-[15px] text-center text-lg leading-tight">
-            Let&apos;s connect and craft digital experiences that make a lasting
-            impact!
+            Let&apos;s{" "}
+            <button
+              onClick={handleNavigate}
+              className="pointer-events-auto titleColor underline underline-offset-2 hover:italic"
+              onPointerEnter={playHoverSound}
+            >
+              connect
+            </button>{" "}
+            and craft digital experiences that make a lasting impact!
           </p>
         </div>
       </a.div>
