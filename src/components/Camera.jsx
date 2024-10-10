@@ -3,10 +3,12 @@ import { PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 import { easing } from "maath";
 import { useLocation } from "react-router-dom";
+import { useMousePosition } from "../lib/hooks/useMousePosition";
 
 export default function Camera(props) {
   const location = useLocation();
   const cameraRef = useRef();
+  const mousePosition = useMousePosition();
 
   const set = useThree((state) => state.set);
   useEffect(() => void set({ camera: cameraRef.current }));
@@ -18,14 +20,14 @@ export default function Camera(props) {
     if (location.pathname === "/") {
       easing.damp3(
         state.camera.position,
-        [6 + state.pointer.x, 5 + -state.pointer.y / 6, 2],
+        [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
         location.state.data === "/projects" ? 0.3 : 0.5,
         delta,
         location.state.data === "/projects" ? 150 : 60
       );
       easing.dampE(
         state.camera.rotation,
-        [state.pointer.y * 0.02, state.pointer.x * 0.08, 0],
+        [mousePosition.current.y * 0.02, mousePosition.current.x * 0.08, 0],
         0.5,
         delta
       );
@@ -35,7 +37,11 @@ export default function Camera(props) {
       if (state.clock.elapsedTime >= startTime + 0.6) {
         easing.damp3(
           state.camera.position,
-          [6 + state.pointer.x / 2, -10 + -state.pointer.y / 6, 2],
+          [
+            6 + mousePosition.current.x / 2,
+            -10 + -mousePosition.current.y / 6,
+            2,
+          ],
           0.5,
           delta,
           10
@@ -51,14 +57,14 @@ export default function Camera(props) {
       }
       easing.dampE(
         state.camera.rotation,
-        [state.pointer.y * 0.03, state.pointer.x * 0.03, 0],
+        [mousePosition.current.y * 0.03, mousePosition.current.x * 0.03, 0],
         0.35,
         delta
       );
     } else if (location.pathname === "/contact") {
       easing.damp3(
         state.camera.position,
-        [-23 + state.pointer.x / 4, 6, 31.5],
+        [-23 + mousePosition.current.x / 4, 6, 31.5],
         0.35,
         delta,
         location.state.data === "/projects" ? 50 : 40
@@ -66,9 +72,9 @@ export default function Camera(props) {
       easing.dampE(
         state.camera.rotation,
         [
-          state.pointer.y * 0.1,
-          -Math.PI / 4 + state.pointer.x * 0.05,
-          state.pointer.y * 0.07,
+          mousePosition.current.y * 0.05,
+          -Math.PI / 4 + mousePosition.current.x * 0.08,
+          mousePosition.current.y * 0.035,
         ],
         0.5,
         delta

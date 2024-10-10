@@ -24,6 +24,7 @@ function App() {
         <ScrollProvider>
           <Suspense fallback={<LoadingScreen suspenseLoading={true} />}>
             <Canvas
+              id="canvas"
               linear
               flat
               dpr={[1, 1]}
