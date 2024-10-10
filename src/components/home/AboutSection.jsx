@@ -31,7 +31,9 @@ export default function AboutSection() {
   return (
     <Html
       pointerEvents={"none"}
-      style={{ pointerEvents: "none" }}
+      style={{
+        pointerEvents: "none",
+      }}
       as="aboutSectionWrapper"
       fullscreen
       transform
@@ -57,30 +59,25 @@ export default function AboutSection() {
           &#10094; Close
         </button>
         <h1 className="titleColor font-bold text-4xl pb-4 mt-[-30px]">About</h1>
-        <div className="flex flex-col gap-1 md:gap-2 text-[1.03rem] leading-tight md:leading-normal hyphens-auto">
+        <div className="flex flex-col text-[1.03rem] leading-tight md:leading-normal hyphens-auto">
           <p className="px-[15px] text-justify indent-5">
-            I&apos;m Eduard, a Front-End developer specializing in web-based
-            technologies and frameworks. In my pursuit of excellence, I am
-            driven by a profound passion for both creativity and functionality.
-            I believe that design and user experience are two sides of the same
-            coin, and my goal is to seamlessly blend them to create interfaces
-            that leave a lasting impact on users.
+            I’m Eduard, a Full-Stack developer from Romania with a focus on
+            building dynamic and engaging web experiences. I love working at the
+            intersection of design and functionality, where I can create
+            seamless user interfaces that feel intuitive and look aesthetic.
           </p>
           <p className="px-[15px] text-justify indent-5">
-            My dedication to self-improvement serves as the backbone of my
-            career. Staying ahead in the fast-paced world of technology is my
-            aim, and I am relentless in my pursuit of mastering the latest
-            trends and techniques. This unyielding commitment ensures that my
-            skills are always finely honed, enabling me to deliver top-notch
-            results with every project.
+            I’m always researching and experimenting, aiming to keep up with the
+            latest in tech to make sure I’m staying sharp. This process is
+            important to me because it lets me bring fresh ideas and solid
+            results to every project I work on.
           </p>
           <p className="px-[15px] text-justify indent-5">
-            With a forward-thinking approach, I am ready to tackle new
-            challenges and create innovative solutions together. If you&apos;re
-            searching for a versatile and dedicated developer to strengthen your
-            team, I invite you to explore my portfolio.
+            I’m eager to take on new projects, solve problems, and work with
+            others to build something meaningful. If you’re looking for someone
+            who’s dedicated and adaptable, check out my work.
           </p>
-          <p className="pb-4 px-[15px] text-center text-lg leading-tight">
+          <p className="pb-4 px-[15px] text-center">
             Let&apos;s{" "}
             <button
               onClick={handleNavigate}
@@ -89,7 +86,7 @@ export default function AboutSection() {
             >
               connect
             </button>{" "}
-            and craft digital experiences that make a lasting impact!
+            and craft something that leaves a lasting impact!
           </p>
         </div>
       </a.div>

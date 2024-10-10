@@ -9,6 +9,7 @@ import {
 } from "../../lib/stores/useContactStore";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useThree } from "@react-three/fiber";
+import { HyperlinkIcon } from "../Icons";
 
 export default function ContactSection() {
   const { size } = useThree();
@@ -75,73 +76,88 @@ export default function ContactSection() {
   return (
     <Html
       pointerEvents={"none"}
-      style={{ pointerEvents: "none", transform: "scale(3)", zIndex: 40 }}
+      style={{
+        pointerEvents: "none",
+        transform: "scale(3.5)",
+        zIndex: 40,
+        fontFamily: "serif",
+      }}
       as="contactSectionWrapper"
-      wrapperClass="z-40 overflow-hidden font-[titleFont] w-2/4 h-2/4 text-white will-change-transform"
+      wrapperClass="z-40 overflow-hidden w-2/4 h-2/4 text-white"
       transform
       scale={0.5}
       position={[
-        viewport.width > 111 ? -7.3 : -8,
+        viewport.width > 111 ? -7.3 : -7,
         7,
-        viewport.width > 111 ? 46.8 : 47.5,
+        viewport.width > 111 ? 46.8 : 46.5,
       ]}
       rotation={[0, -Math.PI / 3.95, 0]}
     >
       <a.div
-        className="flex flex-col xl:gap-6 text-center xl:text-left xl:flex-row mt-10"
-        style={{ opacity: opacity.to((o) => 1 - o), transform }}
+        className="flex flex-col xl:gap-6 text-center xl:text-left xl:flex-row"
+        style={{
+          opacity: opacity.to((o) => 1 - o),
+          transform,
+        }}
       >
         <div className="flex flex-col mb-2">
           <h2 className="text-center xl:text-end text-[4rem] mb-[-15px] xl:mb-[-25px] italic font-bold">
             <span>Say hello</span>
           </h2>
-          <div className="flex flex-col justify-end text-end uppercase ">
-            <p className="self-center xl:self-end">I look forward </p>
-            <p className="self-center xl:self-end">to hearing from you</p>
-          </div>
+          <p className="flex flex-col justify-end text-end uppercase">
+            <span className="self-center xl:self-end">I look forward </span>
+            <span className="self-center xl:self-end mt-[-7px]">
+              to hearing from you
+            </span>
+          </p>
         </div>
-        <div className="flex flex-col justify-center ">
-          <div className="self-center">
-            <p className="text-[1.2rem]">Send me an E-mail at:</p>
-            <a
-              href="mailto:eduard.stroescu@gmail.com"
-              style={{ pointerEvents: flipped ? "none" : "auto" }}
-              onPointerEnter={playHoverSound}
-              className="text-[1.3rem] rounded-full px-2 py-1 bg-white text-black xl:bg-transparent xl:text-white"
-            >
-              eduard.stroescu@gmail.com
-            </a>
-            <p className="text-[1.2rem] px-2">or</p>
+        <div className="flex flex-col justify-center items-center xl:items-start gap-2">
+          <div className="flex gap-2 items-center xl:mt-6">
+            <p className="flex gap-0.5 bg-white border-[1px] rounded-full px-2 text-black pointer-events-auto cursor-default">
+              E-mail
+              <HyperlinkIcon className="rotate-90 w-[16px] h-[16px] self-center" />
+            </p>
             <button
+              className="hover:scale-105 bg-white xl:bg-transparent xl:text-white hover:bg-black xl:hover:bg-white border-white border-[1px] rounded-full px-2 text-black transition-all duration-500 ease-in-out hover:text-white xl:hover:text-black"
               onClick={() => {
                 setFlipped((prev) => !prev);
                 playMenuFlipSound();
               }}
-              style={{ pointerEvents: flipped ? "none" : "auto" }}
-              className="hover:scale-105 bg-white text-[1.3rem] rounded-full px-2 text-black"
               onPointerEnter={playHoverSound}
+              style={{ pointerEvents: flipped ? "none" : "auto" }}
             >
-              Send me a message here
+              Contact Form
             </button>
           </div>
+          <a
+            href={`mailto:${import.meta.env.VITE_OWNER_EMAIL}`}
+            style={{ pointerEvents: flipped ? "none" : "auto" }}
+            onPointerEnter={playHoverSound}
+            className="text-[1.3rem] rounded-full bg-black text-white xl:bg-transparent xl:text-white xl:underline underline-offset-1 decoration-[#f597e8] decoration-1 px-2 xl:px-0"
+          >
+            {import.meta.env.VITE_OWNER_EMAIL}
+          </a>
         </div>
       </a.div>
       <a.div
-        className="flex justify-center align-center"
+        className="flex justify-center"
         style={{
           opacity,
           transform,
           rotateX: "180deg",
         }}
       >
-        <div className="absolute top-[-310px] sm:top-[-260px] bottom-0 mx-auto w-full max-w-sm md:max-w-md lg:max-w-md xl:max-w-lg">
+        <div className="absolute top-[-250px] sm:top-[-240px] bottom-0 mx-auto w-full max-w-sm md:max-w-md lg:max-w-md xl:max-w-lg">
           <button
             onClick={() => {
               setFlipped(false);
               playMenuFlipSound();
               formik.resetForm();
             }}
-            style={{ pointerEvents: !flipped ? "none" : "auto" }}
+            style={{
+              pointerEvents: !flipped ? "none" : "auto",
+              fontFamily: "Dosis",
+            }}
             className="hover:text-[#f597e8] hover:italic hover:scale-110 mb-4"
             onPointerEnter={playHoverSound}
           >
@@ -206,7 +222,7 @@ export default function ContactSection() {
                   value={formik.values.message}
                   style={{ pointerEvents: !flipped ? "none" : "auto" }}
                   className="peer block w-full h-[100px] sm:h-auto appearance-none border-0 border-b border-white bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 resize-none overflow-y-auto caret-[#f597e8] selection:bg-pink-500"
-                ></textarea>
+                />
                 <label
                   htmlFor="message"
                   className="absolute top-3 -z-10 origin-[0] -translate-y-7 scale-75 transform text-sm text-white duration-300 peer-placeholder-shown:translate-y-0 peer-placeholder-shown:scale-100 peer-focus:left-0 peer-focus:-translate-y-7 peer-focus:scale-75 peer-focus:italic peer-focus:text-[#f597e8]"
@@ -225,7 +241,7 @@ export default function ContactSection() {
               value="Send"
               aria-label="Send Message"
               disabled={formik.isSubmitting}
-              className="mt-5 rounded-full border-[1px] border-white text-sm hover:scale-105 px-4 py-1"
+              className="mt-5 rounded-full border-[1px] border-white text-sm hover:scale-105 px-4 py-1 transition-all duration-500 ease-in-out"
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
               onPointerEnter={playHoverSound}
             >

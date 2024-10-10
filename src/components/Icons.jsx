@@ -118,13 +118,11 @@ export function ScrollIcon() {
   );
 }
 
-export function HyperlinkIcon() {
+export function HyperlinkIcon({ className }) {
   return (
     <svg
-      className="absolute right-1 top-0 h-full group-hover:animate-ping"
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
       viewBox="0 0 24 24"
     >
       <path d="M7 7h8.586L5.293 17.293l1.414 1.414L17 8.414V17h2V5H7v2z" />
@@ -132,10 +130,10 @@ export function HyperlinkIcon() {
   );
 }
 
-export function GithubIcon() {
+export function GithubIcon({ className }) {
   return (
     <svg
-      className="absolute right-1 top-0 h-full group-hover:animate-ping"
+      className={className}
       xmlns="http://www.w3.org/2000/svg"
       width="24"
       height="24"
@@ -149,6 +147,67 @@ export function GithubIcon() {
   );
 }
 
+export function LinkedInIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      fill="#000000"
+      height="24"
+      width="24"
+      version="1.1"
+      id="Layer_1"
+      xmlns="http://www.w3.org/2000/svg"
+      xmlnsXlink="http://www.w3.org/1999/xlink"
+      viewBox="-143 145 512 512"
+      xmlSpace="preserve"
+    >
+      <path
+        d="M113,145c-141.4,0-256,114.6-256,256s114.6,256,256,256s256-114.6,256-256S254.4,145,113,145z M41.4,508.1H-8.5V348.4h49.9
+   V508.1z M15.1,328.4h-0.4c-18.1,0-29.8-12.2-29.8-27.7c0-15.8,12.1-27.7,30.5-27.7c18.4,0,29.7,11.9,30.1,27.7
+   C45.6,316.1,33.9,328.4,15.1,328.4z M241,508.1h-56.6v-82.6c0-21.6-8.8-36.4-28.3-36.4c-14.9,0-23.2,10-27,19.6
+   c-1.4,3.4-1.2,8.2-1.2,13.1v86.3H71.8c0,0,0.7-146.4,0-159.7h56.1v25.1c3.3-11,21.2-26.6,49.8-26.6c35.5,0,63.3,23,63.3,72.4V508.1z
+   "
+      />
+    </svg>
+  );
+}
+
+export function EmailIcon({ className }) {
+  return (
+    <svg
+      className={className}
+      width="25"
+      height="25"
+      viewBox="2 2 20 20"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        fill="#000000"
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M22 12C22 17.5228 17.5228 22 12 22C6.47715 22 2 17.5228 2 12C2 6.47715 6.47715 2 12 2C17.5228 2 22 6.47715 22 12ZM7.005 9C7.005 8.45 7.45 8 8 8H16C16.55 8 17 8.45 17 9V15C17 15.55 16.55 16 16 16H8C7.45 16 7 15.55 7 15L7.005 9ZM12 12.5L8.00001 9.99997V15H16V9.99997L12 12.5ZM12 11.5L8.00001 9.00001H16L12 11.5Z"
+      />
+    </svg>
+  );
+}
+
 AudioIcon.propTypes = {
   audioEnabled: PropTypes.bool,
+};
+
+HyperlinkIcon.propTypes = {
+  className: PropTypes.string,
+};
+
+GithubIcon.propTypes = {
+  className: PropTypes.string,
+};
+
+EmailIcon.propTypes = {
+  className: PropTypes.string,
+};
+
+LinkedInIcon.propTypes = {
+  className: PropTypes.string,
 };

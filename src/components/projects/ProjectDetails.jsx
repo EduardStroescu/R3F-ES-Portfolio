@@ -22,7 +22,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
       }}
       as="projects-html"
       position={[11, 5, 0]}
-      wrapperClass="font-[titleFont] text-white pointer-events-none"
+      wrapperClass="text-white pointer-events-none"
     >
       <section className="absolute bottom-0 sm:bottom-10 lg:bottom-8 2xl:bottom-14 left-0 lg:text-xl w-full flex flex-col justify-center items-center sm:px-4 lg:px-6 2xl:px-40">
         <div className="absolute flex flex-row items-center bottom-0 sm:bottom-[-30px] lg:bottom-[-10px] 2xl:-bottom-6">
@@ -48,7 +48,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
               View Live
             </span>
             <span className="ml-2 pointer-events-none">
-              <HyperlinkIcon />
+              <HyperlinkIcon className="w-[24px] h-full absolute right-1 top-0 group-hover:animate-ping" />
             </span>
           </a>
           <a
@@ -69,7 +69,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
               View Code
             </span>
             <span className="ml-2 pointer-events-none">
-              <GithubIcon />
+              <GithubIcon className="absolute right-1 top-0 h-full group-hover:animate-ping" />
             </span>
           </a>
         </div>

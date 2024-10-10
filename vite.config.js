@@ -1,10 +1,12 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
 import filterReplace from "vite-plugin-filter-replace";
+import { threeMinifier } from "@yushijinhun/three-minifier-rollup";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    { ...threeMinifier(), enforce: "pre" },
     react(),
     filterReplace([
       {

@@ -13,8 +13,7 @@ export default function HomeScene() {
     }))
   );
 
-  const loadCondition =
-    started || location.pathname === "/" || location.pathname === "/contact";
+  const loadCondition = started || location.pathname !== "/projects";
 
   return (
     <>
@@ -43,6 +42,11 @@ export default function HomeScene() {
             shouldLoad={started || location.pathname === "/"}
             delay={location.pathname === "/" ? 0 : 500}
             loadComponent={() => import("./AboutSection")}
+          />
+          <ManualLazyComponent
+            shouldLoad={started || location.pathname === "/"}
+            delay={location.pathname === "/" ? 0 : 500}
+            loadComponent={() => import("./CallToAction")}
           />
           <ManualLazyComponent
             shouldLoad={started || location.pathname === "/contact"}

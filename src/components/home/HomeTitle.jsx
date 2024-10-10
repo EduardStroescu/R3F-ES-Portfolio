@@ -3,6 +3,10 @@ import { useThree } from "@react-three/fiber";
 import { TrailConfig } from "../../lib/data/trailConfig";
 import titleFont from "/fonts/Dosis-SemiBold.woff";
 import { useLocation } from "react-router-dom";
+import { useSpring } from "@react-spring/web";
+import { animated } from "@react-spring/three";
+const AnimatedMeshWobbleMaterial = animated(MeshWobbleMaterial);
+const AnimatedText = animated(Text);
 
 function HomeTitle() {
   const location = useLocation();
@@ -11,39 +15,55 @@ function HomeTitle() {
 
   const [texture2, onMove2] = useTrailTexture(TrailConfig.secondTrail);
   const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
+
+  const { opacity } = useSpring({
+    opacity: location.pathname === "/" ? 1 : 0,
+    config: { mass: 1, tension: 500, friction: 50 },
+  });
+
   return (
     <>
-      <Text
-        visible={location.pathname === "/"}
+      <AnimatedText
+        visible={opacity !== 0}
         onPointerMove={onMove2}
         anchorY="middle"
         anchorX="center"
         font={titleFont}
         characters="Web Developer"
-        position={[11, viewport.width > 111 ? 6 : 5.6, 10]}
-        fontSize={viewport.width > 111 ? 3.2 : 1.95}
+        position={[11, viewport.width > 111 ? 7 : 6.4, 9]}
+        fontSize={viewport.width > 111 ? 3.2 : 2.1}
         fillOpacity={1.5}
-        curveRadius={viewport.width > 111 ? 10 : 7}
+        curveRadius={viewport.width > 111 ? 9 : 7}
         maxWidth={size.width}
       >
-        <MeshWobbleMaterial map={texture2} emissive="#faf7fa" factor={0.2} />
-        WEB DEVELOPER
-      </Text>
-      <Text
-        visible={location.pathname === "/"}
+        <AnimatedMeshWobbleMaterial
+          opacity={opacity}
+          map={texture2}
+          emissive="#faf7fa"
+          factor={0.15}
+        />
+        FULL-STACK
+      </AnimatedText>
+      <AnimatedText
+        visible={opacity !== 0}
         onPointerMove={onMove3}
         anchorY="middle"
         anchorX="center"
         font={titleFont}
         characters="Portfolio"
-        position={[11, viewport.width > 111 ? 3 : 3.4, 11]}
-        fontSize={viewport.width > 111 ? 3.2 : 2.1}
+        position={[11, viewport.width > 111 ? 4 : 4, 10]}
+        fontSize={viewport.width > 111 ? 3.2 : 1.95}
         fillOpacity={1.5}
         curveRadius={viewport.width > 111 ? 10 : 7}
       >
-        <MeshWobbleMaterial map={texture3} emissive="#faf7fa" factor={0.2} />
-        PORTFOLIO
-      </Text>
+        <AnimatedMeshWobbleMaterial
+          opacity={opacity}
+          map={texture3}
+          emissive="#faf7fa"
+          factor={0.1}
+        />
+        WEB DEVELOPER
+      </AnimatedText>
     </>
   );
 }

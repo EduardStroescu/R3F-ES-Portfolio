@@ -11,9 +11,9 @@ export function ContactHtml() {
             <p>I look forward to hearing from you</p>
           </div>
 
-          <p>Send me an E-mail at:</p>
-          <a href="mailto:eduard.stroescu@gmail.com">
-            eduard.stroescu@gmail.com
+          <p>Email</p>
+          <a href={`mailto:${import.meta.env.VITE_OWNER_EMAIL}`}>
+            {import.meta.env.VITE_OWNER_EMAIL}
           </a>
         </div>
       </div>
