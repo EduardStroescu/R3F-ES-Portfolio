@@ -8,12 +8,11 @@ import {
   useContactStoreActions,
 } from "../../lib/stores/useContactStore";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
-import { useThree } from "@react-three/fiber";
 import { HyperlinkIcon } from "../Icons";
+import { useResizableHtml } from "../../lib/hooks/useResizableHtml";
 
 export default function ContactSection() {
-  const { size } = useThree();
-  const viewport = { width: size.width / 10 };
+  const { scale, viewport } = useResizableHtml();
 
   const flipped = useContactStore((state) => state.flipped);
   const { setFlipped, setMessageSent, setMessageReceived } =
@@ -78,30 +77,33 @@ export default function ContactSection() {
       pointerEvents={"none"}
       style={{
         pointerEvents: "none",
-        transform: "scale(3.5)",
+        transform: `scale(${
+          viewport.width / 10 > 111 ? scale * 1.8 : scale * 1.2
+        })`,
         zIndex: 40,
         fontFamily: "serif",
       }}
       as="contactSectionWrapper"
-      wrapperClass="z-40 overflow-hidden w-2/4 h-2/4 text-white"
+      wrapperClass="z-40 w-[100vw] text-white"
       transform
+      fullscreen
       scale={0.5}
       position={[
-        viewport.width > 111 ? -7.3 : -7,
-        7,
-        viewport.width > 111 ? 46.8 : 46.5,
+        viewport.width / 10 > 111 ? -7.3 : -7,
+        6,
+        viewport.width / 10 > 111 ? 46.5 : 46.5,
       ]}
       rotation={[0, -Math.PI / 3.95, 0]}
     >
       <a.div
-        className="flex flex-col xl:gap-6 text-center xl:text-left xl:flex-row"
+        className="flex w-[90vw] max-w-[520px] flex-col xl:gap-6 text-center xl:text-left xl:flex-row gap-2"
         style={{
           opacity: opacity.to((o) => 1 - o),
           transform,
         }}
       >
-        <div className="flex flex-col mb-2">
-          <h2 className="text-center xl:text-end text-[4rem] mb-[-15px] xl:mb-[-25px] italic font-bold">
+        <div className="w-full flex flex-col">
+          <h2 className="text-center xl:text-end text-[4rem] mb-[-15px] xl:mb-[-25px] italic font-bold mt-[-20px]">
             <span>Say hello</span>
           </h2>
           <p className="flex flex-col justify-end text-end uppercase">
@@ -111,8 +113,8 @@ export default function ContactSection() {
             </span>
           </p>
         </div>
-        <div className="flex flex-col justify-center items-center xl:items-start gap-2">
-          <div className="flex gap-2 items-center xl:mt-6">
+        <div className="w-full overflow-hidden flex flex-col justify-center items-center xl:items-start gap-2">
+          <div className="flex gap-2 items-center">
             <p className="flex gap-0.5 bg-white border-[1px] rounded-full px-2 text-black pointer-events-auto cursor-default">
               E-mail
               <HyperlinkIcon className="rotate-90 w-[16px] h-[16px] self-center" />
@@ -140,7 +142,7 @@ export default function ContactSection() {
         </div>
       </a.div>
       <a.div
-        className="flex justify-center"
+        className="w-[90vw] max-w-[520px] flex justify-center"
         style={{
           opacity,
           transform,

@@ -256,7 +256,7 @@ input:-webkit-autofill:active {
     #8200c9 100%
   ); /* Chrome10-25,Safari5.1-6 */
   background: linear-gradient(to bottom, #fc003f 0%, #8200c9 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3ff9e6', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
 }
 
 .tooltipWrapper .soundIconDisabled:hover,
@@ -264,10 +264,10 @@ input:-webkit-autofill:active {
 .tooltipWrapper .soundIconDisabled:hover .tooltip::before {
   color: #ffffff;
   font-weight: bold;
-  background: #11e8bb; /* Old browsers */
+  background: #3ff9e6; /* Old browsers */
   background: -moz-linear-gradient(
     top,
-    #11e8bb 0%,
+    #3ff9e6 0%,
     #8200c9 100%
   ); /* FF3.6-15 */
   background: -webkit-linear-gradient(
@@ -275,8 +275,8 @@ input:-webkit-autofill:active {
     #11e8bb 0%,
     #8200c9 100%
   ); /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(to bottom, #11e8bb 0%, #8200c9 100%);
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#11e8bb', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
+  background: linear-gradient(to bottom, #3ff9e6 0%, #8200c9 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3ff9e6', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
 }
 /* Stops Here */
 

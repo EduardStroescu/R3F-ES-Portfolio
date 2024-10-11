@@ -40,7 +40,7 @@ export default function CallToAction() {
       scale={0.5}
       position={[
         11,
-        viewport.width > 111 ? 1.5 : 1.8,
+        viewport.width > 111 ? 1.5 : 2,
         viewport.width > 111 ? 11 : 10,
       ]}
       wrapperClass={`text-white`}

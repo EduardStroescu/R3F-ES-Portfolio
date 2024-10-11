@@ -7,9 +7,7 @@ export function ContactHtml() {
           <h3>
             <span>Say hello</span>
           </h3>
-          <div>
-            <p>I look forward to hearing from you</p>
-          </div>
+          <p>I look forward to hearing from you</p>
 
           <p>Email</p>
           <a href={`mailto:${import.meta.env.VITE_OWNER_EMAIL}`}>

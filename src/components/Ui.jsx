@@ -28,10 +28,10 @@ export default function Ui() {
       <DesktopHeader />
       <MobileHeader />
       <aside className="flex justify-end items-end">
-        <Suspense>
+        <Suspense fallback={null}>
           <AudioButton />
         </Suspense>
-        <Suspense>
+        <Suspense fallback={null}>
           <NotificationSection />
         </Suspense>
       </aside>
@@ -283,7 +283,7 @@ function MobileHeader() {
               </li>
             ))}
           </ul>
-          <div className="absolute w-full gap-4 flex justify-between bottom-6 left-0 px-10 text-black text-xl">
+          <div className="absolute w-full gap-4 flex justify-around bottom-6 left-0 px-4 text-black text-xl">
             <a href={`mailto:${import.meta.env.VITE_OWNER_EMAIL}`}>
               {import.meta.env.VITE_OWNER_EMAIL}
             </a>

@@ -6,12 +6,10 @@ import {
 } from "../../lib/stores/useAboutStore";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useNavigate } from "react-router-dom";
-import { useThree } from "@react-three/fiber";
-import { useEffect, useState } from "react";
+import { useResizableHtml } from "../../lib/hooks/useResizableHtml";
 
 export default function AboutSection() {
-  const { size } = useThree();
-  const [scale, setScale] = useState(1);
+  const { scale } = useResizableHtml();
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
   const { playHoverSound, playMenuOpenCloseSound, playTransitionSound } =
@@ -31,15 +29,6 @@ export default function AboutSection() {
     playTransitionSound();
     navigate("/contact");
   };
-
-  useEffect(() => {
-    // Set scale based on height: larger height results in a smaller scale
-    const heightFactor = 1 / (size.height / 1500);
-
-    // Ensure the scale doesn't go below or above certain thresholds
-    const newScale = Math.max(1.8, Math.min(5, heightFactor));
-    setScale(newScale);
-  }, [size.height]);
 
   return (
     <Html
@@ -76,25 +65,41 @@ export default function AboutSection() {
           &#10094; Close
         </button>
         <h1 className="titleColor font-bold text-4xl pb-4 mt-[-30px]">About</h1>
-        <div className="flex flex-col text-[1.03rem] leading-tight md:leading-normal hyphens-auto">
-          <p className="px-[15px] text-justify indent-5">
-            I’m Eduard, a Full-Stack developer from Romania with a focus on
+        <div className="flex flex-col gap-0.5 text-[1.03rem] px-[15px] leading-5 md:leading-normal hyphens-auto indent-5">
+          <p>
+            I’m Eduard, a Full-Stack developer from Romania, with a focus on
             building dynamic and engaging web experiences. I love working at the
             intersection of design and functionality, where I can create
-            seamless user interfaces that feel intuitive and look aesthetic.
+            seamless user interfaces that feel intuitive and look aesthetic. A
+            big part of my process involves continuous research and
+            experimentation, which lets me bring fresh ideas and solid results
+            to every project I work on.
           </p>
-          <p className="px-[15px] text-justify indent-5">
-            I’m always researching and experimenting, aiming to keep up with the
-            latest in tech to make sure I’m staying sharp. This process is
-            important to me because it lets me bring fresh ideas and solid
-            results to every project I work on.
-          </p>
-          <p className="px-[15px] text-justify indent-5">
+          <p>My tech stack, just to name a few examples, includes:</p>
+          <ul className="list-disc px-[50px] text-xs">
+            <li>
+              <strong className="ml-[-15px]">Front-End:</strong> React, NextJS,
+              Expo
+            </li>
+            <li>
+              <strong className="ml-[-15px]">Back-End:</strong> NodeJS, NestJS,
+              Express
+            </li>
+            <li>
+              <strong className="ml-[-15px]">Databases:</strong> PostgreSQL,
+              MongoDB
+            </li>
+            <li>
+              <strong className="ml-[-15px]">Styling:</strong> TailwindCSS
+            </li>
+          </ul>
+          <p>
             I’m eager to take on new projects, solve problems, and work with
-            others to build something meaningful. If you’re looking for someone
-            who’s dedicated and adaptable, check out my work.
+            others to build something meaningful. If you appreciate my work and
+            are looking for someone who’s dedicated and adaptable, let us
+            discuss how we can work together.
           </p>
-          <p className="pb-4 px-[15px] text-center">
+          <p className="pb-4 text-center text-lg leading-5 indent-0">
             Let&apos;s{" "}
             <button
               onClick={handleNavigate}
@@ -103,7 +108,7 @@ export default function AboutSection() {
             >
               connect
             </button>{" "}
-            and craft something that leaves a lasting impact!
+            and create something that leaves a lasting impression!
           </p>
         </div>
       </a.div>
