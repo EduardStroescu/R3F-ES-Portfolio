@@ -6,8 +6,12 @@ import {
 } from "../../lib/stores/useAboutStore";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useNavigate } from "react-router-dom";
+import { useThree } from "@react-three/fiber";
+import { useEffect, useState } from "react";
 
 export default function AboutSection() {
+  const { size } = useThree();
+  const [scale, setScale] = useState(1);
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
   const { playHoverSound, playMenuOpenCloseSound, playTransitionSound } =
@@ -28,6 +32,15 @@ export default function AboutSection() {
     navigate("/contact");
   };
 
+  useEffect(() => {
+    // Set scale based on height: larger height results in a smaller scale
+    const heightFactor = 1 / (size.height / 1500);
+
+    // Ensure the scale doesn't go below or above certain thresholds
+    const newScale = Math.max(1.8, Math.min(5, heightFactor));
+    setScale(newScale);
+  }, [size.height]);
+
   return (
     <Html
       pointerEvents={"none"}
@@ -44,8 +57,12 @@ export default function AboutSection() {
       }`}
     >
       <a.div
-        style={{ clipPath, pointerEvents: "none", transform: "scale(2)" }}
-        className=" z-40 py-2 sm:mx-[150px] md:mx-[150px] lg:mx-[25%] 2xl:mx-[35%] flex flex-col justify-center items-center rounded-xl border border-[#10D9E182] bg-cyan-800/90 text-base"
+        style={{
+          clipPath,
+          pointerEvents: "none",
+          transform: `scale(${scale})`,
+        }}
+        className="z-40 py-2 w-[90vw] max-w-[600px] mx-auto flex flex-col justify-center items-center rounded-xl border border-[#10D9E182] bg-cyan-800/90 text-base"
       >
         <button
           style={{ pointerEvents: visible ? "auto" : "none" }}
