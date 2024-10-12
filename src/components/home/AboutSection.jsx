@@ -75,24 +75,35 @@ export default function AboutSection() {
             experimentation, which lets me bring fresh ideas and solid results
             to every project I work on.
           </p>
-          <p>My tech stack, just to name a few examples, includes:</p>
-          <ul className="list-disc px-[50px] text-xs">
-            <li>
-              <strong className="ml-[-15px]">Front-End:</strong> React, NextJS,
-              Expo
-            </li>
-            <li>
-              <strong className="ml-[-15px]">Back-End:</strong> NodeJS, NestJS,
-              Express
-            </li>
-            <li>
-              <strong className="ml-[-15px]">Databases:</strong> PostgreSQL,
-              MongoDB
-            </li>
-            <li>
-              <strong className="ml-[-15px]">Styling:</strong> TailwindCSS
-            </li>
-          </ul>
+          <div className="border-white border-[1px] flex items-center bg-black rounded overflow-clip w-fit self-center my-1 py-2">
+            <p
+              style={{
+                writingMode: "vertical-rl",
+                fontFamily: "serif",
+                rotate: "180deg",
+              }}
+              className="leading-0 indent-0 border-white py-2 border-l-[1px] w-fit bg-black"
+            >
+              Tech Stack
+            </p>
+            <ul className="text-xs indent-0 leading-normal px-4">
+              <li>
+                <strong>Front-End:</strong> React, NextJS, Expo, ThreeJS
+              </li>
+              <li>
+                <strong>Back-End:</strong> NodeJS, NestJS, Express
+              </li>
+              <li>
+                <strong>Databases:</strong> PostgreSQL, MongoDB
+              </li>
+              <li>
+                <strong>Styling:</strong> TailwindCSS
+              </li>
+              <li>
+                <strong>Other:</strong> Git, Docker, GH Actions
+              </li>
+            </ul>
+          </div>
           <p>
             I’m eager to take on new projects, solve problems, and work with
             others to build something meaningful. If you appreciate my work and
