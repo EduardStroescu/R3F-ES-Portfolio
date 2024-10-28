@@ -23,5 +23,8 @@ const HomeModel = memo(function HomeModel() {
 useGLTF.preload(
   "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
 );
+useTexture.preload(
+  "https://res.cloudinary.com/dgfe1xsgj/image/upload/c_scale,dpr_auto,fl_immutable_cache,h_2048,q_auto,w_2048/v1705318276/Portfolio/Model/lnac4hlhof7ttgmjuxyl"
+);
 
 export default HomeModel;

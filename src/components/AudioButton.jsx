@@ -7,7 +7,7 @@ import { AudioIcon } from "./Icons";
 import { useLocation } from "react-router-dom";
 
 function AudioButton() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const audioEnabled = useSoundStore((state) => state.audioEnabled);
   const { setAudioEnabled, playHoverSound } = useSoundStoreActions();
 
@@ -21,10 +21,10 @@ function AudioButton() {
 
   return (
     <aside
-      data-projectsactive={location.pathname === "/projects"}
+      data-projectsactive={pathname === "/projects"}
       className={`
-        ${location.pathname !== "/projects" ? "bottom-6" : "top-20"}
-        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8]`}
+        ${pathname !== "/projects" ? "bottom-6" : "top-20"}
+        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8] pointer-events-auto`}
     >
       <button
         onClick={switchAudio}

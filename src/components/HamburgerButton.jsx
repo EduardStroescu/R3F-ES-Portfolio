@@ -37,7 +37,7 @@ export function HamburgerButton({ menuOpen, setMenuOpen }) {
   return (
     <a.button
       onClick={handleClick}
-      className="absolute z-[50] right-4 rounded-full p-0.5"
+      className="absolute z-[50] right-4 rounded-full p-0.5 pointer-events-auto"
       style={{ backgroundColor }}
       aria-label="Toggle menu"
       title="Toggle menu"

@@ -10,23 +10,23 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
+    "@hookform/resolvers": "^3.9.0",
     "@react-spring/three": "^9.7.4",
     "@react-spring/web": "^9.7.4",
     "@react-three/drei": "^9.113.0",
     "@react-three/fiber": "^8.17.7",
     "@react-three/postprocessing": "^2.16.2",
     "@studio-freight/lenis": "^1.0.27",
-    "formik": "^2.4.6",
     "howler": "^2.2.4",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
+    "react-hook-form": "^7.53.1",
     "react-merge-refs": "^2.1.1",
     "react-router-dom": "^6.26.2",
     "three": "^0.168.0",
     "uuid": "^10.0.0",
-    "yup": "^1.4.0",
+    "zod": "^3.23.8",
     "zustand": "^4.5.5"
   },
   "devDependencies": {

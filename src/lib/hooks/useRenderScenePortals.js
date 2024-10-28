@@ -4,8 +4,10 @@ import { useMemo, useRef } from "react";
 import { Scene } from "three";
 import { useAppStoreActions } from "../stores/useAppStore";
 import { easings, useSpring } from "@react-spring/three";
+import { useLocation } from "react-router-dom";
 
-export default function useRenderScenePortals(location) {
+export default function useRenderScenePortals() {
+  const { pathname } = useLocation();
   const { setActiveScene } = useAppStoreActions();
 
   const noise = useTexture(
@@ -19,13 +21,13 @@ export default function useRenderScenePortals(location) {
   const renderTargetA = useFBO();
   const renderTargetB = useFBO();
   const renderTargetC = useFBO();
-  const progress = useRef(location.pathname !== "/projects" ? -2.0 : 2.0);
+  const progress = useRef(pathname !== "/projects" ? -2.0 : 2.0);
   const { gl } = useThree();
 
   // Animate the transition between home and projects scenes -2 to 2
   useSpring({
     from: { progress: progress.current },
-    to: { progress: location.pathname !== "/projects" ? -2.0 : 2.0 },
+    to: { progress: pathname !== "/projects" ? -2.0 : 2.0 },
     config: { duration: 1500, easing: easings.easeInOut, precision: 0.0001 },
     onChange: (e) => {
       progress.current = e.value.progress;

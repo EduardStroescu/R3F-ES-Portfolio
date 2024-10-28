@@ -19,7 +19,7 @@ export default function NotificationSection() {
     config: { mass: 10, tension: 500, friction: 100 },
   });
   return (
-    <section className="fixed bottom-0 right-0 p-4">
+    <section className="fixed bottom-0 right-0 p-4 pointer-events-auto">
       {notificationTransition(
         (styles, item) =>
           item && (

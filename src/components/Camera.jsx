@@ -6,7 +6,7 @@ import { useLocation } from "react-router-dom";
 import { useMousePosition } from "../lib/hooks/useMousePosition";
 
 export default function Camera(props) {
-  const location = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const cameraRef = useRef();
   const mousePosition = useMousePosition();
 
@@ -17,13 +17,13 @@ export default function Camera(props) {
   let startTime;
 
   useFrame((state, delta) => {
-    if (location.pathname === "/") {
+    if (pathname === "/") {
       easing.damp3(
         state.camera.position,
         [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
-        location.state.data === "/projects" ? 0.3 : 0.5,
+        locationState?.prevPathname === "/projects" ? 0.3 : 0.5,
         delta,
-        location.state.data === "/projects" ? 150 : 60
+        locationState?.prevPathname === "/projects" ? 150 : 60
       );
       easing.dampE(
         state.camera.rotation,
@@ -31,7 +31,7 @@ export default function Camera(props) {
         0.5,
         delta
       );
-    } else if (location.pathname === "/projects") {
+    } else if (pathname === "/projects") {
       if (startTime === undefined) startTime = state.clock.elapsedTime;
 
       if (state.clock.elapsedTime >= startTime + 0.6) {
@@ -49,10 +49,10 @@ export default function Camera(props) {
       } else {
         easing.damp3(
           state.camera.position,
-          [6, 0.3, location.state.data === "/contact" ? 10 : 2],
+          [6, 0.3, locationState?.prevPathname === "/contact" ? 10 : 2],
           0.55,
           delta,
-          location.state.data === "/contact" ? 30 : 10
+          locationState?.prevPathname === "/contact" ? 30 : 10
         );
       }
       easing.dampE(
@@ -61,13 +61,13 @@ export default function Camera(props) {
         0.35,
         delta
       );
-    } else if (location.pathname === "/contact") {
+    } else if (pathname === "/contact") {
       easing.damp3(
         state.camera.position,
         [-23 + mousePosition.current.x / 4, 6, 31.5],
         0.35,
         delta,
-        location.state.data === "/projects" ? 50 : 40
+        locationState?.prevPathname === "/projects" ? 50 : 40
       );
       easing.dampE(
         state.camera.rotation,
@@ -89,7 +89,7 @@ export default function Camera(props) {
         damping={true}
         name="Camera"
         position={[6, 5, 2]}
-        far={location.pathname !== "/projects" ? 90 : 60}
+        far={pathname !== "/projects" ? 90 : 60}
         near={0.01}
         fov={75}
         makeDefault

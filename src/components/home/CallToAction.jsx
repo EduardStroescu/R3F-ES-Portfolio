@@ -8,7 +8,7 @@ import { useContactStoreActions } from "../../lib/stores/useContactStore";
 import { useThree } from "@react-three/fiber";
 
 export default function CallToAction() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
   const visible = useAboutStore((state) => state.visible);
   const { size } = useThree();
@@ -20,14 +20,14 @@ export default function CallToAction() {
 
   const handleNavigate = (location) => {
     navigate(location);
-    location.pathname !== "/projects" && playUnderwaterTransitionSound();
+    pathname !== "/projects" && playUnderwaterTransitionSound();
   };
 
   const { opacity } = useSpring({
     from: { opacity: 0 },
-    to: { opacity: location.pathname !== "/" ? 0 : 1 },
+    to: { opacity: pathname !== "/" ? 0 : 1 },
     config: { mass: 5, tension: 500, friction: 80 },
-    delay: location.pathname === "/" ? 750 : 0,
+    delay: pathname === "/" ? 750 : 0,
   });
 
   return (

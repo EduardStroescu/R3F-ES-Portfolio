@@ -1,8 +1,5 @@
 import { a, useSpring } from "@react-spring/web";
 import { Html } from "@react-three/drei";
-import emailjs from "@emailjs/browser";
-import * as Yup from "yup";
-import { useFormik } from "formik";
 import {
   useContactStore,
   useContactStoreActions,
@@ -10,6 +7,9 @@ import {
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { HyperlinkIcon } from "../Icons";
 import { useResizableHtml } from "../../lib/hooks/useResizableHtml";
+import { contactSchema, emailjsConfig } from "../../lib/utils";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function ContactSection() {
   const { scale, viewport } = useResizableHtml();
@@ -25,52 +25,59 @@ export default function ContactSection() {
     config: { mass: 5, tension: 500, friction: 80 },
   });
 
-  const formik = useFormik({
-    initialValues: {
+  const {
+    handleSubmit,
+    register,
+    reset,
+    formState: { isSubmitting, errors },
+  } = useForm({
+    mode: "onChange",
+    resolver: zodResolver(contactSchema),
+    defaultValues: {
       user_name: "",
       user_email: "",
       message: "",
     },
-    validationSchema: Yup.object({
-      user_name: Yup.string().required("* Name field is required"),
-      user_email: Yup.string()
-        .email("Invalid email address")
-        .required("* Email field is required")
-        .matches(
-          /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-          "* Please enter a valid email address"
-        ),
-      message: Yup.string().required("* Message field is required"),
-    }),
-    onSubmit: (values, { setSubmitting, resetForm }) => {
-      try {
-        emailjs
-          .send(
-            import.meta.env.VITE_EMAILJS_SERVICE_ID,
-            import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
-            values,
-            import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-          )
-          .then(() => {
-            setSubmitting(false);
-            setMessageSent(true);
-            setMessageReceived(true);
-            setFlipped(false);
-            resetForm();
-            setTimeout(() => {
-              setMessageSent(false);
-            }, 5000);
-          });
-      } catch {
-        setSubmitting(false);
+  });
+
+  const onSubmit = async (formData) => {
+    try {
+      const payload = {
+        ...emailjsConfig,
+        template_params: {
+          user_name: formData.user_name,
+          user_email: formData.user_email,
+          message: formData.message,
+        },
+      };
+      const response = await fetch(
+        "https://api.emailjs.com/api/v1.0/email/send",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        }
+      );
+
+      if (response.ok) {
         setMessageSent(true);
-        setMessageReceived(false);
+        setMessageReceived(true);
+        setFlipped(false);
+        reset();
         setTimeout(() => {
           setMessageSent(false);
-        }, 5000); // Time to autodismiss notifications
+        }, 5000);
+      } else {
+        throw new Error("Failed to send message");
       }
-    },
-  });
+    } catch {
+      setMessageSent(true);
+      setMessageReceived(false);
+      setTimeout(() => {
+        setMessageSent(false);
+      }, 5000); // Time to autodismiss notifications
+    }
+  };
 
   return (
     <Html
@@ -154,7 +161,7 @@ export default function ContactSection() {
             onClick={() => {
               setFlipped(false);
               playMenuFlipSound();
-              formik.resetForm();
+              reset();
             }}
             style={{
               pointerEvents: !flipped ? "none" : "auto",
@@ -166,16 +173,14 @@ export default function ContactSection() {
             &#10094; Back
           </button>
           <h1 className="text-4xl font-medium">Contact me</h1>
-          <form onSubmit={formik.handleSubmit} className="mt-6 sm:mt-4">
+          <form onSubmit={handleSubmit(onSubmit)} className="mt-6 sm:mt-4">
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="relative z-5">
                 <input
+                  {...register("user_name")}
                   type="text"
-                  name="user_name"
                   id="user_name"
                   spellCheck="false"
-                  onChange={formik.handleChange}
-                  value={formik.values.user_name}
                   style={{ pointerEvents: !flipped ? "none" : "auto" }}
                   className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 caret-[#f597e8] selection:bg-pink-500"
                 />
@@ -185,20 +190,18 @@ export default function ContactSection() {
                 >
                   Your name
                 </label>
-                {formik.touched.user_name && formik.errors.user_name && (
+                {errors.user_name && (
                   <div className="bg-[#220140] rounded text-red-400 text-[0.6rem] text-center py-1 mt-2">
-                    {formik.errors.user_name}
+                    {errors.user_name.message}
                   </div>
                 )}
               </div>
               <div className="relative z-5">
                 <input
+                  {...register("user_email")}
                   type="email"
-                  name="user_email"
                   id="user_email"
                   spellCheck="false"
-                  onChange={formik.handleChange}
-                  value={formik.values.user_email}
                   style={{ pointerEvents: !flipped ? "none" : "auto" }}
                   className="peer block w-full appearance-none border-0 border-b border-gray-500 bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 caret-[#f597e8] selection:bg-pink-500"
                 />
@@ -208,20 +211,18 @@ export default function ContactSection() {
                 >
                   Your email
                 </label>
-                {formik.touched.user_email && formik.errors.user_email && (
+                {errors.user_email && (
                   <div className="bg-[#220140] rounded text-red-400 text-[0.6rem] text-center py-1 mt-2">
-                    {formik.errors.user_email}
+                    {errors.user_email.message}
                   </div>
                 )}
               </div>
               <div className="relative z-5 col-span-2">
                 <textarea
-                  name="message"
+                  {...register("message")}
                   id="message"
                   rows="5"
                   spellCheck="false"
-                  onChange={formik.handleChange}
-                  value={formik.values.message}
                   style={{ pointerEvents: !flipped ? "none" : "auto" }}
                   className="peer block w-full h-[100px] sm:h-auto appearance-none border-0 border-b border-white bg-transparent py-2.5 px-2 text-sm text-white focus:border-[#f597e8] focus:outline-none focus:ring-0 resize-none overflow-y-auto caret-[#f597e8] selection:bg-pink-500"
                 />
@@ -231,9 +232,9 @@ export default function ContactSection() {
                 >
                   Your message
                 </label>
-                {formik.touched.message && formik.errors.message && (
+                {errors.message && (
                   <div className="bg-[#220140] rounded w-1/2 text-red-400 text-[0.6rem] text-center py-1 mt-2">
-                    {formik.errors.message}
+                    {errors.message.message}
                   </div>
                 )}
               </div>
@@ -242,12 +243,12 @@ export default function ContactSection() {
               type="submit"
               value="Send"
               aria-label="Send Message"
-              disabled={formik.isSubmitting}
+              disabled={isSubmitting}
               className="mt-5 rounded-full border-[1px] border-white text-sm hover:scale-105 px-4 py-1 transition-all duration-500 ease-in-out"
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
               onPointerEnter={playHoverSound}
             >
-              {formik.isSubmitting ? "Sending..." : "Send Message"}
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         </div>

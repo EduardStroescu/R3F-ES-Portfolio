@@ -24,7 +24,7 @@ const navItems = [
 
 export default function Ui() {
   return (
-    <div className="relative w-full h-full z-50">
+    <div className="relative w-full h-full z-50 pointer-events-none">
       <DesktopHeader />
       <MobileHeader />
       <aside className="flex justify-end items-end">
@@ -40,7 +40,7 @@ export default function Ui() {
 }
 
 function DesktopHeader() {
-  const location = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const {
     playHoverSound,
     playTransitionSound,
@@ -57,12 +57,12 @@ function DesktopHeader() {
 
   const handleAboutClick = () => {
     setFlipped(false);
-    if (location.pathname === "/projects" || location.pathname === "/contact") {
+    if (pathname === "/projects" || pathname === "/contact") {
       setTimeout(() => {
         setVisible((prev) => !prev);
         playMenuOpenCloseSound();
       }, 800);
-      if (location.pathname === "/projects") {
+      if (pathname === "/projects") {
         playUnderwaterTransitionSound();
       }
     } else {
@@ -82,15 +82,15 @@ function DesktopHeader() {
         setFlipped(false);
         visible && playMenuOpenCloseSound();
         flipped && playMenuFlipSound();
-        location.pathname !== "/projects" && playUnderwaterTransitionSound();
+        pathname !== "/projects" && playUnderwaterTransitionSound();
         break;
       case "/contact":
         setVisible(false);
         setFlipped(false);
         visible && playMenuOpenCloseSound();
         flipped && playMenuFlipSound();
-        if (location.pathname === location.state.data) return;
-        location.pathname !== "/projects"
+        if (pathname === locationState?.prevPathname) return;
+        pathname !== "/projects"
           ? playTransitionSound()
           : playUnderwaterTransitionSound();
         break;
@@ -100,17 +100,17 @@ function DesktopHeader() {
   };
 
   return (
-    <nav className="hidden text-white text-xl w-full pt-6 px-4 sm:px-8 sm:flex flex-row justify-between items-center">
+    <nav className="hidden text-white text-xl w-full pt-6 px-4 sm:px-8 sm:flex flex-row justify-between items-center pointer-events-auto">
       <Link
         to="/"
-        state={{ data: location.pathname }}
+        state={{ prevPathname: pathname }}
         onClick={() => {
           setVisible(false);
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          location.pathname === "/contact" && playTransitionSound();
-          location.pathname === "/projects" && playUnderwaterTransitionSound();
+          pathname === "/contact" && playTransitionSound();
+          pathname === "/projects" && playUnderwaterTransitionSound();
         }}
         onPointerEnter={playHoverSound}
         className="text-4xl"
@@ -122,7 +122,7 @@ function DesktopHeader() {
           <NavLink
             key={navItem.title}
             to={navItem.path === "/about" ? "/" : navItem.path}
-            state={{ data: location.pathname }}
+            state={{ prevPathname: pathname }}
             className={({ isActive }) =>
               (isActive && navItem.path !== "/about") ||
               (visible && navItem.path === "/about")
@@ -158,7 +158,7 @@ function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
-  const location = useLocation();
+  const { pathname, state: locationState } = useLocation();
   const {
     playHoverSound,
     playTransitionSound,
@@ -175,12 +175,12 @@ function MobileHeader() {
 
   const handleAboutClick = () => {
     setFlipped(false);
-    if (location.pathname === "/projects" || location.pathname === "/contact") {
+    if (pathname === "/projects" || pathname === "/contact") {
       setTimeout(() => {
         setVisible((prev) => !prev);
         playMenuOpenCloseSound();
       }, 800);
-      if (location.pathname === "/projects") {
+      if (pathname === "/projects") {
         playUnderwaterTransitionSound();
       }
     } else {
@@ -195,7 +195,7 @@ function MobileHeader() {
     playMenuOpenCloseSound();
     setTimeout(() => {
       navigate(newLocation === "/about" ? "/" : newLocation, {
-        state: { data: location.pathname },
+        state: { prevPathname: pathname },
       });
       switch (newLocation) {
         case "/":
@@ -203,8 +203,8 @@ function MobileHeader() {
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          location.pathname === "/contact" && playTransitionSound();
-          location.pathname === "/projects" && playUnderwaterTransitionSound();
+          pathname === "/contact" && playTransitionSound();
+          pathname === "/projects" && playUnderwaterTransitionSound();
           break;
         case "/about":
           handleAboutClick();
@@ -214,15 +214,15 @@ function MobileHeader() {
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          location.pathname !== "/projects" && playUnderwaterTransitionSound();
+          pathname !== "/projects" && playUnderwaterTransitionSound();
           break;
         case "/contact":
           setVisible(false);
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          if (location.pathname === location.state.data) return;
-          location.pathname !== "/projects"
+          if (pathname === locationState?.prevPathname) return;
+          pathname !== "/projects"
             ? playTransitionSound()
             : playUnderwaterTransitionSound();
           break;
@@ -240,29 +240,29 @@ function MobileHeader() {
   return (
     <nav
       style={{ fontFamily: "serif" }}
-      className="sm:hidden relative text-white text-xl w-full py-4 flex flex-row justify-center items-center"
+      className="sm:hidden relative text-white text-xl w-full py-4 flex flex-row justify-center items-center pointer-events-none"
     >
       <Link
         to="/"
-        state={{ data: location.pathname }}
+        state={{ prevPathname: pathname }}
         onClick={() => {
           setMenuOpen(false);
           setVisible(false);
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          location.pathname === "/contact" && playTransitionSound();
-          location.pathname === "/projects" && playUnderwaterTransitionSound();
+          pathname === "/contact" && playTransitionSound();
+          pathname === "/projects" && playUnderwaterTransitionSound();
         }}
         onPointerEnter={playHoverSound}
-        className="text-2xl z-50"
+        className="text-2xl z-50 pointer-events-auto"
       >
         <span className="font-semibold">Eduard</span>Stroescu
       </Link>
       <HamburgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <a.aside
         style={{ clipPath }}
-        className="absolute inset-0 z-[49] bg-[#f1edeb] w-full h-[100dvh]"
+        className="absolute inset-0 z-[49] bg-[#f1edeb] w-full h-[100dvh] pointer-events-auto"
       >
         <div className="relative w-full h-full flex flex-col justify-center">
           <ul className="flex flex-col gap-6 w-full justify-center items-center text-[#212121] text-6xl tracking-widest">
@@ -272,7 +272,7 @@ function MobileHeader() {
                   onClick={() => handleLinkClick(navItem.path)}
                   onPointerEnter={playHoverSound}
                   className={`${
-                    (!visible && location.pathname === navItem.path) ||
+                    (!visible && pathname === navItem.path) ||
                     (visible && navItem.path === "/about")
                       ? "italic underline"
                       : ""

@@ -5,7 +5,7 @@ import { setupAmbientSoundListener } from "../helpers/setupAmbientSoundListener"
 import { useWindowVisibility } from "./useWindowVisibility";
 
 export function useDirectionalSound() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const { modifySoundSetting, playAmbientSound, pauseAmbientSound } =
     useSoundStoreActions();
   const isWindowActive = useWindowVisibility();
@@ -28,7 +28,7 @@ export function useDirectionalSound() {
   }, []);
 
   useEffect(() => {
-    if (location.pathname === "/projects") {
+    if (pathname === "/projects") {
       modifySoundSetting({
         soundInstanceName: "ambientSound",
         settingType: "pos",
@@ -51,5 +51,5 @@ export function useDirectionalSound() {
         settingValue: [0, 0, 0],
       });
     }
-  }, [location.pathname, modifySoundSetting]);
+  }, [pathname, modifySoundSetting]);
 }

@@ -11,10 +11,10 @@ import { ScrollProvider } from "./lib/providers/ScrollProvider";
 function App() {
   const location = useLocation();
 
-  // Update location.state.data to maintain route history
+  // Update location.state.prevPathname to maintain route history
   useEffect(() => {
     if (!location.state) {
-      location.state = { data: location.pathname };
+      location.state = { prevPathname: location.pathname };
     }
   }, [location, location.state]);
 

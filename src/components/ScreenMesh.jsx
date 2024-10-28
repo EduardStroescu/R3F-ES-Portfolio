@@ -4,8 +4,10 @@ import FullscreenTriangle from "../lib/helpers/FullScreenTriangle.js";
 import vertexShader from "../lib/shaders/transitionShader/vertexShader.jsx";
 import fragmentShader from "../lib/shaders/transitionShader/fragmentShader.jsx";
 import { v4 as uuidv4 } from "uuid";
+import { useLocation } from "react-router-dom";
 
 const ScreenMesh = forwardRef(function ScreenMesh(_, ref) {
+  const { pathname } = useLocation();
   return (
     <mesh ref={ref} geometry={FullscreenTriangle()} frustumCulled={false}>
       <shaderMaterial
@@ -24,7 +26,7 @@ const ScreenMesh = forwardRef(function ScreenMesh(_, ref) {
             value: 0.0,
           },
           uProgress: {
-            value: location.pathname !== "/projects" ? -2.0 : 2.0,
+            value: pathname !== "/projects" ? -2.0 : 2.0,
           },
         }}
         vertexShader={vertexShader}

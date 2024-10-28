@@ -9,7 +9,7 @@ const AnimatedMeshWobbleMaterial = animated(MeshWobbleMaterial);
 const AnimatedText = animated(Text);
 
 function HomeTitle() {
-  const location = useLocation();
+  const { pathname } = useLocation();
   const { size } = useThree();
   const viewport = { width: size.width / 10, height: size.height };
 
@@ -17,7 +17,7 @@ function HomeTitle() {
   const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
 
   const { opacity } = useSpring({
-    opacity: location.pathname === "/" ? 1 : 0,
+    opacity: pathname === "/" ? 1 : 0,
     config: { mass: 1, tension: 500, friction: 50 },
   });
 

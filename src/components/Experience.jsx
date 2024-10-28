@@ -3,16 +3,14 @@ import { createPortal } from "@react-three/fiber";
 
 import Postprocessing2 from "./projects/Postprocessing2";
 import ScreenMesh from "./ScreenMesh";
-import { useLocation } from "react-router-dom";
 import ProjectsScene from "./projects/ProjectsScene";
 import useRenderScenePortals from "../lib/hooks/useRenderScenePortals";
 import HomeScene from "./home/HomeScene";
 import { useDirectionalSound } from "../lib/hooks/useDirectionalSound";
 
 export default function Experience() {
-  const location = useLocation();
   const { screenMesh, renderTargetC, textRef, homeScene, projectsScene } =
-    useRenderScenePortals(location);
+    useRenderScenePortals();
   useDirectionalSound();
 
   return (
