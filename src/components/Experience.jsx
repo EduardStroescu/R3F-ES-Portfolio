@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { createPortal } from "@react-three/fiber";
 
-import Postprocessing2 from "./projects/Postprocessing2";
+import Postprocessing from "./Postprocessing";
 import ScreenMesh from "./ScreenMesh";
 import ProjectsScene from "./projects/ProjectsScene";
 import useRenderScenePortals from "../lib/hooks/useRenderScenePortals";
@@ -20,7 +20,7 @@ export default function Experience() {
         <ProjectsScene renderTargetC={renderTargetC} ref={textRef} />,
         projectsScene
       )}
-      <Postprocessing2 homeScene={homeScene} projectsScene={projectsScene} />
+      <Postprocessing homeScene={homeScene} projectsScene={projectsScene} />
       <ScreenMesh ref={screenMesh} />
       {/* Only enable in development */}
       {/* <Stats /> */}

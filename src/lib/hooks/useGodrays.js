@@ -6,11 +6,9 @@ import { GodRaysEffect, BlendFunction, KernelSize } from "postprocessing";
 export function useGodrays() {
   const sun = useAppStore((state) => state.sun);
   const { camera } = useThree();
-  const { size } = useThree();
-  const viewportSize = { width: size.width / 10 };
 
   const godRaysEffect = useMemo(() => {
-    if (!sun || !camera || viewportSize.width < 76) return null;
+    if (!sun || !camera) return null;
     return new GodRaysEffect(camera, sun, {
       blendFunction: BlendFunction.SCREEN,
       samples: 10,
@@ -22,7 +20,7 @@ export function useGodrays() {
       kernelSize: KernelSize.SMALL,
       blur: true,
     });
-  }, [camera, sun, viewportSize.width]);
+  }, [camera, sun]);
 
   return godRaysEffect;
 }

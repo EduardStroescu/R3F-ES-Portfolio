@@ -1,7 +1,7 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer } from "@react-three/postprocessing";
 import { Suspense, useEffect, useMemo, useState } from "react";
-import { useAppStore } from "../../lib/stores/useAppStore";
+import { useAppStore } from "../lib/stores/useAppStore";
 import {
   EffectPass,
   VignetteEffect,
@@ -10,8 +10,8 @@ import {
   SMAAEffect,
   NoiseEffect,
 } from "postprocessing";
-import { useLensFlare } from "../../lib/hooks/useLensFlare";
-import { useGodrays } from "../../lib/hooks/useGodrays";
+import { useLensFlare } from "../lib/hooks/useLensFlare";
+import { useGodrays } from "../lib/hooks/useGodrays";
 import PropTypes from "prop-types";
 import { Scene } from "three";
 
@@ -20,12 +20,6 @@ export default function Postprocessing({ homeScene, projectsScene }) {
   const { size, camera, scene } = useThree();
   const viewport = { width: size.width / 10 };
   const [composer, setComposer] = useState(null);
-
-  useFrame((state) => {
-    state.gl.autoClear = false;
-    state.gl.clear();
-    state.gl.autoClear = true;
-  });
 
   const godRaysEffect = useGodrays();
   const lensFlareEffect = useLensFlare();
@@ -69,12 +63,12 @@ export default function Postprocessing({ homeScene, projectsScene }) {
   useEffect(() => {
     if (!composer) return;
     let timer = setTimeout(() => {
-      if (composer && homePass && activeScene !== "projects") {
+      if (homePass && activeScene !== "projects") {
         if (composer.passes.length > 1) {
           composer.removePass(composer.passes[1]);
         }
         composer.addPass(homePass);
-      } else if (composer && projectsPass && activeScene !== "home") {
+      } else if (projectsPass && activeScene !== "home") {
         if (composer.passes.length > 1) {
           composer.removePass(composer.passes[1]);
         }
@@ -85,8 +79,12 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     return () => clearTimeout(timer);
   }, [composer, homeScene, homePass, projectsPass, projectsScene, activeScene]);
 
-  useFrame(() => {
+  useFrame((state) => {
     if (!composer) return;
+    state.gl.autoClear = false;
+    state.gl.clear();
+    state.gl.autoClear = true;
+
     if (activeScene === "home") {
       if (composer.scene !== homeScene) {
         composer.setMainScene(homeScene);
@@ -102,7 +100,7 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     }
   });
 
-  if (viewport.width < 76) return;
+  if (viewport.width < 76) return null;
   return (
     <Suspense fallback={null}>
       <EffectComposer

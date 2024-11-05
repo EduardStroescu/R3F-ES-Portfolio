@@ -1,22 +1,18 @@
-import { Suspense, useEffect } from "react";
+import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 
 import LoadingScreen from "./components/LoadingScreen";
 import Experience from "./components/Experience";
 import Camera from "./components/Camera";
 import Ui from "./components/Ui";
-import { Outlet, useLocation } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { ScrollProvider } from "./lib/providers/ScrollProvider";
+import { useRemoveTrailingSlash } from "./lib/hooks/useRemoveTrailingSlash";
+import { useUpdateRouterStatePrevLocation } from "./lib/hooks/useUpdateRouterStatePrevLocation";
 
 function App() {
-  const location = useLocation();
-
-  // Update location.state.prevPathname to maintain route history
-  useEffect(() => {
-    if (!location.state) {
-      location.state = { prevPathname: location.pathname };
-    }
-  }, [location, location.state]);
+  useRemoveTrailingSlash();
+  useUpdateRouterStatePrevLocation();
 
   return (
     <>

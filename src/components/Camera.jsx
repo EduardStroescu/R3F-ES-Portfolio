@@ -79,6 +79,20 @@ export default function Camera(props) {
         0.5,
         delta
       );
+    } else {
+      easing.damp3(
+        state.camera.position,
+        [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
+        locationState?.prevPathname === "/projects" ? 0.3 : 0.5,
+        delta,
+        locationState?.prevPathname === "/projects" ? 150 : 60
+      );
+      easing.dampE(
+        state.camera.rotation,
+        [mousePosition.current.y * 0.02, mousePosition.current.x * 0.08, 0],
+        0.5,
+        delta
+      );
     }
   });
 

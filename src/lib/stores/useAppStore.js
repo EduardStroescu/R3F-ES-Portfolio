@@ -4,7 +4,9 @@ import { projectsData } from "../data/projectsData";
 export const useAppStore = create((set, get) => ({
   sun: null,
   started: false,
-  activeScene: location.pathname !== "/projects" ? "home" : "projects",
+  activeScene: !["/projects", "/projects/"].includes(location.pathname)
+    ? "home"
+    : "projects",
   activeProject: projectsData[0],
   actions: {
     setStarted: (newValue) =>

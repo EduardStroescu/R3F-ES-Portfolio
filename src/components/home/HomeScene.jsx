@@ -4,6 +4,7 @@ import { useAppStore } from "../../lib/stores/useAppStore";
 import { ManualLazyComponent } from "../LazyComponent";
 import { useShallow } from "zustand/react/shallow";
 import { useLocation } from "react-router-dom";
+import Sun from "./Sun";
 
 export default function HomeScene() {
   const { pathname } = useLocation();
@@ -24,15 +25,11 @@ export default function HomeScene() {
         delay={pathname !== "/projects" ? 0 : 500}
         loadComponent={() => import("./HomeModel")}
       />
+      <Sun />
       <ManualLazyComponent
         shouldLoad={loadCondition}
         delay={pathname !== "/projects" ? 0 : 500}
         loadComponent={() => import("./WaterComponent")}
-      />
-      <ManualLazyComponent
-        shouldLoad={started || pathname === "/"}
-        delay={pathname !== "/projects" ? 0 : 500}
-        loadComponent={() => import("./Sun")}
       />
       <ManualLazyComponent
         shouldLoad={started || pathname === "/"}
