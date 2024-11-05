@@ -17,7 +17,6 @@ import { Scene } from "three";
 
 export default function Postprocessing({ homeScene, projectsScene }) {
   const activeScene = useAppStore((state) => state.activeScene);
-
   const { size, camera, scene } = useThree();
   const viewport = { width: size.width / 10 };
   const [composer, setComposer] = useState(null);
@@ -69,17 +68,21 @@ export default function Postprocessing({ homeScene, projectsScene }) {
 
   useEffect(() => {
     if (!composer) return;
-    if (homePass && activeScene !== "projects") {
-      if (composer.passes.length > 1) {
-        composer.removePass(composer.passes[1]);
+    let timer = setTimeout(() => {
+      if (composer && homePass && activeScene !== "projects") {
+        if (composer.passes.length > 1) {
+          composer.removePass(composer.passes[1]);
+        }
+        composer.addPass(homePass);
+      } else if (composer && projectsPass && activeScene !== "home") {
+        if (composer.passes.length > 1) {
+          composer.removePass(composer.passes[1]);
+        }
+        composer.addPass(projectsPass);
       }
-      composer.addPass(homePass);
-    } else if (projectsPass && activeScene !== "home") {
-      if (composer.passes.length > 1) {
-        composer.removePass(composer.passes[1]);
-      }
-      composer.addPass(projectsPass);
-    }
+    }, 0);
+
+    return () => clearTimeout(timer);
   }, [composer, homeScene, homePass, projectsPass, projectsScene, activeScene]);
 
   useFrame(() => {
