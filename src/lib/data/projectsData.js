@@ -1,7 +1,7 @@
 export const projectsData = [
   {
     title: "QUILLSCRIBE",
-    liveLink: "https://quillscribe-eduard-stroescu.koyeb.app/",
+    liveLink: "https://quillscribe.vercel.app/",
     codeLink: "https://github.com/EduardStroescu/QuillScribe/tree/main",
     titleColor: "#9544c7",
     sceneColor: [42, 108, 101],
