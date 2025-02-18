@@ -8,9 +8,7 @@ import { Color } from "three";
 import { useAppStore } from "../stores/useAppStore";
 
 export function useLensFlare() {
-  const lensDirtTexture = useTexture(
-    "https://i.ibb.co/c3x4dBy/lens-Dirt-Texture.jpg"
-  );
+  const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture.jpg");
 
   const { viewport, size, raycaster } = useThree();
   const viewportSize = { width: size.width / 10 };

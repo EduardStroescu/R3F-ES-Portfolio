@@ -41,6 +41,7 @@ export default function Ui() {
 
 function DesktopHeader() {
   const { pathname, state: locationState } = useLocation();
+  const navigate = useNavigate();
   const {
     playHoverSound,
     playTransitionSound,
@@ -56,6 +57,9 @@ function DesktopHeader() {
   const { setVisible } = useAboutStoreActions();
 
   const handleAboutClick = () => {
+    navigate("/", {
+      state: { prevPathname: pathname },
+    });
     setFlipped(false);
     if (pathname === "/projects" || pathname === "/contact") {
       setTimeout(() => {
@@ -118,24 +122,38 @@ function DesktopHeader() {
         <span className="font-semibold">Eduard</span>Stroescu
       </Link>
       <div className="w-full flex justify-end items-center overflow-hidden font-bold">
-        {navItems.slice(1).map((navItem) => (
-          <NavLink
-            key={navItem.title}
-            to={navItem.path === "/about" ? "/" : navItem.path}
-            state={{ prevPathname: pathname }}
-            className={({ isActive }) =>
-              (isActive && navItem.path !== "/about") ||
-              (visible && navItem.path === "/about")
-                ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
-                : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
-            }
-            onClick={() => handleLinkClick(navItem.path)}
-            onPointerEnter={playHoverSound}
-          >
-            {navItem.title}
-            <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
-          </NavLink>
-        ))}
+        {navItems.slice(1).map((navItem) =>
+          navItem.path !== "/about" ? (
+            <NavLink
+              key={navItem.title}
+              to={navItem.path}
+              state={{ prevPathname: pathname }}
+              className={({ isActive }) =>
+                isActive
+                  ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
+                  : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
+              }
+              onClick={() => handleLinkClick(navItem.path)}
+              onPointerEnter={playHoverSound}
+            >
+              {navItem.title}
+              <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
+            </NavLink>
+          ) : (
+            <button
+              key={navItem.title}
+              className={
+                visible && navItem.path === "/about"
+                  ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
+                  : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
+              }
+              onClick={() => handleLinkClick(navItem.path)}
+              onPointerEnter={playHoverSound}
+            >
+              {navItem.title}
+            </button>
+          )
+        )}
         <button
           onClick={() =>
             window.open(

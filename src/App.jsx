@@ -16,6 +16,8 @@ function App() {
 
   return (
     <>
+      <Ui />
+      <LoadingScreen />
       <main id="canvas">
         <ScrollProvider>
           <Suspense fallback={<LoadingScreen suspenseLoading={true} />}>
@@ -41,8 +43,6 @@ function App() {
           <Outlet />
         </div>
       </main>
-      <Ui />
-      <LoadingScreen />
     </>
   );
 }
