@@ -24,7 +24,7 @@ const navItems = [
 
 export default function Ui() {
   return (
-    <div className="relative w-full h-full z-50 pointer-events-none">
+    <div className="fixed w-full h-full z-50 pointer-events-none">
       <DesktopHeader />
       <MobileHeader />
       <aside className="flex justify-end items-end">
@@ -273,7 +273,7 @@ function MobileHeader() {
           pathname === "/projects" && playUnderwaterTransitionSound();
         }}
         onPointerEnter={playHoverSound}
-        className="text-2xl z-50 pointer-events-auto"
+        className="text-2xl z-[60] pointer-events-auto"
       >
         <span className="font-semibold">Eduard</span>Stroescu
       </Link>
@@ -294,7 +294,7 @@ function MobileHeader() {
                     (visible && navItem.path === "/about")
                       ? "italic underline"
                       : ""
-                  } underline-offset-4 decoration-4`}
+                  } underline-offset-4 decoration-4 hover:italic hover:underline`}
                 >
                   {navItem.title}
                 </button>
