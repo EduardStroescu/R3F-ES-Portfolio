@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 
 export function HomeHtml() {
   return (
@@ -6,7 +6,7 @@ export function HomeHtml() {
       <Helmet>
         <link rel="canonical" href="https://eduardstroescu.com/" />
       </Helmet>
-      <section className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden select-none gap-2 p-10 text-[#220140]">
+      <article className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden select-none gap-2 p-10 text-[#220140]">
         <div className="w-1/2 flex flex-col items-center justify-center">
           <h2 className="text-xl">About</h2>
           <p>
@@ -44,7 +44,7 @@ export function HomeHtml() {
             impression!
           </p>
         </div>
-      </section>
+      </article>
     </>
   );
 }

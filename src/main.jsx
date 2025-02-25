@@ -6,6 +6,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml";
 import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml";
 import { ContactHtml } from "./components/SeoRelatedHtml/ContactHtml";
+import { HelmetProvider } from "react-helmet-async";
 
 const NotFound = lazy(() => import("./components/NotFound"));
 const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));
@@ -34,6 +35,8 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <RouterProvider router={router} />
+    <HelmetProvider>
+      <RouterProvider router={router} />
+    </HelmetProvider>
   </React.StrictMode>
 );

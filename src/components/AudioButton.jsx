@@ -1,3 +1,4 @@
+import { useShallow } from "zustand/react/shallow";
 import {
   useSoundStore,
   useSoundStoreActions,
@@ -8,38 +9,45 @@ import { useLocation } from "react-router-dom";
 
 function AudioButton() {
   const { pathname } = useLocation();
-  const audioEnabled = useSoundStore((state) => state.audioEnabled);
+  const { audioEnabled, isLoadingSounds } = useSoundStore(
+    useShallow((state) => ({
+      audioEnabled: state.audioEnabled,
+      isLoadingSounds: state.isLoadingSounds,
+    }))
+  );
+
   const { setAudioEnabled, playHoverSound } = useSoundStoreActions();
 
-  const switchAudio = () => {
-    if (audioEnabled) {
-      setAudioEnabled(false);
-    } else {
-      setAudioEnabled(true);
-    }
-  };
+  const switchAudio = () => setAudioEnabled(!audioEnabled);
+
+  const tooltipText = audioEnabled
+    ? "Toggle all sounds Off"
+    : "Toggle all sounds On";
+  const tooltipClass = audioEnabled ? "audioOn" : "audioOff";
+  const soundIconClass = audioEnabled
+    ? "soundIconEnabled"
+    : "soundIconDisabled";
 
   return (
     <aside
       data-projectsactive={pathname === "/projects"}
       className={`
-        ${pathname !== "/projects" ? "bottom-6" : "top-20"}
-        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8] pointer-events-auto`}
+        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8] pointer-events-auto
+        ${pathname === "/projects" ? "top-20" : "bottom-6"}
+      `}
     >
       <button
         onClick={switchAudio}
         onPointerEnter={playHoverSound}
-        className={`icon ${
-          audioEnabled ? "soundIconEnabled" : "soundIconDisabled"
-        }`}
+        className={`icon ${soundIconClass}`}
       >
-        {audioEnabled ? (
-          <span className="tooltip audioOn">Toggle all sounds Off</span>
-        ) : (
-          <span className="tooltip audioOff">Toggle all sounds On</span>
-        )}
+        <span className={`tooltip ${tooltipClass}`}>{tooltipText}</span>
         <span>
-          <AudioIcon audioEnabled={audioEnabled} />
+          <AudioIcon
+            className={`${audioEnabled ? "fill-[#3ff9e6]" : "fill-[#fc003f]"} ${
+              isLoadingSounds ? "animate-pulse" : "animate-none"
+            }`}
+          />
         </span>
       </button>
     </aside>

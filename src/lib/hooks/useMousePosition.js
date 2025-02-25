@@ -20,8 +20,8 @@ export function useMousePosition() {
     const canvas = document.getElementById("canvas");
 
     if (canvas) {
-      canvas.addEventListener("mousemove", handleMouseMove);
-      canvas.addEventListener("touchmove", handleTouchMove);
+      canvas.addEventListener("mousemove", handleMouseMove, { passive: true });
+      canvas.addEventListener("touchmove", handleTouchMove, { passive: true });
     }
 
     return () => {

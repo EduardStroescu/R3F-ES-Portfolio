@@ -3,18 +3,34 @@ import { Howl, Howler } from "howler";
 
 Howler.autoUnlock = false;
 
+const SOUND_URLS = [
+  "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
+  "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
+];
+
+const SPRITE_CONFIG = {
+  hover: [166300, 500],
+  ambient: [0, 148000, true],
+  transition: [151300, 4000],
+  menuOpenClose: [157500, 1000],
+  menuFlip: [161000, 2000],
+  underwaterTransition: [163000, 3200],
+};
+
 const loadSound = (src, sprite) => {
   return new Promise((resolve, reject) => {
     const sound = new Howl({
       src,
       autoplay: false,
       sprite,
-      onload: () => resolve(sound),
+      onload: () => {
+        // Set volumes after sound is loaded
+        if (sprite?.ambient) sound.volume(0.9);
+        if (sprite?.hover) sound.volume(0.4);
+        resolve(sound);
+      },
       onloaderror: (id, error) => reject(error),
     });
-
-    if (sprite.ambient) sound.volume(0.9);
-    if (sprite.hover) sound.volume(0.4);
   });
 };
 
@@ -26,47 +42,40 @@ const sounds = {
 };
 const soundIds = {};
 
-const initializeSounds = async () => {
-  if (!soundsInitialized) {
-    try {
-      const [hoverSound, ambientSound, howlerSprite] = await Promise.all([
-        loadSound(
-          [
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
-          ],
-          { hover: [166300, 500] }
-        ),
-        loadSound(
-          [
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
-          ],
-          { ambient: [0, 148000, true] }
-        ),
-        loadSound(
-          [
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vpyhhqd4mptue9miv1em.webm",
-            "https://res.cloudinary.com/dgfe1xsgj/video/upload/v1705318256/Portfolio/Audio/vhabkhwneipxqm0zk4xs.mp3",
-          ],
-          {
-            transition: [151300, 4000],
-            menuOpenClose: [157500, 1000],
-            menuFlip: [161000, 2000],
-            underwaterTransition: [163000, 3200],
-          }
-        ),
-      ]);
+const initializeSounds = async (retryCount = 0) => {
+  if (soundsInitialized) return true;
+  useSoundStore.getState().actions.setIsLoadingSounds(true);
+  try {
+    const [hoverSound, ambientSound, howlerSprite] = await Promise.all([
+      loadSound(SOUND_URLS, { hover: SPRITE_CONFIG.hover }),
+      loadSound(SOUND_URLS, { ambient: SPRITE_CONFIG.ambient }),
+      loadSound(SOUND_URLS, {
+        transition: SPRITE_CONFIG.transition,
+        menuOpenClose: SPRITE_CONFIG.menuOpenClose,
+        menuFlip: SPRITE_CONFIG.menuFlip,
+        underwaterTransition: SPRITE_CONFIG.underwaterTransition,
+      }),
+    ]);
 
-      // Assign the loaded sounds to the sounds object
-      sounds.hoverSound = hoverSound;
-      sounds.ambientSound = ambientSound;
-      sounds.howlerSprite = howlerSprite;
+    // Assign the loaded sounds to the sounds object
+    sounds.hoverSound = hoverSound;
+    sounds.ambientSound = ambientSound;
+    sounds.howlerSprite = howlerSprite;
 
-      soundsInitialized = true; // Set the initialization flag
-    } catch (error) {
-      console.error("Error loading sounds: ", error);
+    soundsInitialized = true; // Set the initialization flag
+    useSoundStore.getState().actions.setIsLoadingSounds(false);
+
+    return true;
+  } catch (error) {
+    console.error(`Error loading sounds (attempt ${retryCount + 1}/3):`, error);
+    if (retryCount < 2) {
+      await new Promise((resolve) =>
+        setTimeout(resolve, 1000 * (retryCount + 1))
+      );
+      return await initializeSounds(retryCount + 1);
     }
+    useSoundStore.getState().actions.setIsLoadingSounds(false);
+    return false;
   }
 };
 
@@ -79,18 +88,21 @@ export const useSoundStore = create((set, get) => {
 
   // Initialize sounds if audioEnabled is true
   if (initialAudioEnabled) {
-    setTimeout(() => initializeSounds(), 100);
+    setTimeout(async () => {
+      await initializeSounds();
+    }, 100);
   }
 
   return {
     audioEnabled: initialAudioEnabled,
+    isLoadingSounds: false,
     actions: {
+      setIsLoadingSounds: (newValue) => set({ isLoadingSounds: newValue }),
       setAudioEnabled: async (newValue) => {
         if (newValue === true) {
           await initializeSounds(); // Await sound initialization
         }
 
-        // Use the updater function to ensure you get the latest state
         set((prevState) => {
           const updatedAudioEnabled =
             typeof newValue === "function"
@@ -117,34 +129,25 @@ export const useSoundStore = create((set, get) => {
         }
       },
       playHoverSound: () =>
-        get().audioEnabled &&
-        sounds.hoverSound &&
-        sounds.hoverSound.play("hover"),
+        get().audioEnabled && sounds?.hoverSound?.play("hover"),
       playAmbientSound: () => {
-        if (get().audioEnabled && sounds.ambientSound) {
-          soundIds.ambientSound = sounds.ambientSound.play(
-            soundIds.ambientSound || "ambient"
+        if (get().audioEnabled) {
+          soundIds.ambientSound = sounds?.ambientSound?.play(
+            soundIds?.ambientSound || "ambient"
           );
         }
       },
       pauseAmbientSound: () =>
-        sounds.ambientSound && sounds.ambientSound.pause(),
+        sounds?.ambientSound?.pause(soundIds?.ambientSound || "ambient"),
       playTransitionSound: () =>
-        get().audioEnabled &&
-        sounds.howlerSprite &&
-        sounds.howlerSprite.play("transition"),
+        get().audioEnabled && sounds?.howlerSprite?.play("transition"),
       playMenuOpenCloseSound: () =>
-        get().audioEnabled &&
-        sounds.howlerSprite &&
-        sounds.howlerSprite.play("menuOpenClose"),
+        get().audioEnabled && sounds?.howlerSprite?.play("menuOpenClose"),
       playMenuFlipSound: () =>
-        get().audioEnabled &&
-        sounds.howlerSprite &&
-        sounds.howlerSprite.play("menuFlip"),
+        get().audioEnabled && sounds?.howlerSprite?.play("menuFlip"),
       playUnderwaterTransitionSound: () =>
         get().audioEnabled &&
-        sounds.howlerSprite &&
-        sounds.howlerSprite.play("underwaterTransition"),
+        sounds?.howlerSprite?.play("underwaterTransition"),
       modifySoundSetting: ({
         soundInstanceName,
         settingType,

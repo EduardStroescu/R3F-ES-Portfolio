@@ -90,7 +90,7 @@ export default function ContactSection() {
         zIndex: 40,
         fontFamily: "serif",
       }}
-      as="contactSectionWrapper"
+      as="section"
       wrapperClass="z-40 w-[100vw] text-white"
       transform
       fullscreen

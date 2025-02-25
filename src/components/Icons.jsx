@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
 
-export function AudioIcon({ audioEnabled }) {
+export function AudioIcon({ className }) {
   return (
     <svg
-      fill={audioEnabled ? "#3ff9e6" : "#fc003f"}
+      className={className}
       width="100%"
       height="100%"
       viewBox="0 0 56 56"
@@ -193,7 +193,7 @@ export function EmailIcon({ className }) {
 }
 
 AudioIcon.propTypes = {
-  audioEnabled: PropTypes.bool,
+  className: PropTypes.string,
 };
 
 HyperlinkIcon.propTypes = {

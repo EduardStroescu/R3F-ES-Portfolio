@@ -1,4 +1,4 @@
-import { Helmet } from "react-helmet";
+import { Helmet } from "react-helmet-async";
 import { projectsData } from "../../lib/data/projectsData";
 
 export function ProjectsHtml() {
@@ -7,7 +7,7 @@ export function ProjectsHtml() {
       <Helmet>
         <link rel="canonical" href="https://eduardstroescu.com/projects" />
       </Helmet>
-      <section className="relative flex flex-col items-center justify-center overflow-hidden w-full h-full select-none gap-4 text-[#220140]">
+      <article className="relative flex flex-col items-center justify-center overflow-hidden w-full h-full select-none gap-4 text-[#220140]">
         <h2 className="text-xl">Projects</h2>
         <ul className="w-full h-full grid grid-cols-4 gap-4">
           {projectsData.map((project) => (
@@ -24,7 +24,7 @@ export function ProjectsHtml() {
             </li>
           ))}
         </ul>
-      </section>
+      </article>
     </>
   );
 }

@@ -46,13 +46,16 @@ export default function useProjectDetails() {
     ]
   );
 
-  const planeGroups = useMemo(() => {
-    const generalPlaneProps = {
+  const generalPlaneProps = useMemo(
+    () => ({
       scaleX: viewport.width / 10 > 111 ? 1.5 : 0.4,
       scaleY: viewport.width / 10 > 111 ? 1.5 : 0.5,
       aspect: [15, 10],
-    };
+    }),
+    [viewport.width]
+  );
 
+  const planeGroups = useMemo(() => {
     return projectsData.map((project, idx) => [
       {
         position: calculatePlanePositions(idx).leftPlane,
@@ -66,8 +69,7 @@ export default function useProjectDetails() {
         ...generalPlaneProps,
       },
     ]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [calculatePlanePositions, images]);
+  }, [calculatePlanePositions, images, generalPlaneProps]);
 
   // Calculate the total distance covered by the planes in the scroll
   const totalDistance = (planeGroups.length - 0.9) * 73;

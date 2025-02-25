@@ -34,7 +34,7 @@ export default function CallToAction() {
     <Html
       pointerEvents={"none"}
       style={{ opacity, pointerEvents: "none", fontFamily: "serif" }}
-      as="calltoActionSectionWrapper"
+      as="section"
       fullscreen
       transform
       scale={0.5}

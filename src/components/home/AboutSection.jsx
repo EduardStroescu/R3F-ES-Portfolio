@@ -36,7 +36,7 @@ export default function AboutSection() {
       style={{
         pointerEvents: "none",
       }}
-      as="aboutSectionWrapper"
+      as="article"
       fullscreen
       transform
       scale={0.5}

@@ -1,8 +1,19 @@
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import { useSoundStoreActions } from "../stores/useSoundStore";
 import { setupAmbientSoundListener } from "../helpers/setupAmbientSoundListener";
 import { useWindowVisibility } from "./useWindowVisibility";
+
+const SOUND_SETTINGS = {
+  projects: {
+    pos: [0, 3, 0],
+    orientation: [0, -1, 0],
+  },
+  default: {
+    pos: [0, 0, 1],
+    orientation: [0, 0, 0],
+  },
+};
 
 export function useDirectionalSound() {
   const { pathname } = useLocation();
@@ -27,29 +38,24 @@ export function useDirectionalSound() {
     };
   }, []);
 
+  // Memoize the current settings based on pathname
+  const currentSettings = useMemo(() => {
+    return pathname === "/projects"
+      ? SOUND_SETTINGS.projects
+      : SOUND_SETTINGS.default;
+  }, [pathname]);
+
+  // Update sound settings effect
   useEffect(() => {
-    if (pathname === "/projects") {
-      modifySoundSetting({
-        soundInstanceName: "ambientSound",
-        settingType: "pos",
-        settingValue: [0, 3, 0],
-      });
-      modifySoundSetting({
-        soundInstanceName: "ambientSound",
-        settingType: "orientation",
-        settingValue: [0, -1, 0],
-      });
-    } else {
-      modifySoundSetting({
-        soundInstanceName: "ambientSound",
-        settingType: "pos",
-        settingValue: [0, 0, 1],
-      });
-      modifySoundSetting({
-        soundInstanceName: "ambientSound",
-        settingType: "orientation",
-        settingValue: [0, 0, 0],
-      });
-    }
-  }, [pathname, modifySoundSetting]);
+    modifySoundSetting({
+      soundInstanceName: "ambientSound",
+      settingType: "pos",
+      settingValue: currentSettings.pos,
+    });
+    modifySoundSetting({
+      soundInstanceName: "ambientSound",
+      settingType: "orientation",
+      settingValue: currentSettings.orientation,
+    });
+  }, [currentSettings, modifySoundSetting]);
 }

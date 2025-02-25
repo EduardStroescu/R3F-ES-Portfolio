@@ -5,11 +5,15 @@ import { useAppStore } from "../lib/stores/useAppStore";
 import {
   EffectPass,
   VignetteEffect,
-  BlendFunction,
   BloomEffect,
   SMAAEffect,
   NoiseEffect,
 } from "postprocessing";
+import {
+  NOISE_EFFECT_CONFIG,
+  BLOOM_EFFECT_CONFIG,
+  VIGNETTE_EFFECT_CONFIG,
+} from "../lib/utils";
 import { useLensFlare } from "../lib/hooks/useLensFlare";
 import { useGodrays } from "../lib/hooks/useGodrays";
 import PropTypes from "prop-types";
@@ -27,22 +31,16 @@ export default function Postprocessing({ homeScene, projectsScene }) {
   const homePass = useMemo(() => {
     if (!godRaysEffect) return null;
     const noise = new NoiseEffect({
-      blendFunction: BlendFunction.COLOR_DODGE,
-      premultiply: true,
+      blendFunction: NOISE_EFFECT_CONFIG.blendFunction,
+      premultiply: NOISE_EFFECT_CONFIG.premultiply,
     });
-    noise.blendMode.opacity.value = 0.2;
+    noise.blendMode.opacity.value = NOISE_EFFECT_CONFIG.opacity;
+
     return new EffectPass(
       camera,
       new SMAAEffect(),
-      new BloomEffect({
-        mipmapBlur: true,
-        luminanceThreshold: 1.2,
-        height: 300,
-      }),
-      new VignetteEffect({
-        offset: 0.35,
-        darkness: 0.7,
-      }),
+      new BloomEffect(BLOOM_EFFECT_CONFIG),
+      new VignetteEffect(VIGNETTE_EFFECT_CONFIG),
       godRaysEffect,
       noise
     );
@@ -52,26 +50,29 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     if (!lensFlareEffect) return null;
     return new EffectPass(
       camera,
-      new VignetteEffect({
-        offset: 0.35,
-        darkness: 0.7,
-      }),
+      new VignetteEffect(VIGNETTE_EFFECT_CONFIG),
       lensFlareEffect
     );
   }, [camera, lensFlareEffect]);
 
+  const sceneMap = useMemo(
+    () => ({
+      home: homeScene,
+      projects: projectsScene,
+    }),
+    [homeScene, projectsScene]
+  );
+
   useEffect(() => {
     if (!composer) return;
-    let timer = setTimeout(() => {
+    const timer = setTimeout(() => {
+      if (composer.passes.length > 1) {
+        composer.removePass(composer.passes[1]);
+      }
+
       if (homePass && activeScene !== "projects") {
-        if (composer.passes.length > 1) {
-          composer.removePass(composer.passes[1]);
-        }
         composer.addPass(homePass);
       } else if (projectsPass && activeScene !== "home") {
-        if (composer.passes.length > 1) {
-          composer.removePass(composer.passes[1]);
-        }
         composer.addPass(projectsPass);
       }
     }, 0);
@@ -81,26 +82,20 @@ export default function Postprocessing({ homeScene, projectsScene }) {
 
   useFrame((state) => {
     if (!composer) return;
+
     state.gl.autoClear = false;
     state.gl.clear();
     state.gl.autoClear = true;
 
-    if (activeScene === "home") {
-      if (composer.scene !== homeScene) {
-        composer.setMainScene(homeScene);
-      }
-    } else if (activeScene === "projects") {
-      if (composer.scene !== projectsScene) {
-        composer.setMainScene(projectsScene);
-      }
-    } else {
-      if (composer.scene !== scene) {
-        composer.setMainScene(scene);
-      }
+    // Update composer scene using memoized map
+    const targetScene = sceneMap[activeScene] || scene;
+    if (composer.scene !== targetScene) {
+      composer.setMainScene(targetScene);
     }
   });
 
   if (viewport.width < 76) return null;
+
   return (
     <Suspense fallback={null}>
       <EffectComposer
