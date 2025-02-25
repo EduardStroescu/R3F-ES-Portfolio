@@ -94,12 +94,11 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     }
   });
 
-  if (viewport.width < 76) return null;
-
   return (
     <Suspense fallback={null}>
       <EffectComposer
         ref={setComposer}
+        enabled={viewport.width >= 76}
         camera={camera}
         multisampling={0}
         renderPriority={1}
