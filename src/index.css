@@ -401,3 +401,14 @@ input:-webkit-autofill:active {
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
 }
+
+@media screen and (max-width: 768px) {
+  .loadingScreen {
+    background-image: url("/svg/bgsvg-sm.webp");
+  }
+
+  .circle-core {
+  background-image: url("/svg/bgsvg-sm.webp");
+  }
+
+}

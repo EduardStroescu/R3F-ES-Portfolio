@@ -12,7 +12,7 @@ export default function CallToAction() {
   const navigate = useNavigate();
   const visible = useAboutStore((state) => state.visible);
   const { size } = useThree();
-  const viewport = { width: size.width / 10 };
+  const viewport = { width: size.width };
 
   const { setFlipped } = useContactStoreActions();
   const { playHoverSound, playTransitionSound, playUnderwaterTransitionSound } =
@@ -40,15 +40,15 @@ export default function CallToAction() {
       scale={0.5}
       position={[
         11,
-        viewport.width > 111 ? 1.5 : 2,
-        viewport.width > 111 ? 11 : 10,
+        viewport.width > 667 ? 1.5 : 2,
+        viewport.width > 1110 ? 11 : 10,
       ]}
       wrapperClass={`text-white`}
     >
       <a.div
         style={{
           opacity,
-          transform: `${viewport.width > 111 ? "scale(2)" : "scale(2.5)"} `,
+          transform: `${viewport.width > 1110 ? "scale(2)" : "scale(2.5)"} `,
           pointerEvents: `${visible ? "none" : "auto"}`,
         }}
         className="flex justify-center items-center gap-4"

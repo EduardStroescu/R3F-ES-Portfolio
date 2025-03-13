@@ -17,8 +17,8 @@ export default function useProjectDetails() {
   const images = useTexture(projectsImages);
 
   const planeCoords = {
-    planeLeft: { x: viewport.width / 10 > 111 ? -3 : 8, y: -10 },
-    planeRight: { x: viewport.width / 10 > 111 ? 27 : 16, y: -10 },
+    planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -10 },
+    planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -10 },
   };
 
   const planeStartPosition = 0;
@@ -48,8 +48,8 @@ export default function useProjectDetails() {
 
   const generalPlaneProps = useMemo(
     () => ({
-      scaleX: viewport.width / 10 > 111 ? 1.5 : 0.4,
-      scaleY: viewport.width / 10 > 111 ? 1.5 : 0.5,
+      scaleX: viewport.width > 1110 ? 1.5 : 0.4,
+      scaleY: viewport.width > 1110 ? 1.5 : 0.5,
       aspect: [15, 10],
     }),
     [viewport.width]

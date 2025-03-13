@@ -1,14 +1,17 @@
 import { Suspense } from "react";
 import { Canvas } from "@react-three/fiber";
 
+import { Outlet } from "react-router-dom";
 import LoadingScreen from "./components/LoadingScreen";
 import Experience from "./components/Experience";
 import Camera from "./components/Camera";
 import Ui from "./components/Ui";
-import { Outlet } from "react-router-dom";
 import { ScrollProvider } from "./lib/providers/ScrollProvider";
 import { useRemoveTrailingSlash } from "./lib/hooks/useRemoveTrailingSlash";
 import { useUpdateRouterStatePrevLocation } from "./lib/hooks/useUpdateRouterStatePrevLocation";
+import { useGLTF } from "@react-three/drei";
+
+useGLTF.setDecoderPath("/draco/");
 
 function App() {
   useRemoveTrailingSlash();

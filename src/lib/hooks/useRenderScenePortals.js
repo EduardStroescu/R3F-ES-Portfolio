@@ -10,9 +10,7 @@ export default function useRenderScenePortals() {
   const { pathname } = useLocation();
   const { setActiveScene } = useAppStoreActions();
 
-  const noise = useTexture(
-    "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318276/Portfolio/Model/mgc28ibcemeqqoztq6vs.jpg"
-  );
+  const noise = useTexture("/textures/mgc28ibcemeqqoztq6vs.webp");
 
   const screenMesh = useRef();
   const textRef = useRef();
@@ -73,6 +71,4 @@ export default function useRenderScenePortals() {
   };
 }
 
-useTexture.preload(
-  "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318276/Portfolio/Model/mgc28ibcemeqqoztq6vs.jpg"
-);
+useTexture.preload("/textures/mgc28ibcemeqqoztq6vs.webp");

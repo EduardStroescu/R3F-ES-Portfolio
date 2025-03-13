@@ -71,18 +71,21 @@
       crossorigin
     />
 
-    <link rel="preload" href="/svg/bgsvg.webp" as="image" type="image/webp" />
+    <link
+      rel="preload"
+      href="/svg/bgsvg-sm.webp"
+      as="image"
+      type="image/webp"
+      media="(max-width: 768px)"
+    />
+    <link
+      rel="preload"
+      href="/svg/bgsvg.webp"
+      as="image"
+      type="image/webp"
+      media="(min-width: 769px)"
+    />
     <link rel="preconnect" href="https://res.cloudinary.com" />
-    <link
-      rel="prefetch"
-      crossorigin="anonymous"
-      href="https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_wasm_wrapper.js"
-    />
-    <link
-      rel="prefetch"
-      crossorigin="anonymous"
-      href="https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_decoder.wasm"
-    />
   </head>
 
   <body>

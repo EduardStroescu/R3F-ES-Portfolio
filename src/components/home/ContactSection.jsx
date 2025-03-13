@@ -85,7 +85,7 @@ export default function ContactSection() {
       style={{
         pointerEvents: "none",
         transform: `scale(${
-          viewport.width / 10 > 111 ? scale * 1.8 : scale * 1.2
+          viewport.width > 1110 ? scale * 1.8 : scale * 1.2
         })`,
         zIndex: 40,
         fontFamily: "serif",
@@ -96,9 +96,9 @@ export default function ContactSection() {
       fullscreen
       scale={0.5}
       position={[
-        viewport.width / 10 > 111 ? -7.3 : -7,
+        viewport.width > 1110 ? -7.3 : -7,
         6,
-        viewport.width / 10 > 111 ? 46.5 : 46.5,
+        viewport.width > 1110 ? 46.5 : 46.5,
       ]}
       rotation={[0, -Math.PI / 3.95, 0]}
     >

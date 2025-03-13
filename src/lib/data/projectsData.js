@@ -22,7 +22,7 @@ export const projectsData = [
       "React-Hook-Form",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/nq6wzkwk4igedfgfxzyu",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/nq6wzkwk4igedfgfxzyu.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/f0lppekipaxjobit4jen",
   },
@@ -49,7 +49,7 @@ export const projectsData = [
       "Tanstack-Virtual",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/fdcj0ojlfsqggtwiias5",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/fdcj0ojlfsqggtwiias5.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/esarbodri3cgjtlgpukn",
   },
@@ -75,7 +75,7 @@ export const projectsData = [
       "RN-Reanimated",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/expoDash_s8ipv9.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/ExpoDash_stlgkv",
   },
@@ -99,7 +99,7 @@ export const projectsData = [
       "Shopify StoreFront API",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/mdvltwawjll7babtkyia.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/g5fq9xr37useoe5wevax",
   },
@@ -126,7 +126,7 @@ export const projectsData = [
       "Tanstack-Router",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/j9m7guleaptbuew2uihm.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/amysfaqbrnes7oujei91",
   },
@@ -148,7 +148,7 @@ export const projectsData = [
       "Lenis",
     ],
     image:
-      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc",
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/rh1fhccz4sw7izpyy1uc.webp",
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/bnsh5ncerdjezhzsnu5j",
   },

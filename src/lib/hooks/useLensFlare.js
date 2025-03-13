@@ -8,13 +8,13 @@ import { Color } from "three";
 import { useAppStore } from "../stores/useAppStore";
 
 export function useLensFlare() {
-  const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture.jpg");
+  const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture.webp");
 
   const { viewport, size, raycaster } = useThree();
-  const viewportSize = { width: size.width / 10 };
+  const viewportSize = { width: size.width };
 
   const lensFlareEffect = useMemo(() => {
-    if (!lensDirtTexture || viewportSize.width < 76) return null;
+    if (!lensDirtTexture || viewportSize.width < 768) return null;
     return new LensFlareEffect({
       position: { x: -15, y: 30, z: 15 },
       startBurst: false,
@@ -189,3 +189,5 @@ export function useLensFlare() {
 
   return lensFlareEffect;
 }
+
+useTexture.preload("/textures/lens-Dirt-Texture.webp");

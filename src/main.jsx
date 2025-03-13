@@ -1,12 +1,12 @@
+import "./index.css";
 import React, { lazy } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
-import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml";
 import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml";
 import { ContactHtml } from "./components/SeoRelatedHtml/ContactHtml";
-import { HelmetProvider } from "react-helmet-async";
 
 const NotFound = lazy(() => import("./components/NotFound"));
 const ErrorBoundary = lazy(() => import("./components/ErrorBoundary"));

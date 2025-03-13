@@ -23,7 +23,7 @@ const Minimap = memo(function Minimap({ planeGroups }) {
   const ref = useRef();
   const { scroll } = useScrollContext();
   const { size } = useThree();
-  const viewport = { width: size.width / 10 };
+  const viewport = { width: size.width };
 
   useFrame((delta) => {
     if (ref.current) {
@@ -49,7 +49,7 @@ const Minimap = memo(function Minimap({ planeGroups }) {
           geometry={geometry}
           material={material}
           position={[
-            viewport.width > 111
+            viewport.width > 1110
               ? i * 0.04 - planeGroups.length * -0.35
               : i * 0.04 - planeGroups.length * -0.35,
             -6.95,

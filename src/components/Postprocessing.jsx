@@ -22,7 +22,7 @@ import { Scene } from "three";
 export default function Postprocessing({ homeScene, projectsScene }) {
   const activeScene = useAppStore((state) => state.activeScene);
   const { size, camera, scene } = useThree();
-  const viewport = { width: size.width / 10 };
+  const viewport = { width: size.width };
   const [composer, setComposer] = useState(null);
 
   const godRaysEffect = useGodrays();
@@ -98,7 +98,7 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     <Suspense fallback={null}>
       <EffectComposer
         ref={setComposer}
-        enabled={viewport.width >= 76}
+        enabled={viewport.width >= 768}
         camera={camera}
         multisampling={0}
         renderPriority={1}

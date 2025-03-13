@@ -11,7 +11,7 @@ const AnimatedText = animated(Text);
 function HomeTitle() {
   const { pathname } = useLocation();
   const { size } = useThree();
-  const viewport = { width: size.width / 10, height: size.height };
+  const viewport = { width: size.width, height: size.height };
 
   const [texture2, onMove2] = useTrailTexture(TrailConfig.secondTrail);
   const [texture3, onMove3] = useTrailTexture(TrailConfig.secondTrail);
@@ -30,18 +30,18 @@ function HomeTitle() {
         anchorX="center"
         font={titleFont}
         characters="Web Developer"
-        position={[11, viewport.width > 111 ? 7 : 6.3, 9]}
+        position={[11, viewport.width > 667 ? 7 : 6.3, 9]}
         fontSize={
-          viewport.width > 111
+          viewport.width > 1110
             ? 3.2
             : Math.min(
-                (viewport.width * 10.5) / (viewport.height / 2) + 0.78,
+                (viewport.width * 1.05) / (viewport.height / 2) + 0.78,
                 3
               )
         }
         fillOpacity={1.5}
-        curveRadius={viewport.width > 111 ? 9 : 9}
-        maxWidth={size.width}
+        curveRadius={viewport.width > 1110 ? 9 : 9}
+        maxWidth={viewport.width}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}
@@ -58,14 +58,14 @@ function HomeTitle() {
         anchorX="center"
         font={titleFont}
         characters="Portfolio"
-        position={[11, viewport.width > 111 ? 4 : 4.2, 10]}
+        position={[11, viewport.width > 667 ? 4 : 4.2, 10]}
         fontSize={
-          viewport.width > 111
+          viewport.width > 1110
             ? 3.2
-            : Math.min((viewport.width * 10.5) / (viewport.height / 2) + 0.8, 3)
+            : Math.min((viewport.width * 1.05) / (viewport.height / 2) + 0.8, 3)
         }
         fillOpacity={1.5}
-        curveRadius={viewport.width > 111 ? 10 : 9}
+        curveRadius={viewport.width > 1110 ? 10 : 9}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}
