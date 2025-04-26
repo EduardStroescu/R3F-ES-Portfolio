@@ -2,159 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-@font-face {
-  font-family: "Dosis";
-  src: url(/fonts/Dosis-Medium.woff2);
-  font-display: swap;
-}
-@layer base {
-  html {
-    font-family: Dosis, sans-serif;
-  }
-}
-
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
-
-html,
-body {
-  height: 100%;
-  width: 100%;
-  overflow: hidden;
-  box-sizing: border-box;
-  position: relative;
-  background-color: #220140;
-}
-
-#canvas {
-  height: 100%;
-  width: 100%;
-  position: absolute;
-  z-index: 1;
-  overflow: hidden;
-  background-color: #220140;
-}
-
-.MainFont {
-  font-family: Dosis, sans-serif;
-}
-
-.loadingScreen {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100dvh;
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  font-family: Dosis;
-  font-weight: bold;
-  z-index: 100;
-  background-color: #220140;
-  background-image: url("/svg/bgsvg.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.titleColor {
-  color: #f597e8;
-  text-shadow: 1px 1px 8px #f74ee0;
-}
-
- /* Loading Screen Spinner */
-.spinner-box {
-  width: 100%;  
-  height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.spinner-box1 {
-  backdrop-filter: blur(7px);
-  background-color: rgba(0, 0, 0, 0.3);
-  width: 100%; 
-  height: 100%; 
-}
-
-.circle-border {
-  padding: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  background: rgb(63, 249, 220);
-  background: linear-gradient(
-    0deg,
-    rgba(63, 249, 220, 0.1) 33%,
-    rgba(63,249,220, 1) 100%
-  );
-  max-width: 90vmin; /* Make sure it doesn't exceed viewport width/height */
-  max-height: 90vmin; /* Make sure it doesn't exceed viewport width/height */
-}
-
-.circle-border1 {
-  height: 90vmin;
-  aspect-ratio: 1/1;
-  animation: spin 40s linear 0s infinite;
-}
-
-.circle-border2 {
-  height: 85vmin;
-  aspect-ratio: 1/1;
-  position: absolute;
-}
-
-.circle-core {
-  width: 100%;
-  aspect-ratio: 1/1;
-  background-color: #220140;
-  border-radius: 50%;
-  background-image: url("/svg/bgsvg.webp");
-  background-repeat: no-repeat;
-  background-size: cover;
-}
-
-.configure-border {
-  width: calc(80vmin - 14vmin);
-  height: calc(80vmin - 14vmin);
-  padding: 3px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.configure-border-1 {
-  position: absolute;
-  background: #f597e8;
-  animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
-}
-
-.configure-border-2 {
-  background: #3ff9dc;
-  transform: rotate(45deg);
-  animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
-}
-
-.configure-border-3 {
-  position: absolute;
-  background: #f597e8;
-  animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
-}
-
-.configure-core {
-  width: 99%;
-  aspect-ratio: 1/1;
-  background-color: #220140;
-}
-/* Stops Here */
-
  /* Input Autofill override */
 input:-webkit-autofill,
 input:-webkit-autofill:hover,
@@ -164,15 +11,6 @@ input:-webkit-autofill:active {
   -webkit-text-fill-color: #ffffff;
   transition: background-color 5000s ease-in-out 0s;
   box-shadow: inset 0 0 20px 20px #23232329;
-}
-
-/* Scrollbar override */
-*::-webkit-scrollbar {
-  display: none;
-}
-* {
-  -ms-overflow-style: none; /* IE and Edge */
-  scrollbar-width: none; /* Firefox */
 }
 
  /* ToolTip */
@@ -343,55 +181,8 @@ input:-webkit-autofill:active {
 /* Stops Here */
 
 /* Animations */
-.bounce {
-  animation: bounceAnimation 1s infinite; 
-}
 
-@keyframes spin {
-  from {
-    transform: rotate(0);
-  }
-  to {
-    transform: rotate(359deg);
-  }
-}
-@keyframes configure-clockwise {
-  0% {
-    transform: rotate(0);
-  }
-  25% {
-    transform: rotate(90deg);
-  }
-  50% {
-    transform: rotate(180deg);
-  }
-  75% {
-    transform: rotate(270deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes configure-xclockwise {
-  0% {
-    transform: rotate(45deg);
-  }
-  25% {
-    transform: rotate(-45deg);
-  }
-  50% {
-    transform: rotate(-135deg);
-  }
-  75% {
-    transform: rotate(-225deg);
-  }
-  100% {
-    transform: rotate(-315deg);
-  }
-}
-
-@keyframes bounceAnimation {
+@keyframes bounce-custom {
   0%, 100% {
     transform: translateY(-5%);
     animation-timing-function: cubic-bezier(0.8, 0, 1, 1);
@@ -400,15 +191,4 @@ input:-webkit-autofill:active {
     transform: translateY(5%);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
-}
-
-@media screen and (max-width: 768px) {
-  .loadingScreen {
-    background-image: url("/svg/bgsvg-sm.webp");
-  }
-
-  .circle-core {
-  background-image: url("/svg/bgsvg-sm.webp");
-  }
-
 }

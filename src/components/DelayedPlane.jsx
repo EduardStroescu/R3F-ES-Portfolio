@@ -1,8 +1,11 @@
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { VideoPlane } from "./VideoPlane";
 import PropTypes from "prop-types";
 
-export function DelayedPlane({ delay = 0, ...props }) {
+export const DelayedPlane = memo(function DelayedPlane({
+  delay = 0,
+  ...props
+}) {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
@@ -14,7 +17,7 @@ export function DelayedPlane({ delay = 0, ...props }) {
   }, [delay]);
 
   return shouldRender ? <VideoPlane {...props} /> : null;
-}
+});
 
 DelayedPlane.propTypes = {
   delay: PropTypes.number,

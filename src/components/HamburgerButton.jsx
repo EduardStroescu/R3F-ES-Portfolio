@@ -26,7 +26,13 @@ export function HamburgerButton({ menuOpen, setMenuOpen }) {
       : "rotate(0deg) translate(0px, 0px)",
     circleRadius: menuOpen ? 0 : 282.74,
 
-    config: { mass: 5, tension: 400, friction: 70, precision: 0.0001 },
+    config: {
+      mass: 5,
+      tension: 400,
+      friction: 70,
+      clamp: true,
+      precision: 0.0001,
+    },
   });
 
   const handleClick = () => {

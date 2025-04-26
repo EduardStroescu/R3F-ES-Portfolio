@@ -7,14 +7,15 @@ import { useTexture } from "@react-three/drei";
 import { Color } from "three";
 import { useAppStore } from "../stores/useAppStore";
 
-export function useLensFlare() {
-  const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture.webp");
+useTexture.preload("/textures/lens-Dirt-Texture-v1.webp");
 
-  const { viewport, size, raycaster } = useThree();
-  const viewportSize = { width: size.width };
+export function useLensFlare() {
+  const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture-v1.webp");
+
+  const { viewport, raycaster } = useThree();
 
   const lensFlareEffect = useMemo(() => {
-    if (!lensDirtTexture || viewportSize.width < 768) return null;
+    if (!lensDirtTexture) return null;
     return new LensFlareEffect({
       position: { x: -15, y: 30, z: 15 },
       startBurst: false,
@@ -27,7 +28,7 @@ export function useLensFlare() {
       additionalStreams: true,
       lensDirtTexture,
     });
-  }, [lensDirtTexture, viewportSize.width]);
+  }, [lensDirtTexture]);
 
   const screenPosition = new Vector3(-15, 30, 15);
   let flarePosition = new Vector3();
@@ -189,5 +190,3 @@ export function useLensFlare() {
 
   return lensFlareEffect;
 }
-
-useTexture.preload("/textures/lens-Dirt-Texture.webp");

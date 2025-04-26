@@ -6,14 +6,6 @@ import { useDeferredValue, useMemo } from "react";
 export function ProjectsSceneEnv() {
   return (
     <>
-      <Environment
-        files={[
-          "/environments/o1aavxxiq6alk6xvwdmp.webp",
-          "/environments/o1aavxxiq6alk6xvwdmp-gainmap.webp",
-          "/environments/o1aavxxiq6alk6xvwdmp.json",
-        ]}
-        background={false}
-      />
       <color attach="background" args={["black"]} />
       <fog attach="fog" args={["#191920", 0, 55]} />
     </>
@@ -26,10 +18,10 @@ export function HomeSceneEnv() {
   const files = useMemo(
     () => [
       viewport.width >= 1024
-        ? "/environments/qldpzf7hd4mid2444htq.webp"
-        : "/environments/qldpzf7hd4mid2444htq-sm.webp",
-      "/environments/qldpzf7hd4mid2444htq-gainmap.webp",
-      "/environments/qldpzf7hd4mid2444htq.json",
+        ? "/environments/qldpzf7hd4mid2444htq-v1.webp"
+        : "/environments/qldpzf7hd4mid2444htq-sm-v1.webp",
+      "/environments/qldpzf7hd4mid2444htq-gainmap-v1.webp",
+      "/environments/qldpzf7hd4mid2444htq-v1.json",
     ],
     [viewport.width]
   );
@@ -39,9 +31,9 @@ export function HomeSceneEnv() {
       <Environment files={deferred} background={"only"} />
       <Environment
         files={[
-          "/environments/o1aavxxiq6alk6xvwdmp.webp",
-          "/environments/o1aavxxiq6alk6xvwdmp-gainmap.webp",
-          "/environments/o1aavxxiq6alk6xvwdmp.json",
+          "/environments/o1aavxxiq6alk6xvwdmp-v1.webp",
+          "/environments/o1aavxxiq6alk6xvwdmp-gainmap-v1.webp",
+          "/environments/o1aavxxiq6alk6xvwdmp-v1.json",
         ]}
         background={false}
       />

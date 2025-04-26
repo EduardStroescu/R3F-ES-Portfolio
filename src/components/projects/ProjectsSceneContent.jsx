@@ -17,7 +17,7 @@ const ProjectsSceneContent = memo(
     const { planeGroupRef, planeGroups } = useProjectDetails();
 
     return (
-      <Suspense>
+      <Suspense fallback={null}>
         <group visible={activeScene !== "home"}>
           <Minimap planeGroups={planeGroups} />
           <group ref={planeGroupRef}>
@@ -27,7 +27,7 @@ const ProjectsSceneContent = memo(
                   return (
                     <Fragment key={planeIndex}>
                       {planeIndex % 2 !== 0 ? (
-                        <Suspense>
+                        <Suspense fallback={null}>
                           <DelayedPlane
                             delay={planeProps.delay}
                             {...planeProps}
@@ -42,7 +42,7 @@ const ProjectsSceneContent = memo(
               </group>
             ))}
           </group>
-          <ProjectsScene3DTitle renderTargetC={renderTargetC} ref={textRef} />
+          <ProjectsScene3DTitle ref={textRef} renderTargetC={renderTargetC} />
           {activeScene === "projects" && <ProjectDetails />}
         </group>
       </Suspense>

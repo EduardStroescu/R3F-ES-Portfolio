@@ -1,8 +1,15 @@
 /* eslint-disable react/no-unknown-property */
 import { useGLTF, useTexture } from "@react-three/drei";
-import { memo } from "react";
+import { DoubleSide } from "three";
 
-const HomeModel = memo(function HomeModel() {
+useGLTF.preload(
+  "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
+);
+useTexture.preload(
+  "https://res.cloudinary.com/dgfe1xsgj/image/upload/c_scale,dpr_auto,fl_immutable_cache,h_2048,q_auto,w_2048/v1705318276/Portfolio/Model/lnac4hlhof7ttgmjuxyl.webp"
+);
+
+export default function HomeModel() {
   const { nodes } = useGLTF(
     "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
   );
@@ -14,17 +21,8 @@ const HomeModel = memo(function HomeModel() {
   return (
     <group dispose={null}>
       <mesh geometry={nodes.baked.geometry}>
-        <meshBasicMaterial map={bakedTexture} />
+        <meshBasicMaterial map={bakedTexture} side={DoubleSide} />
       </mesh>
     </group>
   );
-});
-
-useGLTF.preload(
-  "https://res.cloudinary.com/dgfe1xsgj/image/upload/fl_immutable_cache/v1705318276/Portfolio/Model/kshsdufjorbekpswudbq.glb"
-);
-useTexture.preload(
-  "https://res.cloudinary.com/dgfe1xsgj/image/upload/c_scale,dpr_auto,fl_immutable_cache,h_2048,q_auto,w_2048/v1705318276/Portfolio/Model/lnac4hlhof7ttgmjuxyl.webp"
-);
-
-export default HomeModel;
+}

@@ -6,7 +6,7 @@ export const useRemoveTrailingSlash = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (location.pathname.match("/.*/$")) {
+    if (location.pathname !== "/" && location.pathname.match("/.*/$")) {
       navigate(location.pathname.replace(/\/+$/, ""), {
         replace: true,
       });

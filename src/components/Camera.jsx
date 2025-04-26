@@ -5,7 +5,7 @@ import { easing } from "maath";
 import { useLocation } from "react-router-dom";
 import { useMousePosition } from "../lib/hooks/useMousePosition";
 
-export default function Camera(props) {
+export default function Camera() {
   const { pathname, state: locationState } = useLocation();
   const cameraRef = useRef();
   const mousePosition = useMousePosition();
@@ -14,17 +14,34 @@ export default function Camera(props) {
   useEffect(() => void set({ camera: cameraRef.current }));
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
-  let startTime;
+  const startTimeRef = useRef(null);
+
+  useEffect(() => {
+    startTimeRef.current = null;
+  }, [pathname]);
 
   useFrame((state, delta) => {
     if (pathname === "/") {
-      easing.damp3(
-        state.camera.position,
-        [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
-        locationState?.prevPathname === "/projects" ? 0.3 : 0.5,
-        delta,
-        locationState?.prevPathname === "/projects" ? 150 : 60
-      );
+      if (!startTimeRef?.current)
+        startTimeRef.current = state.clock.elapsedTime;
+
+      if (state.clock.elapsedTime >= startTimeRef.current + 1) {
+        easing.damp3(
+          state.camera.position,
+          [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
+          0.5,
+          delta,
+          30
+        );
+      } else {
+        easing.damp3(
+          state.camera.position,
+          [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
+          locationState?.prevPathname === "/projects" ? 0.3 : 0.5,
+          delta,
+          50
+        );
+      }
       easing.dampE(
         state.camera.rotation,
         [mousePosition.current.y * 0.02, mousePosition.current.x * 0.08, 0],
@@ -32,27 +49,28 @@ export default function Camera(props) {
         delta
       );
     } else if (pathname === "/projects") {
-      if (startTime === undefined) startTime = state.clock.elapsedTime;
+      if (!startTimeRef?.current)
+        startTimeRef.current = state.clock.elapsedTime;
 
-      if (state.clock.elapsedTime >= startTime + 0.6) {
+      if (state.clock.elapsedTime >= startTimeRef.current + 1) {
         easing.damp3(
           state.camera.position,
           [
             6 + mousePosition.current.x / 2,
-            -10 + -mousePosition.current.y / 6,
+            -5 + -mousePosition.current.y / 6,
             2,
           ],
           0.5,
           delta,
-          10
+          30
         );
       } else {
         easing.damp3(
           state.camera.position,
-          [6, 0.3, locationState?.prevPathname === "/contact" ? 10 : 2],
-          0.55,
+          [6, 1, locationState?.prevPathname === "/contact" ? 10 : 2],
+          0.5,
           delta,
-          locationState?.prevPathname === "/contact" ? 30 : 10
+          locationState?.prevPathname === "/contact" ? 50 : 20
         );
       }
       easing.dampE(
@@ -65,9 +83,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [-23 + mousePosition.current.x / 4, 6, 31.5],
-        0.35,
+        0.5,
         delta,
-        locationState?.prevPathname === "/projects" ? 50 : 40
+        30
       );
       easing.dampE(
         state.camera.rotation,
@@ -83,9 +101,9 @@ export default function Camera(props) {
       easing.damp3(
         state.camera.position,
         [6 + mousePosition.current.x, 5 + -mousePosition.current.y / 6, 2],
-        locationState?.prevPathname === "/projects" ? 0.3 : 0.5,
+        0.5,
         delta,
-        locationState?.prevPathname === "/projects" ? 150 : 60
+        30
       );
       easing.dampE(
         state.camera.rotation,
@@ -97,7 +115,8 @@ export default function Camera(props) {
   });
 
   return (
-    <group name="Scene" {...props}>
+    // eslint-disable-next-line react/no-unknown-property
+    <group name="Scene" position={[5, 0, 26]}>
       <PerspectiveCamera
         ref={cameraRef}
         damping={true}

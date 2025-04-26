@@ -7,13 +7,28 @@ import {
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { HyperlinkIcon } from "../Icons";
 import { useResizableHtml } from "../../lib/hooks/useResizableHtml";
-import { contactSchema, emailjsConfig } from "../../lib/utils";
+import { emailjsConfig } from "../../lib/emailjsConfig";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { useAppStore } from "../../lib/stores/useAppStore";
+
+const contactSchema = z.object({
+  user_name: z
+    .string({ required_error: "A name is required" })
+    .min(2, "The Name is too short"),
+  user_email: z
+    .string({ required_error: "An E-mail address is required" })
+    .email({ message: "Invalid E-mail address" }),
+  message: z
+    .string({ required_error: "A message is required" })
+    .min(10, "The message must be at least 10 characters long"),
+});
 
 export default function ContactSection() {
   const { scale, viewport } = useResizableHtml();
 
+  const activeScene = useAppStore((state) => state.activeScene);
   const flipped = useContactStore((state) => state.flipped);
   const { setFlipped, setMessageSent, setMessageReceived } =
     useContactStoreActions();
@@ -79,19 +94,18 @@ export default function ContactSection() {
     }
   };
 
+  if (activeScene === "projects") return null;
+
   return (
     <Html
       pointerEvents={"none"}
       style={{
-        pointerEvents: "none",
         transform: `scale(${
           viewport.width > 1110 ? scale * 1.8 : scale * 1.2
         })`,
-        zIndex: 40,
-        fontFamily: "serif",
       }}
       as="section"
-      wrapperClass="z-40 w-[100vw] text-white"
+      wrapperClass="z-40 w-[100vw] text-white font-[serif] pointer-events-none"
       transform
       fullscreen
       scale={0.5}
@@ -110,9 +124,9 @@ export default function ContactSection() {
         }}
       >
         <div className="w-full flex flex-col">
-          <h2 className="text-center xl:text-end text-[4rem] mb-[-15px] xl:mb-[-25px] italic font-bold mt-[-20px]">
+          <h1 className="text-center xl:text-end text-[4rem] mb-[-15px] xl:mb-[-25px] italic font-bold mt-[-20px]">
             <span>Say hello</span>
-          </h2>
+          </h1>
           <p className="flex flex-col justify-end text-end uppercase">
             <span className="self-center xl:self-end">I look forward </span>
             <span className="self-center xl:self-end mt-[-7px]">
@@ -165,14 +179,13 @@ export default function ContactSection() {
             }}
             style={{
               pointerEvents: !flipped ? "none" : "auto",
-              fontFamily: "Dosis",
             }}
-            className="hover:text-[#f597e8] hover:italic hover:scale-110 mb-4"
+            className="font-dosis hover:text-[#f597e8] hover:italic hover:scale-110 mb-4"
             onPointerEnter={playHoverSound}
           >
             &#10094; Back
           </button>
-          <h1 className="text-4xl font-medium">Contact me</h1>
+          <h2 className="text-4xl font-medium">Contact me</h2>
           <form onSubmit={handleSubmit(onSubmit)} className="mt-6 sm:mt-4">
             <div className="grid gap-6 sm:grid-cols-2">
               <div className="relative z-5">

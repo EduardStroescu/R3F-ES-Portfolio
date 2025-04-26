@@ -1,6 +1,6 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer } from "@react-three/postprocessing";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useAppStore } from "../lib/stores/useAppStore";
 import {
   EffectPass,
@@ -19,11 +19,24 @@ import { useGodrays } from "../lib/hooks/useGodrays";
 import PropTypes from "prop-types";
 import { Scene } from "three";
 
-export default function Postprocessing({ homeScene, projectsScene }) {
+const Postprocessing = memo(function Postprocessing({
+  homeScene,
+  projectsScene,
+}) {
   const activeScene = useAppStore((state) => state.activeScene);
   const { size, camera, scene } = useThree();
   const viewport = { width: size.width };
   const [composer, setComposer] = useState(null);
+  const [ready, setReady] = useState(false);
+  const composerSceneRef = useRef(null);
+
+  const sceneMap = useMemo(
+    () => ({
+      home: homeScene,
+      projects: projectsScene,
+    }),
+    [homeScene, projectsScene]
+  );
 
   const godRaysEffect = useGodrays();
   const lensFlareEffect = useLensFlare();
@@ -36,7 +49,7 @@ export default function Postprocessing({ homeScene, projectsScene }) {
     });
     noise.blendMode.opacity.value = NOISE_EFFECT_CONFIG.opacity;
 
-    return new EffectPass(
+    const pass = new EffectPass(
       camera,
       new SMAAEffect(),
       new BloomEffect(BLOOM_EFFECT_CONFIG),
@@ -44,43 +57,29 @@ export default function Postprocessing({ homeScene, projectsScene }) {
       godRaysEffect,
       noise
     );
+    pass.name = "HomePass";
+    pass.enabled = false;
+    return pass;
   }, [camera, godRaysEffect]);
 
   const projectsPass = useMemo(() => {
     if (!lensFlareEffect) return null;
-    return new EffectPass(
+    const pass = new EffectPass(
       camera,
       new VignetteEffect(VIGNETTE_EFFECT_CONFIG),
       lensFlareEffect
     );
+    pass.name = "ProjectsPass";
+    pass.enabled = false;
+    return pass;
   }, [camera, lensFlareEffect]);
 
-  const sceneMap = useMemo(
-    () => ({
-      home: homeScene,
-      projects: projectsScene,
-    }),
-    [homeScene, projectsScene]
-  );
-
-  useEffect(() => {
-    if (!composer) return;
-    const timer = setTimeout(() => {
-      if (composer.passes.length > 1) {
-        composer.removePass(composer.passes[1]);
-      }
-
-      if (homePass && activeScene !== "projects") {
-        composer.addPass(homePass);
-      } else if (projectsPass && activeScene !== "home") {
-        composer.addPass(projectsPass);
-      }
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, [composer, homeScene, homePass, projectsPass, projectsScene, activeScene]);
-
   useFrame((state) => {
+    // Wait for the first render frame before adding passes
+    if (!ready) {
+      setReady(true);
+    }
+
     if (!composer) return;
 
     state.gl.autoClear = false;
@@ -89,28 +88,61 @@ export default function Postprocessing({ homeScene, projectsScene }) {
 
     // Update composer scene using memoized map
     const targetScene = sceneMap[activeScene] || scene;
-    if (composer.scene !== targetScene) {
+    if (composerSceneRef?.current !== targetScene.uuid) {
       composer.setMainScene(targetScene);
+      composerSceneRef.current = targetScene.uuid;
     }
   });
 
+  useEffect(() => {
+    if (!composer || !homePass || !projectsPass || !ready) return;
+    if (composer.passes.length === 1) {
+      composer.addPass(homePass);
+      composer.addPass(projectsPass);
+    }
+
+    if (activeScene !== "projects") {
+      // Disable ProjectsPass and enable HomePass
+      projectsPass.enabled = false;
+      projectsPass.renderToScreen = false;
+
+      homePass.enabled = true;
+      homePass.renderToScreen = true;
+    } else if (activeScene !== "home") {
+      // Disable HomePass and enable ProjectsPass
+      homePass.enabled = false;
+      homePass.renderToScreen = false;
+
+      projectsPass.enabled = true;
+      projectsPass.renderToScreen = true;
+    }
+  }, [
+    ready,
+    composer,
+    homeScene,
+    homePass,
+    projectsPass,
+    projectsScene,
+    activeScene,
+  ]);
+
   return (
-    <Suspense fallback={null}>
-      <EffectComposer
-        ref={setComposer}
-        enabled={viewport.width >= 768}
-        camera={camera}
-        multisampling={0}
-        renderPriority={1}
-        disableNormalPass={true}
-        stencilBuffer={false}
-        autoClear={false}
-      />
-    </Suspense>
+    <EffectComposer
+      ref={setComposer}
+      enabled={viewport.width >= 768}
+      camera={camera}
+      multisampling={0}
+      renderPriority={1}
+      disableNormalPass={true}
+      stencilBuffer={false}
+      autoClear={false}
+    />
   );
-}
+});
 
 Postprocessing.propTypes = {
   homeScene: PropTypes.instanceOf(Scene).isRequired,
   projectsScene: PropTypes.instanceOf(Scene).isRequired,
 };
+
+export default Postprocessing;

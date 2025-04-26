@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import { PerspectiveCamera } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
 
-export default function Camera2(props) {
+export default function Camera2() {
   const cameraRef = useRef();
 
   const set = useThree((state) => state.set);
@@ -10,7 +10,8 @@ export default function Camera2(props) {
   useFrame(() => cameraRef.current.updateMatrixWorld());
 
   return (
-    <group {...props}>
+    // eslint-disable-next-line react/no-unknown-property
+    <group position={[5, 0, 26]}>
       <group name="Scene">
         <PerspectiveCamera
           ref={cameraRef}

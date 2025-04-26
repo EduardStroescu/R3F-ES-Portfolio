@@ -26,15 +26,15 @@ export default function CallToAction() {
   const { opacity } = useSpring({
     from: { opacity: 0 },
     to: { opacity: pathname !== "/" ? 0 : 1 },
-    config: { mass: 5, tension: 500, friction: 80 },
+    config: { mass: 5, tension: 500, friction: 80, clamp: true },
     delay: pathname === "/" ? 750 : 0,
   });
 
   return (
     <Html
       pointerEvents={"none"}
-      style={{ opacity, pointerEvents: "none", fontFamily: "serif" }}
-      as="section"
+      style={{ opacity }}
+      as="nav"
       fullscreen
       transform
       scale={0.5}
@@ -43,13 +43,13 @@ export default function CallToAction() {
         viewport.width > 667 ? 1.5 : 2,
         viewport.width > 1110 ? 11 : 10,
       ]}
-      wrapperClass={`text-white`}
+      wrapperClass={`font-[serif] text-white pointer-events-none`}
     >
       <a.div
         style={{
           opacity,
           transform: `${viewport.width > 1110 ? "scale(2)" : "scale(2.5)"} `,
-          pointerEvents: `${visible ? "none" : "auto"}`,
+          pointerEvents: `${visible || pathname !== "/" ? "none" : "auto"}`,
         }}
         className="flex justify-center items-center gap-4"
       >
@@ -62,40 +62,32 @@ export default function CallToAction() {
           <HyperlinkIcon className="rotate-90 w-[24px] h-[24px] self-center group-hover:fill-white pointer-events-none" />
         </button>
         <div className="flex gap-1">
-          <button
+          <a
             className="p-1 bg-white rounded-full group"
             aria-label="See Github Profile"
             title="See Github Profile"
-            onClick={() =>
-              window.open(
-                import.meta.env.VITE_GITHUB_URL,
-                "_blank",
-                "noopener,noreferrer"
-              )
-            }
+            href={import.meta.env.VITE_GITHUB_URL}
+            target="_blank"
+            rel="noreferrer"
             onPointerOver={playHoverSound}
           >
             <GithubIcon className="group-hover:scale-110 transition-all ease-in-out duration-500 pointer-events-none w-[30px] h-[30px]" />
-          </button>
-          <button
+          </a>
+          <a
             className="p-1 bg-white rounded-full group"
             aria-label="See LinkedIn Profile"
             title="See LinkedIn Profile"
+            href={import.meta.env.VITE_LINKEDIN_URL}
+            target="_blank"
+            rel="noreferrer"
             onPointerOver={playHoverSound}
-            onClick={() =>
-              window.open(
-                import.meta.env.VITE_LINKEDIN_URL,
-                "_blank",
-                "noopener,noreferrer"
-              )
-            }
           >
             <LinkedInIcon className="group-hover:scale-110 transition-all ease-in-out duration-500 pointer-events-none w-[30px] h-[30px]" />
-          </button>
+          </a>
           <button
             className="p-1 bg-white rounded-full group"
-            aria-label="Contact me"
-            title="Contact me"
+            aria-label="Navigate to Contact Section"
+            title="Navigate to Contact Section"
             onClick={() => {
               navigate("/contact");
               setFlipped(false);

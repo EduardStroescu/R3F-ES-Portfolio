@@ -1,10 +1,11 @@
 import { useProgress } from "@react-three/drei";
-import { useSpring, a } from "@react-spring/web";
+import { useSpring, a, easings } from "@react-spring/web";
 import { useAppStore, useAppStoreActions } from "../lib/stores/useAppStore";
 import { useCallback, useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
+import { useShallow } from "zustand/react/shallow";
 
-export default function LoadingScreen({ suspenseLoading }) {
+export default function LoadingScreen({ suspenseLoading = false }) {
   const started = useAppStore((state) => state.started);
   const { setStarted } = useAppStoreActions();
   const [loaded, setLoaded] = useState(false);
@@ -13,7 +14,12 @@ export default function LoadingScreen({ suspenseLoading }) {
   const rafRef = useRef(0);
   const loadCompleteRef = useRef(false); // Ref to track if load is complete
 
-  const { active, progress } = useProgress();
+  const { active, progress } = useProgress(
+    useShallow((state) => ({
+      active: state.active,
+      progress: state.progress,
+    }))
+  );
 
   useEffect(() => {
     let t;
@@ -22,7 +28,7 @@ export default function LoadingScreen({ suspenseLoading }) {
       t = setTimeout(() => {
         setLoaded(true);
         loadCompleteRef.current = true; // Mark as fully loaded
-      }, 2000); // Adding a slight delay to ensure smooth transition
+      }, 800); // Adding a slight delay to ensure smooth transition
     } else if (active && loaded && loadCompleteRef.current) {
       // If it becomes active again after the load, mark as not fully loaded
       loadCompleteRef.current = false;
@@ -46,16 +52,15 @@ export default function LoadingScreen({ suspenseLoading }) {
   const loadingTextAnimation1 = useSpring({
     from: { opacity: 0 },
     to: { opacity: !loaded || suspenseLoading ? 1 : 0 },
-    config: { mass: 5, tension: 500, friction: 80 },
+    config: { mass: 5, tension: 500, friction: 80, clamp: true },
   });
 
   const loadingScreenFadeOut = useSpring({
     from: { opacity: 1 },
     to: {
-      opacity: loaded ? 0 : 1,
+      opacity: loaded && !suspenseLoading ? 0 : 1,
     },
-    config: { mass: 5, tension: 500, friction: 80 },
-    delay: 500,
+    config: { duration: 200, easing: easings.easeInOut, clamp: true },
     onRest: (e) => {
       if (e.finished) {
         setStarted(true);
@@ -63,25 +68,16 @@ export default function LoadingScreen({ suspenseLoading }) {
     },
   });
 
-  const { hueRotation } = useSpring({
-    from: { hueRotation: -50 },
-    to: { hueRotation: loaded ? 0 : -50 },
-    config: { mass: 5, tension: 500, friction: 80 },
-  });
-
-  if (started) return null;
+  if (!suspenseLoading && started) return null;
 
   return (
-    <a.div style={loadingScreenFadeOut} className="loadingScreen">
-      <Spinner hueRotation={hueRotation} />
-      <div className="absolute inset-0 flex flex-col gap-4 lg:gap-16 justify-center items-center">
-        <h1 className="titleColor font-extrabold uppercase text-[15vw] lg:text-[10vw] landscape:text-[13dvh] flex flex-col whitespace-nowrap leading-none tracking-wider">
+    <a.div style={loadingScreenFadeOut} className="loading-screen bg-wave">
+      <Spinner loaded={loaded} />
+      <div className="loading-content">
+        <h1 className="loading-title">
           E/S <span>Portfolio</span>
         </h1>
-        <a.p
-          style={loadingTextAnimation1}
-          className="text-[6vw] md:text-[5vw] landscape:text-[3dvh] lg:text-4xl font-bold text-white"
-        >
+        <a.p style={loadingTextAnimation1} className="loading-subtitle">
           Please wait
         </a.p>
       </div>
@@ -89,7 +85,13 @@ export default function LoadingScreen({ suspenseLoading }) {
   );
 }
 
-function Spinner({ hueRotation }) {
+function Spinner({ loaded }) {
+  const { hueRotation } = useSpring({
+    from: { hueRotation: -50 },
+    to: { hueRotation: loaded ? 0 : -50 },
+    config: { mass: 5, tension: 500, friction: 80 },
+  });
+
   return (
     <a.div
       className="spinner-box spinner-box1"
@@ -100,17 +102,11 @@ function Spinner({ hueRotation }) {
           <div className="configure-border configure-border-2">
             <div className="configure-border configure-border-1">
               <div className="spinner-box">
-                <div className="circle-border circle-border1">
-                  <a.div
-                    className="circle-core"
-                    style={{
-                      filter: hueRotation.to((h) => `hue-rotate(${h}deg)`),
-                    }}
-                  />
+                <div className="circle-border circle-border-1">
                   <div className="spinner-box">
-                    <div className="circle-border circle-border1">
+                    <div className="circle-border circle-border-1">
                       <a.div
-                        className="circle-core"
+                        className="circle-core bg-wave"
                         style={{
                           filter: hueRotation.to((h) => `hue-rotate(${h}deg)`),
                         }}
@@ -119,7 +115,6 @@ function Spinner({ hueRotation }) {
                   </div>
                 </div>
               </div>
-              <div className="configure-core" />
             </div>
           </div>
         </div>
@@ -129,9 +124,9 @@ function Spinner({ hueRotation }) {
           <div className="configure-core" />
         </div>
       </div>
-      <div className="circle-border circle-border2">
+      <div className="circle-border circle-border-2">
         <a.div
-          className="circle-core"
+          className="circle-core bg-wave"
           style={{ filter: hueRotation.to((h) => `hue-rotate(${h}deg)`) }}
         />
       </div>
@@ -144,5 +139,5 @@ LoadingScreen.propTypes = {
 };
 
 Spinner.propTypes = {
-  hueRotation: PropTypes.object,
+  loaded: PropTypes.bool.isRequired,
 };

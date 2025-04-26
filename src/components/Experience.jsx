@@ -1,12 +1,12 @@
 /* eslint-disable react/no-unknown-property */
 import { createPortal } from "@react-three/fiber";
 
-import Postprocessing from "./Postprocessing";
 import ScreenMesh from "./ScreenMesh";
 import ProjectsScene from "./projects/ProjectsScene";
 import useRenderScenePortals from "../lib/hooks/useRenderScenePortals";
 import HomeScene from "./home/HomeScene";
 import { useDirectionalSound } from "../lib/hooks/useDirectionalSound";
+import { PostprocessingWrapper } from "./PostprocessingWrapper";
 
 export default function Experience() {
   const { screenMesh, renderTargetC, textRef, homeScene, projectsScene } =
@@ -20,8 +20,11 @@ export default function Experience() {
         <ProjectsScene renderTargetC={renderTargetC} ref={textRef} />,
         projectsScene
       )}
-      <Postprocessing homeScene={homeScene} projectsScene={projectsScene} />
       <ScreenMesh ref={screenMesh} />
+      <PostprocessingWrapper
+        homeScene={homeScene}
+        projectsScene={projectsScene}
+      />
       {/* Only enable in development */}
       {/* <Stats /> */}
     </>

@@ -6,7 +6,8 @@ export function HomeHtml() {
       <Helmet>
         <link rel="canonical" href="https://eduardstroescu.com/" />
       </Helmet>
-      <article className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden select-none gap-2 p-10 text-[#220140]">
+      <article className="relative w-full h-screen flex flex-col items-center justify-center overflow-hidden select-none gap-2 p-10 text-[#000f3b]">
+        <h1 className="sr-only">Full-Stack Web Developer Portfolio</h1>
         <div className="w-1/2 flex flex-col items-center justify-center">
           <h2 className="text-xl">About</h2>
           <p>
@@ -21,23 +22,26 @@ export function HomeHtml() {
           <p>My tech stack, just to name a few examples, includes:</p>
           <ul className="list-disc">
             <li>
-              <strong>Front-End:</strong> React, NextJS, Expo
+              <strong className="font-bold">Front-End:</strong> React, NextJS,
+              Expo
             </li>
             <li>
-              <strong>Back-End:</strong> NodeJS, NestJS, Express
+              <strong className="font-bold">Back-End:</strong> NodeJS, NestJS,
+              Express
             </li>
             <li>
-              <strong>Databases:</strong> PostgreSQL, MongoDB
+              <strong className="font-bold">Databases:</strong> PostgreSQL,
+              MongoDB
             </li>
             <li>
-              <strong>Styling:</strong> TailwindCSS
+              <strong className="font-bold">Styling:</strong> TailwindCSS
             </li>
           </ul>
           <p>
             I’m eager to take on new projects, solve problems, and work with
             others to build something meaningful. If you appreciate my work and
-            are looking for someone who’s dedicated and adaptable, let us
-            discuss how we can work together.
+            are looking for someone who’s dedicated and adaptable, let’s discuss
+            how we can work together.
           </p>
           <p>
             Let&apos;s connect and create something that leaves a lasting

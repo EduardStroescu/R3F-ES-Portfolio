@@ -97,7 +97,7 @@ export function ScrollIcon() {
           strokeLinecap="round"
           strokeLinejoin="round"
         ></path>
-        <g className="bounce">
+        <g className="animate-bounce-custom">
           <path
             d="M12 6V14"
             stroke="#ffffff"

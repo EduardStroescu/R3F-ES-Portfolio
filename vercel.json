@@ -4,5 +4,20 @@
       "source": "/(.*)",
       "destination": "/"
     }
+  ],
+  "headers": [
+    {
+      "source": "/(assets|draco|environments|favicon|fonts|svg|textures)/(.*)",
+      "headers": [
+        {
+          "key": "CDN-Cache-Control",
+          "value": "public, max-age=31536000"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, immutable, max-age=31536000"
+        }
+      ]
+    }
   ]
 }

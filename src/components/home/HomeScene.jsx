@@ -2,60 +2,55 @@ import Camera from "../Camera";
 import { HomeSceneEnv } from "../Environments";
 import { useAppStore } from "../../lib/stores/useAppStore";
 import { ManualLazyComponent } from "../LazyComponent";
-import { useShallow } from "zustand/react/shallow";
 import { useLocation } from "react-router-dom";
 import Sun from "./Sun";
+import { useGLTF } from "@react-three/drei";
+import { memo } from "react";
 
-export default function HomeScene() {
-  const { pathname } = useLocation();
-  const { started, activeScene } = useAppStore(
-    useShallow((state) => ({
-      started: state.started,
-      activeScene: state.activeScene,
-    }))
+useGLTF.setDecoderPath("/draco/");
+
+const HomeScene = memo(function HomeScene() {
+  return (
+    <>
+      <HomeSceneEnv />
+      <Sun />
+      <Camera />
+      <HomeSceneContent />
+    </>
   );
+});
 
-  const loadCondition = started || pathname !== "/projects";
+export default HomeScene;
+
+const HomeSceneContent = () => {
+  const { pathname } = useLocation();
+  const started = useAppStore((state) => state.started);
 
   return (
     <>
-      <Camera position={[5, 0, 26]} />
       <ManualLazyComponent
-        shouldLoad={loadCondition}
-        delay={pathname !== "/projects" ? 0 : 500}
-        loadComponent={() => import("./HomeModel")}
-      />
-      <Sun />
-      <ManualLazyComponent
-        shouldLoad={loadCondition}
-        delay={pathname !== "/projects" ? 0 : 500}
-        loadComponent={() => import("./WaterComponent")}
+        shouldLoad={started || pathname !== "/projects"}
+        delay={pathname !== "/projects" ? 0 : 40000}
+        loadComponent={() => import("./HomeSceneEssentials")}
+        shouldOuterSuspend={!started}
       />
       <ManualLazyComponent
         shouldLoad={started || pathname === "/"}
-        delay={pathname !== "/projects" ? 0 : 500}
-        loadComponent={() => import("./HomeTitle")}
+        delay={pathname === "/" ? 0 : 40000}
+        loadComponent={() => import("./TitleWithCallToAction")}
+        shouldOuterSuspend={!started}
       />
       <ManualLazyComponent
-        shouldLoad={started || pathname === "/"}
-        delay={pathname === "/" ? 0 : 500}
-        loadComponent={() => import("./CallToAction")}
+        shouldLoad={started && pathname === "/"}
+        delay={pathname === "/" ? 250 : 40000}
+        loadComponent={() => import("./AboutSection")}
       />
-      <HomeSceneEnv />
-      {started && activeScene !== "projects" && (
-        <>
-          <ManualLazyComponent
-            shouldLoad={started || pathname === "/"}
-            delay={pathname === "/" ? 0 : 500}
-            loadComponent={() => import("./AboutSection")}
-          />
-          <ManualLazyComponent
-            shouldLoad={started || pathname === "/contact"}
-            delay={pathname === "/contact" ? 0 : 500}
-            loadComponent={() => import("./ContactSection")}
-          />
-        </>
-      )}
+      <ManualLazyComponent
+        shouldLoad={started && pathname === "/contact"}
+        delay={pathname === "/contact" ? 0 : 40000}
+        loadComponent={() => import("./ContactSection")}
+        shouldOuterSuspend={!started}
+      />
     </>
   );
-}
+};

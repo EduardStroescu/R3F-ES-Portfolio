@@ -17,8 +17,8 @@ export default function useProjectDetails() {
   const images = useTexture(projectsImages);
 
   const planeCoords = {
-    planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -10 },
-    planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -10 },
+    planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -5 },
+    planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -5 },
   };
 
   const planeStartPosition = 0;

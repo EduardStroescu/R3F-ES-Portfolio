@@ -1,5 +1,4 @@
 import { MeshTransmissionMaterial, Text } from "@react-three/drei";
-import titleFont from "/fonts/Dosis-SemiBold.woff";
 import { useThree } from "@react-three/fiber";
 import PropTypes from "prop-types";
 import { forwardRef, memo } from "react";
@@ -16,10 +15,10 @@ const ProjectsScene3DTitle = memo(
     const viewport = { width: size.width, height: size.height };
 
     const spring = useSpring({
-      from: { fillOpacity: 0, position: [11, -10.5, 11] },
+      from: { fillOpacity: 0, position: [11, -5.5, 11] },
       color: activeProject.titleColor,
       fillOpacity: 1,
-      position: [11, -10, 11],
+      position: [11, -5, 11],
       reset: true,
       config: { duration: 500, easing: easings.easeInOut },
     });
@@ -30,7 +29,7 @@ const ProjectsScene3DTitle = memo(
       <AnimatedText
         ref={textRef}
         anchorY="middle"
-        font={titleFont}
+        font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters={activeProject.title}
         position={spring.position}
         fontSize={(viewport.width / viewport.height) * 3.5}

@@ -1,4 +1,4 @@
-import { lazy, Suspense, useState } from "react";
+import { useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 import { a, useSpring } from "@react-spring/web";
 import {
@@ -11,9 +11,9 @@ import {
 } from "../lib/stores/useContactStore";
 import { useSoundStoreActions } from "../lib/stores/useSoundStore";
 import { HamburgerButton } from "./HamburgerButton";
-
-const AudioButton = lazy(() => import("./AudioButton"));
-const NotificationSection = lazy(() => import("./NotificationSection"));
+import { ManualLazyComponent } from "./LazyComponent";
+import AudioButton from "./AudioButton";
+import { useAppStore } from "../lib/stores/useAppStore";
 
 const navItems = [
   { title: "Home", path: "/" },
@@ -28,16 +28,25 @@ export default function Ui() {
       <DesktopHeader />
       <MobileHeader />
       <aside className="flex justify-end items-end">
-        <Suspense fallback={null}>
-          <AudioButton />
-        </Suspense>
-        <Suspense fallback={null}>
-          <NotificationSection />
-        </Suspense>
+        <AudioButton />
+        <NotificationSection />
       </aside>
     </div>
   );
 }
+
+const NotificationSection = () => {
+  const flipped = useContactStore((state) => state.flipped);
+  const started = useAppStore((state) => state.started);
+
+  return (
+    <ManualLazyComponent
+      shouldLoad={true}
+      delay={started && flipped ? 0 : 60000}
+      loadComponent={() => import("./NotificationSection")}
+    />
+  );
+};
 
 function DesktopHeader() {
   const { pathname, state: locationState } = useLocation();
@@ -151,6 +160,7 @@ function DesktopHeader() {
               onPointerEnter={playHoverSound}
             >
               {navItem.title}
+              <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
             </button>
           )
         )}
@@ -252,14 +262,17 @@ function MobileHeader() {
 
   const { clipPath } = useSpring({
     clipPath: menuOpen ? "circle(128.8% at 91% 9%)" : "circle(0.0% at 100% 0%)",
-    config: { mass: 5, tension: 400, friction: 70, precision: 0.0001 },
+    config: {
+      mass: 5,
+      tension: 400,
+      friction: 70,
+      precision: 0.0001,
+      clamp: true,
+    },
   });
 
   return (
-    <nav
-      style={{ fontFamily: "serif" }}
-      className="sm:hidden relative text-white text-xl w-full py-4 flex flex-row justify-center items-center pointer-events-none"
-    >
+    <nav className="font-[serif] sm:hidden relative text-white text-xl w-full py-4 flex flex-row justify-center items-center pointer-events-none">
       <Link
         to="/"
         state={{ prevPathname: pathname }}

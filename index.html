@@ -13,13 +13,11 @@
       content="Eduard Stroescu's personal web developer portfolio."
     />
     <meta name="author" content="Eduard Stroescu" />
-
     <!-- Google Verification -->
     <meta
       name="google-site-verification"
       content="B9Woz2prpIa5fcLaGKHxnchKqGCuHYDUXvwQ8dus_M8"
     />
-
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://eduardstroescu.com/" />
@@ -32,7 +30,6 @@
       property="og:image"
       content="https://raw.githubusercontent.com/EduardStroescu/PubImages/main/WebsiteImages/portfolio.jpg"
     />
-
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
     <meta property="twitter:url" content="https://eduardstroescu.com/" />
@@ -45,49 +42,316 @@
       property="twitter:image"
       content="https://raw.githubusercontent.com/EduardStroescu/PubImages/main/WebsiteImages/portfolio.jpg"
     />
-
     <link
       rel="apple-touch-icon"
       sizes="180x180"
-      href="./favicon/apple-touch-icon.png"
+      href="/favicon/apple-touch-icon-v1.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="32x32"
-      href="./favicon/favicon-32x32.png"
+      href="/favicon/favicon-32x32-v1.png"
     />
     <link
       rel="icon"
       type="image/png"
       sizes="16x16"
-      href="./favicon/favicon-16x16.png"
+      href="/favicon/favicon-16x16-v1.png"
     />
     <link
       rel="preload"
-      href="/fonts/Dosis-Medium.woff2"
+      href="/fonts/Dosis-Medium-v1.woff2"
       as="font"
       type="font/woff2"
       crossorigin
     />
-
     <link
       rel="preload"
-      href="/svg/bgsvg-sm.webp"
+      href="/svg/bgsvg-v1.avif"
       as="image"
-      type="image/webp"
-      media="(max-width: 768px)"
-    />
-    <link
-      rel="preload"
-      href="/svg/bgsvg.webp"
-      as="image"
-      type="image/webp"
-      media="(min-width: 769px)"
+      type="image/avif"
     />
     <link rel="preconnect" href="https://res.cloudinary.com" />
-  </head>
+    <style>
+      @font-face {
+        font-family: "Dosis";
+        src: url(/fonts/Dosis-Medium-v1.woff2);
+        font-display: swap;
+      }
 
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      html,
+      body {
+        height: 100dvh;
+        width: 100dvw;
+        position: relative;
+        background-color: #000f3b;
+        overflow: hidden;
+        font-family: Dosis, serif;
+      }
+
+      /* Scrollbar override */
+      *::-webkit-scrollbar {
+        display: none;
+      }
+      * {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+      }
+
+      #main {
+        height: 100dvh;
+        width: 100dvw;
+        position: absolute;
+        z-index: 1;
+        background-color: #000f3b;
+      }
+
+      .bg-wave {
+        background-color: #220140;
+        background-image: url("/svg/bgsvg-v1.webp");
+        background-image: -webkit-image-set(
+          "/svg/bgsvg-v1.avif" type("image/avif"),
+          "/svg/bgsvg-v1.webp" type("image/webp")
+        );
+        background-image: image-set(
+          "/svg/bgsvg-v1.avif" type("image/avif"),
+          "/svg/bgsvg-v1.webp" type("image/webp")
+        );
+        background-repeat: no-repeat;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .loading-screen {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100dvw;
+        height: 100dvh;
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        z-index: 100;
+      }
+
+      .loading-content {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .loading-title {
+        font-weight: 800;
+        text-transform: uppercase;
+        font-size: 15vw;
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        line-height: 1;
+        letter-spacing: 0.05em;
+      }
+
+      .loading-subtitle {
+        font-size: 6vw;
+        font-weight: 700;
+        color: white;
+      }
+
+      .title-effect,
+      .loading-title {
+        color: #f597e8;
+        text-shadow: 1px 1px 8px #f74ee0;
+      }
+
+      /* Loading Screen Spinner */
+      .spinner-box {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .spinner-box1 {
+        backdrop-filter: blur(7px);
+        background-color: rgba(0, 0, 0, 0.3);
+        width: 100%;
+        height: 100%;
+      }
+
+      .circle-border {
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background: rgb(63, 249, 220);
+        background: linear-gradient(
+          0deg,
+          rgba(63, 249, 220, 0.1) 33%,
+          rgba(63, 249, 220, 1) 100%
+        );
+        max-width: 90vmin; /* Ensure it doesn't exceed viewport width/height */
+        max-height: 90vmin; /* Ensure sure it doesn't exceed viewport width/height */
+      }
+
+      .circle-border-1 {
+        height: 90vmin;
+        aspect-ratio: 1/1;
+        animation: spin 40s linear 0s infinite;
+      }
+
+      .circle-border-2 {
+        height: 85vmin;
+        aspect-ratio: 1/1;
+        position: absolute;
+      }
+
+      .circle-core {
+        width: 100%;
+        aspect-ratio: 1/1;
+        border-radius: 50%;
+      }
+
+      .configure-border {
+        width: calc(80vmin - 14vmin);
+        height: calc(80vmin - 14vmin);
+        padding: 3px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      .configure-border-1 {
+        position: absolute;
+        background: #f597e8;
+        animation: configure-clockwise 3s ease-in-out 0s infinite alternate;
+      }
+
+      .configure-border-2 {
+        background: #3ff9dc;
+        transform: rotate(45deg);
+        animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+      }
+
+      .configure-border-3 {
+        position: absolute;
+        background: #f597e8;
+        animation: configure-xclockwise 3s ease-in-out 0s infinite alternate;
+      }
+
+      .configure-core {
+        width: 99%;
+        aspect-ratio: 1/1;
+        background-color: #220140;
+      }
+      /* End of Loading Screen */
+
+      @keyframes spin {
+        from {
+          transform: rotate(0);
+        }
+        to {
+          transform: rotate(359deg);
+        }
+      }
+
+      @keyframes configure-clockwise {
+        0% {
+          transform: rotate(0);
+        }
+        25% {
+          transform: rotate(90deg);
+        }
+        50% {
+          transform: rotate(180deg);
+        }
+        75% {
+          transform: rotate(270deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes configure-xclockwise {
+        0% {
+          transform: rotate(45deg);
+        }
+        25% {
+          transform: rotate(-45deg);
+        }
+        50% {
+          transform: rotate(-135deg);
+        }
+        75% {
+          transform: rotate(-225deg);
+        }
+        100% {
+          transform: rotate(-315deg);
+        }
+      }
+
+      @media screen and (max-width: 768px) {
+        .bg-wave {
+          background-image: url("/svg/bgsvg-sm-v1.webp");
+          background-image: -webkit-image-set(
+            "/svg/bgsvg-v1.avif" type("image/avif"),
+            "/svg/bgsvg-sm-v1.webp" type("image/webp")
+          );
+          background-image: image-set(
+            "/svg/bgsvg-v1.avif" type("image/avif"),
+            "/svg/bgsvg-sm-v1.webp" type("image/webp")
+          );
+        }
+      }
+
+      @media (min-width: 768px) {
+        .loading-subtitle {
+          font-size: 5vw;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .loading-content {
+          gap: 4rem;
+        }
+
+        .loading-title {
+          font-size: 10vw;
+        }
+
+        .loading-subtitle {
+          font-size: 2.25rem;
+          line-height: 2.5rem;
+        }
+      }
+
+      @media (orientation: landscape) {
+        .loading-title {
+          font-size: 13dvh;
+        }
+
+        .loading-subtitle {
+          font-size: 3dvh;
+        }
+      }
+    </style>
+  </head>
   <body>
     <div id="root"></div>
     <script type="module" src="./src/main.jsx"></script>

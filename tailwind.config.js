@@ -2,7 +2,14 @@
 export default {
   content: ["./src/**/*.{js,jsx}"],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        dosis: ["Dosis", "serif"],
+      },
+      animation: {
+        "bounce-custom": "bounce-custom 1s infinite",
+      },
+    },
   },
   plugins: [],
 };

@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 import { useVideoTexture } from "@react-three/drei";
 import { useAppStore } from "../lib/stores/useAppStore";
 
-export const VideoPlane = memo(function Plane({
+export const VideoPlane = memo(function VideoPlane({
   position,
   material,
   scaleX,

@@ -9,28 +9,25 @@ export const ProjectDetails = memo(function ProjectDetails() {
   const { playHoverSound } = useSoundStoreActions();
 
   if (!activeProject || !activeProject.codeLink || !activeProject.liveLink)
-    return;
+    return null;
 
   return (
     <Html
       fullscreen
       pointerEvents={"none"}
-      style={{
-        pointerEvents: "none",
-        width: "100vw",
-        position: "relative",
-      }}
-      as="projects-html"
+      as="section"
       position={[11, 5, 0]}
-      wrapperClass="text-white pointer-events-none"
+      wrapperClass="text-white pointer-events-none w-[100dvw] relative"
     >
-      <article className="absolute bottom-0 sm:bottom-10 lg:bottom-8 2xl:bottom-14 left-0 lg:text-xl w-full flex flex-col justify-center items-center sm:px-4 lg:px-6 2xl:px-40">
+      <div className="absolute bottom-0 sm:bottom-10 lg:bottom-8 2xl:bottom-14 left-0 lg:text-xl w-full flex flex-col justify-center items-center sm:px-4 lg:px-6 2xl:px-40">
         <div className="absolute flex flex-row items-center bottom-0 sm:bottom-[-30px] lg:bottom-[-10px] 2xl:-bottom-6">
           <p className="text-xs lg:text-lg">SCR</p>
           <ScrollIcon />
           <p className="text-xs lg:text-lg">LL</p>
         </div>
-        <div className="flex flex-row gap-x-20 sm:gap-20 lg:gap-x-40 2xl:gap-x-60 justify-center items-center mb-2 lg:mb-6">
+        <h1 className="sr-only">{activeProject?.title}</h1>
+        <nav className="flex flex-row gap-x-20 sm:gap-20 lg:gap-x-40 2xl:gap-x-60 justify-center items-center mb-2 lg:mb-6">
+          <h2 className="sr-only">Project Links</h2>
           <a
             href={activeProject?.liveLink}
             rel="noreferrer"
@@ -42,7 +39,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
             items-center relative
             pointer-events-auto text-[#f00] border-[2px] border-[#f00] rounded-full flex flex-row"
             onPointerOver={playHoverSound}
-            aria-label="View Live"
+            aria-label="Link to View Live Project"
           >
             <span className="text-xs sm:text-base font-bold py-1 pl-2 pr-7 pointer-events-none">
               View Live
@@ -63,7 +60,7 @@ export const ProjectDetails = memo(function ProjectDetails() {
             items-center relative
             pointer-events-auto text-[#0ef] border-[2px] border-[#0ef] rounded-full flex flex-row"
             onPointerOver={playHoverSound}
-            aria-label="View Code"
+            aria-label="Link to View Project Code"
           >
             <span className="text-xs sm:text-base font-bold py-1 pl-2 pr-7 pointer-events-none">
               View Code
@@ -72,16 +69,11 @@ export const ProjectDetails = memo(function ProjectDetails() {
               <GithubIcon className="absolute right-1 top-0 h-full group-hover:animate-ping" />
             </span>
           </a>
-        </div>
-        <div
-          className="
-          flex text-white w-full flex-row justify-between items-center gap-20 lg:gap-x-40 2xl:gap-x-60 p-1 2xl:p-4"
-        >
-          <div className="w-full flex flex-row justify-end">
-            <ul
-              className="flex flex-wrap justify-end items-center gap-1 lg:gap-2"
-              aria-label="Technologies used"
-            >
+        </nav>
+        <div className="flex text-white w-full flex-row justify-between items-center gap-20 lg:gap-x-40 2xl:gap-x-60 p-1 2xl:p-4">
+          <section className="w-full flex flex-row justify-end">
+            <h2 className="sr-only">Technologies used</h2>
+            <ul className="flex flex-wrap justify-end items-center gap-1 lg:gap-2">
               {activeProject?.projectTags?.map((tag, index) => (
                 <li
                   key={index}
@@ -91,14 +83,15 @@ export const ProjectDetails = memo(function ProjectDetails() {
                 </li>
               ))}
             </ul>
-          </div>
-          <div className="w-full hyphens-auto text-center break-words leading-tight">
+          </section>
+          <article className="w-full hyphens-auto text-center break-words leading-tight">
+            <h2 className="sr-only">Project Details</h2>
             <p className="bg-teal-400/10 px-2 lg:px-4 py-2 lg:py-4 text-xs lg:text-sm 2xl:text-xl text-teal-300">
               {activeProject?.projectDescription}
             </p>
-          </div>
+          </article>
         </div>
-      </article>
+      </div>
     </Html>
   );
 });

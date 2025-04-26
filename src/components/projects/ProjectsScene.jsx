@@ -8,27 +8,41 @@ import { useLocation } from "react-router-dom";
 
 const ProjectsScene = memo(
   forwardRef(function ProjectsScene({ renderTargetC }, textRef) {
-    const { pathname } = useLocation();
-    const started = useAppStore((state) => state.started);
-
     return (
       <>
         <ProjectsSceneEnv />
-        <Camera2 position={[5, 0, 26]} />
-        <ManualLazyComponent
-          ref={textRef}
-          shouldLoad={started || pathname === "/projects"}
-          delay={pathname === "/projects" ? 0 : 500}
-          loadComponent={() => import("./ProjectsSceneContent")}
-          renderTargetC={renderTargetC}
-        />
+        <Camera2 />
+        <ProjectsSceneContent ref={textRef} renderTargetC={renderTargetC} />
       </>
     );
   })
 );
 
-export default ProjectsScene;
+const ProjectsSceneContent = forwardRef(function ProjectsSceneContent(
+  { renderTargetC },
+  textRef
+) {
+  const { pathname } = useLocation();
+  const started = useAppStore((state) => state.started);
+
+  return (
+    <ManualLazyComponent
+      ref={textRef}
+      shouldLoad={started || pathname === "/projects"}
+      delay={pathname === "/projects" ? 0 : 40000}
+      loadComponent={() => import("./ProjectsSceneContent")}
+      renderTargetC={renderTargetC}
+      shouldOuterSuspend={!started}
+    />
+  );
+});
 
 ProjectsScene.propTypes = {
   renderTargetC: PropTypes.object.isRequired,
 };
+
+ProjectsSceneContent.propTypes = {
+  renderTargetC: PropTypes.object.isRequired,
+};
+
+export default ProjectsScene;

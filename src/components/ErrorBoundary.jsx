@@ -7,7 +7,7 @@ export default function ErrorBoundary() {
       <Helmet>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
-      <div className="absolute md:bg-[url('/svg/bgsvg.webp')] bg-[url('/svg/bgsvg-sm.webp')] bg-no-repeat bg-cover bg-center z-[100] w-full h-full flex flex-col items-center justify-center">
+      <div className="absolute bg-wave z-[100] w-full h-full flex flex-col items-center justify-center">
         <div className="flex flex-col gap-4 px-20 py-10 items-center justify-center bg-black/80 text-white backdrop-blur-md rounded-xl">
           <div className="max-w-md w-full flex-col flex items-center">
             <div className="flex items-center">
