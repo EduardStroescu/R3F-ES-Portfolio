@@ -96,7 +96,7 @@ export default function useProjectDetails() {
       });
 
       // Set Project Details according to the scroll offset
-      const activeInfo = getActiveProject(scroll.progress);
+      const activeInfo = getActiveProject(scroll.progress, projectsData.length);
       setActiveProject(activeInfo);
     }
   });

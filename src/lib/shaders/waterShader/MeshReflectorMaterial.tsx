@@ -36,7 +36,6 @@ type Props = JSX.IntrinsicElements["meshStandardMaterial"] & {
   distortion?: number;
   mixContrast?: number;
   reflectorOffset?: number;
-  time?: number;
   mapp?: Texture;
   amount?: number;
 };
@@ -70,7 +69,6 @@ export const MeshReflectorMaterial = forwardRef<
       mixContrast = 1,
       distortionMap,
       reflectorOffset = 0,
-      time = 0,
       mapp,
       amount = 0,
       ...props
@@ -82,6 +80,8 @@ export const MeshReflectorMaterial = forwardRef<
     const scene = useThree(({ scene }) => scene);
     blur = Array.isArray(blur) ? blur : [blur, blur];
     const hasBlur = blur[0] + blur[1] > 0;
+    const blurX = blur[0];
+    const blurY = blur[1];
     const materialRef = useRef<MeshReflectorMaterialImpl>(null!);
     const [reflectorPlane] = useState(() => new Plane());
     const [normal] = useState(() => new Vector3());
@@ -198,8 +198,8 @@ export const MeshReflectorMaterial = forwardRef<
       const blurpass = new BlurPass({
         gl,
         resolution,
-        width: blur[0],
-        height: blur[1],
+        width: blurX,
+        height: blurY,
         minDepthThreshold,
         maxDepthThreshold,
         depthScale,
@@ -213,7 +213,6 @@ export const MeshReflectorMaterial = forwardRef<
         tDepth: fbo1.depthTexture,
         tDiffuseBlur: fbo2.texture,
         hasBlur,
-        time,
         amount,
         mapp,
         mixStrength,
@@ -231,33 +230,34 @@ export const MeshReflectorMaterial = forwardRef<
 
       return [fbo1, fbo2, blurpass, reflectorProps];
     }, [
-      gl,
-      blur,
-      textureMatrix,
       resolution,
-      mirror,
-      hasBlur,
-      mixBlur,
-      mixStrength,
+      gl,
+      blurX,
+      blurY,
       minDepthThreshold,
       maxDepthThreshold,
       depthScale,
       depthToBlurRatioBias,
+      mirror,
+      textureMatrix,
+      mixBlur,
+      hasBlur,
+      amount,
+      mapp,
+      mixStrength,
       distortion,
       distortionMap,
       mixContrast,
     ]);
 
-    useFrame((state, delta) => {
-      materialRef.current.time += delta;
+    useFrame((_, delta) => {
       // TODO: As of R3f 7-8 this should be __r3f.parent
       const parent =
         (materialRef.current as any).parent ||
         (materialRef.current as any)?.__r3f.parent;
       if (!parent) return;
 
-      state.clock.getElapsedTime();
-
+      materialRef.current.time += delta;
       parent.visible = false;
       const currentXrEnabled = gl.xr.enabled;
       const currentShadowAutoUpdate = gl.shadowMap.autoUpdate;

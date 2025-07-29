@@ -1,9 +1,21 @@
 import { projectsData } from "../data/projectsData";
 
-const THRESHOLDS = [0.08, 0.24, 0.38, 0.53, 0.67, 0.92];
+export const getActiveProject = (scrollProgress, totalProjects) => {
+  const normalized = ((scrollProgress % 1) + 1) % 1; // keep in [0,1)
+  const sectionSize = 0.88 / totalProjects;
 
-export const getActiveProject = (offset) => {
-  const activeIndex = THRESHOLDS.findIndex((threshold) => offset <= threshold);
+  // Offset by half a section to switch at the midpoint between projects
+  const adjusted = normalized + sectionSize / 2;
 
-  return projectsData[activeIndex === -1 ? 0 : activeIndex];
+  // Don't wrap, clamp adjusted to max 1
+  const clamped = adjusted > 1 ? 1 : adjusted;
+
+  // Calculate index without wrap
+  let index = Math.floor(clamped / sectionSize);
+
+  // Clamp index to valid range (0 to totalProjects-1)
+  if (index >= totalProjects) index = 0;
+  if (index < 0) index = 0;
+
+  return projectsData[index];
 };

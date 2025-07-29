@@ -42,8 +42,12 @@ const ProjectsSceneContent = memo(
               </group>
             ))}
           </group>
-          <ProjectsScene3DTitle ref={textRef} renderTargetC={renderTargetC} />
-          {activeScene === "projects" && <ProjectDetails />}
+          <Suspense fallback={null}>
+            <ProjectsScene3DTitle ref={textRef} renderTargetC={renderTargetC} />
+          </Suspense>
+          <Suspense fallback={null}>
+            {activeScene === "projects" && <ProjectDetails />}
+          </Suspense>
         </group>
       </Suspense>
     );

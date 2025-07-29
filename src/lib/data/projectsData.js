@@ -54,6 +54,31 @@ export const projectsData = [
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/esarbodri3cgjtlgpukn",
   },
   {
+    title: "OG GENERATOR",
+    liveLink: "https://status-checker-omega.vercel.app/generator/og/",
+    codeLink: "https://github.com/EduardStroescu/next-status-checker/tree/main",
+    titleColor: "#739ff5",
+    sceneColor: [107, 53, 42],
+    projectDescription:
+      "A WIP SaaS project status checker and dynamic image generation tool for developers. It monitors the health of various services, including client-side apps, API backends, and Supabase databases, while also offering a platform for generating custom Open Graph and other image types using HTML, CSS, Tailwind.",
+    projectTags: [
+      "NextJS",
+      "Satori",
+      "Tailwind",
+      "Supabase",
+      "Shadcn/UI",
+      "Vercel/OG",
+      "TypeScript",
+      "React-Query",
+      "Custom Auth",
+      "React-Hook-Form",
+    ],
+    image:
+      "https://status-checker-omega.vercel.app/api/og/rVRbb9MwFP4rVVAlkJrUubeVEAK2wR5gEvQNIeQ4J4k3JzaO07SM8ts5brusHePygNSqPd85Prfvs28dJnNwFreO2Sj8dXK-ciaO0lK1Fm3NRuzcFfCyMhjgEzLGiJ7npro3c94qQTcIFALWCNifM66BGS4bhJkUXd2ggwpeNpcGaszvMGgMaESvu9bwYvNaot3YMoOnQOgj_4ZNzGcTm0ZqdPcVN-BsEai4yDVgiU_DDLwuT2bQDMHKGNUuptPWUNO1LquA3YB2ZQ0l9VagGQiPKjWlik9lOeU1LcHFHOvNi06L57vj4_DlOLjAD1bwCg2g-I3HZI2ItdwVjis1WjRrjabMuBltGqySUXZTatk1udtzU7mD30glS01VtXFzaHEzX3wSzVw_IGHgXatyHF6YcXjWmnEQh2d-GodJFKTh7Aes1RGUhAhVNWU7LImLOM5nkCYpxCSYz_2YJZnPgoikBAI2C4gfU59GjKZ-DkUcElZk0SwMC0aiFJMkPRbFJgjucZCAki0_sIn9I5_IwMTBCZwFmTgCCuQN_zxQxkPhFFxYYhdOJjr9NFbrZ6c0Np0Q2-1kILNdnZL5f7uRijJuULfEIzH2seLQv5JrDCAjMsIF2C_GrWvRWMFaGaCI-r73-tCTupyin0z3TT6mxcO4RxPwHOFG8hYu7nz3B-_PwbLTWSegYXau4fSd26qHivc2Dbozitk0fO0w3F7CCLGmq68wZgW272BHJDesWnKxQ_bWSfH96o-Xb-_vcfV_5RZvzNMnRzM-e6TO5z-wfFcnmM0RPiUljUdJvC8mEHpSFMWxSmuqS25VYSPV-lRcQz1FMf9RQcvJuzD14rkXxCJMvDlWid56SbQ33CT69pdd_e7l3De0tMKMyEk3ztWb72_O359_eLm8-uDsN4KKtKrepbBPH_5BMTW0tiWWmvJmdNVYyg_5UUm6psK-yAcyIoJVhiOXh2f0zpsSvBQPzh6Fv6MYzqkYXTLbxEnWX899Hu6XfSvu9ZCEaOSQdaWzKKhoYeJALa_5cr8p0--sw-N-XmeA6ze6g-32Jw.png",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1753670735/Portfolio/Videos/loading_bxo1br.mp4",
+  },
+  {
     title: "EXPODASH",
     liveLink: "https://expo-dash.vercel.app/",
     codeLink: "https://github.com/EduardStroescu/ExpoDash",
@@ -152,16 +177,18 @@ export const projectsData = [
     video:
       "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1712931617/Portfolio/Videos/bnsh5ncerdjezhzsnu5j",
   },
-  // Uncomment for Coming Soon Placeholder
-  // {
-  //   title: "COMING SOON",
-  //   liveLink: null,
-  //   codeLink: null,
-  //   titleColor: "#adb6c9",
-  //   sceneColor: [104, 79, 26],
-  //   projectDescription: null,
-  //   projectTags: null,
-  //   image: "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/n2zhusifwz47eufpilmq",
-  //   video: null,
-  // },
+  // Coming Soon Placeholder
+  {
+    title: "COMING SOON",
+    liveLink: null,
+    codeLink: null,
+    titleColor: "#adb6c9",
+    sceneColor: [104, 79, 26],
+    projectDescription: null,
+    projectTags: null,
+    image:
+      "https://res.cloudinary.com/dgfe1xsgj/image/upload/dpr_auto,fl_immutable_cache,q_auto/v1705318299/Portfolio/Photos/n2zhusifwz47eufpilmq",
+    video:
+      "https://res.cloudinary.com/dgfe1xsgj/video/upload/ac_none,fl_immutable_cache,vc_h265,f_auto:video,q_auto/v1753670735/Portfolio/Videos/loading_bxo1br.mp4",
+  },
 ];

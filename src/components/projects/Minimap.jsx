@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unknown-property */
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { memo, useRef } from "react";
 import { Vector3, LineBasicMaterial } from "three";
 import { MathUtils } from "three";
@@ -22,8 +22,6 @@ const damp = MathUtils.damp;
 const Minimap = memo(function Minimap({ planeGroups }) {
   const ref = useRef();
   const { scroll } = useScrollContext();
-  const { size } = useThree();
-  const viewport = { width: size.width };
 
   useFrame((delta) => {
     if (ref.current) {
@@ -49,9 +47,7 @@ const Minimap = memo(function Minimap({ planeGroups }) {
           geometry={geometry}
           material={material}
           position={[
-            viewport.width > 1110
-              ? i * 0.04 - planeGroups.length * -0.35
-              : i * 0.04 - planeGroups.length * -0.35,
+            i * 0.04 - ((planeGroups.length - 1) * 0.04) / 2 + 2.21,
             -4.45,
             4.23,
           ]}
