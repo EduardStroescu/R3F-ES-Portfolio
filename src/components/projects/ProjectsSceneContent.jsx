@@ -17,39 +17,39 @@ const ProjectsSceneContent = memo(
     const { planeGroupRef, planeGroups } = useProjectDetails();
 
     return (
-      <Suspense fallback={null}>
-        <group visible={activeScene !== "home"}>
-          <Minimap planeGroups={planeGroups} />
-          <group ref={planeGroupRef}>
-            {planeGroups.map((group, index) => (
-              <group key={index}>
-                {group.map((planeProps, planeIndex) => {
-                  return (
-                    <Fragment key={planeIndex}>
-                      {planeIndex % 2 !== 0 ? (
-                        <Suspense fallback={null}>
-                          <DelayedPlane
-                            delay={planeProps.delay}
-                            {...planeProps}
-                          />
-                        </Suspense>
-                      ) : (
+      <group visible={activeScene !== "home"}>
+        <Minimap planeGroups={planeGroups} />
+        <group ref={planeGroupRef}>
+          {planeGroups.map((group, index) => (
+            <group key={index}>
+              {group.map((planeProps, planeIndex) => {
+                return (
+                  <Fragment key={planeIndex}>
+                    {planeIndex % 2 !== 0 ? (
+                      <Suspense fallback={null}>
+                        <DelayedPlane
+                          delay={planeProps.delay}
+                          {...planeProps}
+                        />
+                      </Suspense>
+                    ) : (
+                      <Suspense fallback={null}>
                         <Plane {...planeProps} />
-                      )}
-                    </Fragment>
-                  );
-                })}
-              </group>
-            ))}
-          </group>
-          <Suspense fallback={null}>
-            <ProjectsScene3DTitle ref={textRef} renderTargetC={renderTargetC} />
-          </Suspense>
-          <Suspense fallback={null}>
-            {activeScene === "projects" && <ProjectDetails />}
-          </Suspense>
+                      </Suspense>
+                    )}
+                  </Fragment>
+                );
+              })}
+            </group>
+          ))}
         </group>
-      </Suspense>
+        <Suspense fallback={null}>
+          <ProjectsScene3DTitle ref={textRef} renderTargetC={renderTargetC} />
+        </Suspense>
+        <Suspense fallback={null}>
+          {activeScene === "projects" && <ProjectDetails />}
+        </Suspense>
+      </group>
     );
   })
 );
