@@ -6,6 +6,12 @@ import { useAppStoreActions } from "../stores/useAppStore";
 import { useScrollContext } from "../providers/ScrollProvider";
 import { projectsData } from "../data/projectsData";
 
+const projectsImages = projectsData.map((project) => project.image);
+const PLANE_START_POSITION = 0;
+const PLANE_OFFSET = 55;
+const TOTAL_DISTANCE = (projectsData.length - 0.9) * 73;
+const PLANE_Z_STARTS = projectsData.map((_, idx) => idx * TOTAL_DISTANCE);
+
 export default function useProjectDetails() {
   const { setActiveProject } = useAppStoreActions();
   const planeGroupRef = useRef();
@@ -13,16 +19,15 @@ export default function useProjectDetails() {
   const { size } = useThree();
   const viewport = { width: size.width, height: size.height };
 
-  const projectsImages = projectsData.map((project) => project.image);
   const images = useTexture(projectsImages);
 
-  const planeCoords = {
-    planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -5 },
-    planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -5 },
-  };
-
-  const planeStartPosition = 0;
-  const planeOffset = 55;
+  const planeCoords = useMemo(
+    () => ({
+      planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -5 },
+      planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -5 },
+    }),
+    [viewport.width]
+  );
 
   // Helper function to calculate positions for left and right planes
   const calculatePlanePositions = useCallback(
@@ -30,12 +35,12 @@ export default function useProjectDetails() {
       leftPlane: [
         planeCoords.planeLeft.x,
         planeCoords.planeLeft.y,
-        planeStartPosition + index * -planeOffset,
+        PLANE_START_POSITION + index * -PLANE_OFFSET,
       ],
       rightPlane: [
         planeCoords.planeRight.x,
         planeCoords.planeRight.y,
-        planeStartPosition + index * -planeOffset - 5,
+        PLANE_START_POSITION + index * -PLANE_OFFSET - 5,
       ],
     }),
     [
@@ -72,33 +77,29 @@ export default function useProjectDetails() {
   }, [calculatePlanePositions, images, generalPlaneProps]);
 
   // Calculate the total distance covered by the planes in the scroll
-  const totalDistance = (planeGroups.length - 0.9) * 73;
   useFrame(() => {
-    if (planeGroupRef.current) {
-      // Calculate the adjusted offset to create a seamless loop
-      let adjustedOffset = scroll.progress % 2;
-      if (adjustedOffset < 0) {
-        adjustedOffset += 1;
-      }
+    const groupChildren = planeGroupRef.current?.children;
+    if (!groupChildren) return;
 
-      // Loop through each plane group and update its position based on the adjusted offset
-      planeGroupRef.current.children.forEach((group, index) => {
-        // Calculate the position of the group based on the adjusted offset
-        let zPosition =
-          (index * totalDistance + adjustedOffset * totalDistance) %
-          totalDistance;
+    // Calculate the adjusted offset once per frame
+    let adjustedOffset = scroll.progress % 2;
+    if (adjustedOffset < 0) adjustedOffset += 1;
 
-        // Adjust the z-axis position of the group to loop back to the beginning when reaching the last group
-        if (zPosition > totalDistance / 1.2) {
-          zPosition -= totalDistance;
-        }
-        group.position.z = zPosition;
-      });
+    // Precompute commonly used constants
+    const halfDistance = TOTAL_DISTANCE / 1.2;
 
-      // Set Project Details according to the scroll offset
-      const activeInfo = getActiveProject(scroll.progress, projectsData.length);
-      setActiveProject(activeInfo);
+    // Loop through each plane group and update its position
+    for (let i = 0; i < groupChildren.length; i++) {
+      let zPosition =
+        (PLANE_Z_STARTS[i] + adjustedOffset * TOTAL_DISTANCE) % TOTAL_DISTANCE;
+      if (zPosition > halfDistance) zPosition -= TOTAL_DISTANCE;
+
+      groupChildren[i].position.z = zPosition;
     }
+
+    // Update active project only once per frame
+    const activeInfo = getActiveProject(scroll.progress, projectsData.length);
+    setActiveProject(activeInfo);
   });
 
   return { planeGroupRef, planeGroups };

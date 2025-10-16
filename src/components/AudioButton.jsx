@@ -20,7 +20,9 @@ function AudioButton() {
 
   const switchAudio = () => setAudioEnabled(!audioEnabled);
 
-  const tooltipText = audioEnabled
+  const tooltipText = isLoadingSounds
+    ? "Loading sounds..."
+    : audioEnabled
     ? "Toggle all sounds Off"
     : "Toggle all sounds On";
   const tooltipClass = audioEnabled ? "audioOn" : "audioOff";
@@ -44,7 +46,7 @@ function AudioButton() {
         <span className={`tooltip ${tooltipClass}`}>{tooltipText}</span>
         <span>
           <AudioIcon
-            className={`${audioEnabled ? "fill-[#3ff9e6]" : "fill-[#fc003f]"} ${
+            className={`${audioEnabled ? "fill-white" : "fill-[#fc003f]"} ${
               isLoadingSounds ? "animate-pulse" : "animate-none"
             }`}
           />

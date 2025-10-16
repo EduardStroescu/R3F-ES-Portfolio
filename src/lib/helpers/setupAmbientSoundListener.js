@@ -9,19 +9,22 @@ export const setupAmbientSoundListener = () => {
     if (useSoundStore.getState().audioEnabled) {
       useSoundStore.getState().actions.playAmbientSound();
     }
-
-    // Remove the listener after the first interaction (either click or touchstart)
-    window.removeEventListener("click", handlePlayAmbientSound);
-    window.removeEventListener("touchstart", handlePlayAmbientSound);
   };
 
   // Attach the listener for the first user interaction (either click or touchstart)
-  window.addEventListener("click", handlePlayAmbientSound);
-  window.addEventListener("touchstart", handlePlayAmbientSound);
+  const root = document.getElementById("root");
+  root.addEventListener("click", handlePlayAmbientSound, {
+    once: true,
+    passive: true,
+  });
+  root.addEventListener("touchstart", handlePlayAmbientSound, {
+    once: true,
+    passive: true,
+  });
 
   // Return a cleanup function to remove listeners if needed
   return () => {
-    window.removeEventListener("click", handlePlayAmbientSound);
-    window.removeEventListener("touchstart", handlePlayAmbientSound);
+    root.removeEventListener("click", handlePlayAmbientSound);
+    root.removeEventListener("touchstart", handlePlayAmbientSound);
   };
 };

@@ -31,17 +31,21 @@ input:-webkit-autofill:active {
 
 .tooltipWrapper .tooltip {
   position: absolute;
-  top: 0;
+  top: -40%;
   font-size: 14px;
   background: #ffffff;
   color: #ffffff;
   padding: 5px 8px;
   border-radius: 5px;
-  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
   opacity: 0;
   pointer-events: none;
-  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
   width: 80px;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.tooltipWrapper[data-projectsactive="true"] .tooltip {
+  top: 80%;
 }
 
 .tooltipWrapper .tooltip::before {
@@ -77,10 +81,12 @@ input:-webkit-autofill:active {
   text-shadow: 0px -1px 0px rgba(0, 0, 0, 0.1);
 }
 
+.tooltipWrapper .tooltip {
+  color: #000000;
+}
+
 .tooltipWrapper .soundIconEnabled:hover,
-.tooltipWrapper .soundIconEnabled:hover .tooltip,
 .tooltipWrapper .soundIconEnabled:hover .tooltip::before {
-  color: #ffffff;
   font-weight: bold;
   background: #fc003f; /* Old browsers */
   background: -moz-linear-gradient(
@@ -98,9 +104,7 @@ input:-webkit-autofill:active {
 }
 
 .tooltipWrapper .soundIconDisabled:hover,
-.tooltipWrapper .soundIconDisabled:hover .tooltip,
 .tooltipWrapper .soundIconDisabled:hover .tooltip::before {
-  color: #ffffff;
   font-weight: bold;
   background: #3ff9e6; /* Old browsers */
   background: -moz-linear-gradient(
@@ -117,6 +121,25 @@ input:-webkit-autofill:active {
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#3ff9e6', endColorstr='#8200c9',GradientType=0 ); /* IE6-9 */
 }
 /* Stops Here */
+
+ /* Sound Icon Equalizer */
+.bar {
+  transform-box: fill-box;
+  transform-origin: center center; /* scale from center */
+}
+
+.soundIconEnabled .bar {
+  animation: eq 2s ease-in-out infinite;
+}
+
+.soundIconEnabled .b1 { animation-duration: 1.9s; animation-delay: 0ms; }
+.soundIconEnabled .b2 { animation-duration: 2.1s; animation-delay: 200ms; }
+.soundIconEnabled .b3 { animation-duration: 1.8s; animation-delay: 100ms; }
+.soundIconEnabled .b4 { animation-duration: 2.3s; animation-delay: 300ms; }
+.soundIconEnabled .b5 { animation-duration: 2s; animation-delay: 150ms; }
+.soundIconEnabled .b6 { animation-duration: 1.85s; animation-delay: 250ms; }
+.soundIconEnabled .b7 { animation-duration: 2.2s; animation-delay: 350ms; }
+ /* Stops Here */
 
 
 /* Projects buttons: View Code, View Live */
@@ -191,4 +214,12 @@ input:-webkit-autofill:active {
     transform: translateY(5%);
     animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
   }
+}
+
+@keyframes eq {
+  0%   { transform: scaleY(0.3); }
+  25%  { transform: scaleY(1); }
+  50%  { transform: scaleY(0.5); }
+  75%  { transform: scaleY(1.2); }
+  100% { transform: scaleY(0.3); }
 }

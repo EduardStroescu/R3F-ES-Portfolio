@@ -18,4 +18,27 @@ export default defineConfig({
       },
     ]),
   ],
+  build: {
+    resolve: { dedupe: ["react", "react-dom"] },
+    rollupOptions: {
+      external: ["hls.js"],
+      output: {
+        manualChunks: (id) => {
+          if (/node_modules\/three/.test(id)) return "three-core";
+          if (/node_modules\/howler/.test(id)) return "howler";
+          if (
+            /node_modules\/(react-hook-form|@hookform\/resolvers|zod)/.test(id)
+          )
+            return "forms";
+          if (/node_modules\/(uuid|prop-types|react-merge-refs)/.test(id))
+            return "utils";
+          if (id.toLowerCase().includes("postprocessing")) {
+            return "postprocessing";
+          }
+
+          if (/node_modules/.test(id)) return "vendor";
+        },
+      },
+    },
+  },
 });

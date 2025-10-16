@@ -33,6 +33,7 @@ function App() {
                 stencil: false,
                 depth: false,
                 powerPreference: "high-performance",
+                logarithmicDepthBuffer: false,
               }}
             >
               <Camera />

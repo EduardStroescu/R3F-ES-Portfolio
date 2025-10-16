@@ -30,12 +30,7 @@ export function useDirectionalSound() {
   }, [isWindowActive, pauseAmbientSound, playAmbientSound]);
 
   useEffect(() => {
-    const cleanupListener = setupAmbientSoundListener();
-
-    // Cleanup function to remove listener
-    return () => {
-      cleanupListener();
-    };
+    return setupAmbientSoundListener();
   }, []);
 
   // Memoize the current settings based on pathname
