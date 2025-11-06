@@ -12,7 +12,10 @@ export default function Camera() {
 
   const set = useThree((state) => state.set);
   useEffect(() => void set({ camera: cameraRef.current }));
-  useFrame(() => cameraRef.current.updateMatrixWorld());
+  useFrame(() => {
+    if (!cameraRef.current) return;
+    cameraRef.current.updateMatrixWorld();
+  });
 
   const startTimeRef = useRef(null);
 

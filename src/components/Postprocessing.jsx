@@ -74,13 +74,15 @@ const Postprocessing = memo(function Postprocessing({
     return pass;
   }, [camera, lensFlareEffect]);
 
-  useFrame((state) => {
-    // Wait for the first render frame before adding passes
-    if (!ready) {
-      setReady(true);
-    }
+  // Mark ready after first rAF instead of inside the frame loop
+  useEffect(() => {
+    let raf = requestAnimationFrame(() => setReady(true));
+    return () => cancelAnimationFrame(raf);
+  }, []);
 
-    if (!composer) return;
+  useFrame((state) => {
+    // Gate: skip frame work until ready and composer exists
+    if (!ready || !composer) return;
 
     state.gl.autoClear = false;
     state.gl.clear();

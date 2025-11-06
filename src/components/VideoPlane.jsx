@@ -32,7 +32,7 @@ export const VideoPlane = memo(function VideoPlane({
     <group position={position} scale-x={scaleX} scale-y={scaleY}>
       <mesh>
         <planeGeometry args={aspect} />
-        <meshBasicMaterial map={videoMaterial} fog={fog} />
+        <meshBasicMaterial map={videoMaterial} fog={fog} toneMapped={false} />
       </mesh>
     </group>
   );

@@ -1,8 +1,8 @@
 import { useFBO } from "@react-three/drei";
 import { useFrame, useThree } from "@react-three/fiber";
-import { useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { Scene } from "three";
-import { useAppStoreActions } from "../stores/useAppStore";
+import { useAppStore, useAppStoreActions } from "../stores/useAppStore";
 import { easings, useSpring } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
 
@@ -18,6 +18,7 @@ export default function useRenderScenePortals() {
   const renderTargetB = useFBO();
   const renderTargetC = useFBO();
   const progress = useRef(pathname !== "/projects" ? -2.0 : 2.0);
+  const activeSceneRef = useRef(useAppStore.getState().activeScene);
   const { gl } = useThree();
 
   // Animate the transition between home and projects scenes -2 to 2
@@ -43,25 +44,55 @@ export default function useRenderScenePortals() {
     },
   });
 
+  useEffect(() => {
+    // Subscribe to changes in the store
+    const unsubscribe = useAppStore.subscribe(
+      (state) => (activeSceneRef.current = state.activeScene)
+    );
+
+    return () => unsubscribe(); // cleanup on unmount
+  }, []);
+
   useFrame((state, delta) => {
     const { camera } = state;
     if (!screenMesh.current) return;
 
-    gl.setRenderTarget(renderTargetA);
-    gl.render(homeScene, camera);
+    // Conditionally render scenes to FBOs only when needed
+    let renderedA = false;
+    let renderedB = false;
 
-    gl.setRenderTarget(renderTargetB);
-    gl.render(projectsScene, camera);
+    const activeScene = activeSceneRef.current;
 
-    if (textRef.current) {
-      gl.setRenderTarget(renderTargetC);
-      textRef.current.material.visible = false;
-      gl.render(projectsScene, camera);
-      textRef.current.material.visible = true;
+    if (activeScene !== "projects") {
+      gl.setRenderTarget(renderTargetA);
+      gl.render(homeScene, camera);
+      renderedA = true;
     }
 
-    screenMesh.current.material.uniforms.textureA.value = renderTargetA.texture;
-    screenMesh.current.material.uniforms.textureB.value = renderTargetB.texture;
+    if (activeScene !== "home") {
+      gl.setRenderTarget(renderTargetB);
+      gl.render(projectsScene, camera);
+      renderedB = true;
+
+      // Render text isolation pass only when projects is active and text exists
+      if (textRef.current) {
+        gl.setRenderTarget(renderTargetC);
+        textRef.current.material.visible = false;
+        gl.render(projectsScene, camera);
+        textRef.current.material.visible = true;
+      }
+    }
+
+    // Update uniforms (using last valid textures)
+    if (renderedA) {
+      screenMesh.current.material.uniforms.textureA.value =
+        renderTargetA.texture;
+    }
+    if (renderedB) {
+      screenMesh.current.material.uniforms.textureB.value =
+        renderTargetB.texture;
+    }
+
     screenMesh.current.material.uniforms.uTime.value += delta;
     gl.setRenderTarget(null);
   });

@@ -19,6 +19,8 @@ export default defineConfig({
     ]),
   ],
   build: {
+    chunkSizeWarningLimit: 900,
+    cssMinify: "lightningcss",
     resolve: { dedupe: ["react", "react-dom"] },
     rollupOptions: {
       external: ["hls.js"],
