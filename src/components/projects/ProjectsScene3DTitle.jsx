@@ -1,18 +1,22 @@
 import { MeshTransmissionMaterial, Text } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
 import PropTypes from "prop-types";
 import { forwardRef, memo } from "react";
 import { useAppStore } from "../../lib/stores/useAppStore";
 import { animated, easings, useSpring } from "@react-spring/three";
+import { useShallow } from "zustand/react/shallow";
 
 const AnimatedMeshTransmissionMaterial = animated(MeshTransmissionMaterial);
 const AnimatedText = animated(Text);
 
 const ProjectsScene3DTitle = memo(
   forwardRef(function ProjectsScene3DTitle({ renderTargetC }, textRef) {
-    const activeProject = useAppStore((state) => state.activeProject);
-    const { size } = useThree();
-    const viewport = { width: size.width, height: size.height };
+    const { activeProject, viewportWidth, viewportHeight } = useAppStore(
+      useShallow((state) => ({
+        activeProject: state.activeProject,
+        viewportWidth: state.viewportWidth,
+        viewportHeight: state.viewportHeight,
+      }))
+    );
 
     const spring = useSpring({
       from: { fillOpacity: 0, position: [11, -5.5, 11] },
@@ -32,8 +36,8 @@ const ProjectsScene3DTitle = memo(
         font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters={activeProject.title}
         position={spring.position}
-        fontSize={(viewport.width / viewport.height) * 3.5}
-        maxWidth={viewport.width}
+        fontSize={(viewportWidth / viewportHeight) * 3.5}
+        maxWidth={viewportWidth}
         fillOpacity={spring.fillOpacity}
       >
         <AnimatedMeshTransmissionMaterial

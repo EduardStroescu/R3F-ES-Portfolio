@@ -3,6 +3,10 @@ import { addEffect } from "@react-three/fiber";
 import Lenis from "@studio-freight/lenis";
 import PropTypes from "prop-types";
 
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
+
 const scrollContext = createContext();
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -16,6 +20,9 @@ export const useScrollContext = () => {
 
 const scroll = {
   progress: 0,
+  direction: 0,
+  velocity: 0,
+  influence: 0,
 
   // Calculate range between from and distance with optional margin
   range(from, distance, margin = 0) {
@@ -53,10 +60,20 @@ export function ScrollProvider({ children }) {
     });
     lenisRef.current = lenis;
 
-    lenis.on("scroll", ({ progress }) => {
+    lenis.on("scroll", ({ progress, velocity, direction }) => {
       scroll.progress = progress;
+      scroll.velocity = velocity;
+      scroll.direction = direction;
     });
-    const effectSub = addEffect((time) => lenis.raf(time));
+
+    const effectSub = addEffect((time) => {
+      lenis.raf(time);
+      scroll.influence = lerp(
+        scroll.influence,
+        Math.abs(scroll.velocity),
+        0.12
+      );
+    });
     return () => {
       effectSub();
       lenis.destroy();

@@ -41,8 +41,6 @@ ProjectsScene.propTypes = {
   renderTargetC: PropTypes.object.isRequired,
 };
 
-ProjectsSceneContent.propTypes = {
-  renderTargetC: PropTypes.object.isRequired,
-};
+ProjectsSceneContent.propTypes = ProjectsScene.propTypes;
 
 export default ProjectsScene;

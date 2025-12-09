@@ -2,7 +2,7 @@
 import { useTrailTexture } from "@react-three/drei";
 import { MeshReflectorMaterial } from "../../lib/shaders/waterShader/MeshReflectorMaterial";
 import { useAppStore } from "../../lib/stores/useAppStore";
-import { useThree } from "@react-three/fiber";
+import { useShallow } from "zustand/react/shallow";
 
 const waterTrailConfig = {
   size: 32,
@@ -17,9 +17,12 @@ const waterTrailConfig = {
 
 function WaterComponent() {
   const [texture, onMove] = useTrailTexture(waterTrailConfig);
-  const activeScene = useAppStore((state) => state.activeScene);
-  const { size } = useThree();
-  const viewport = { width: size.width };
+  const { activeScene, viewportWidth } = useAppStore(
+    useShallow((state) => ({
+      activeScene: state.activeScene,
+      viewportWidth: state.viewportWidth,
+    }))
+  );
 
   return (
     <mesh
@@ -28,19 +31,18 @@ function WaterComponent() {
       onPointerMove={onMove}
       rotation={[-Math.PI / 2, 0, 0]}
     >
-      <planeGeometry args={[300, 200, 50, 50]} />
+      <planeGeometry args={[300, 200, 28, 28]} />
       <MeshReflectorMaterial
-        resolution={viewport.width >= 1024 ? 1024 : 512} // Off-buffer resolution, lower=faster, higher=better quality
+        resolution={viewportWidth >= 1024 ? 1024 : 512} // Off-buffer resolution, lower=faster, higher=better quality
         mapp={texture}
         distortionMap={texture}
         distortion={0.15}
         amount={0.08}
         mixStrength={0.9} // Strength of the reflections
-        rotation={[-Math.PI * 0.5, 0, 0]}
         mirror={0.9} // Mirror environment, 0 = texture colors, 1 = pick up env colors
         depthScale={30}
-        minDepthThreshold={viewport.width >= 1024 ? -0.04 : 0.1}
-        maxDepthThreshold={viewport.width >= 1024 ? 0.8 : 10}
+        minDepthThreshold={viewportWidth >= 1024 ? -0.04 : 0.1}
+        maxDepthThreshold={viewportWidth >= 1024 ? 0.8 : 10}
         color="#05faea"
         roughness={0}
         metalness={0.05}

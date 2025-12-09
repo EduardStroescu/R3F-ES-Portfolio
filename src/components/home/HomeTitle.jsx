@@ -1,8 +1,9 @@
 import { MeshWobbleMaterial, Text, useTrailTexture } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
 import { useLocation } from "react-router-dom";
 import { useSpring } from "@react-spring/web";
 import { animated } from "@react-spring/three";
+import { useAppStore } from "../../lib/stores/useAppStore";
+import { useShallow } from "zustand/react/shallow";
 
 const AnimatedMeshWobbleMaterial = animated(MeshWobbleMaterial);
 const AnimatedText = animated(Text);
@@ -20,8 +21,13 @@ const titleTrailConfig = {
 
 function HomeTitle() {
   const { pathname } = useLocation();
-  const { size } = useThree();
-  const viewport = { width: size.width, height: size.height };
+
+  const { viewportWidth, viewportHeight } = useAppStore(
+    useShallow((state) => ({
+      viewportWidth: state.viewportWidth,
+      viewportHeight: state.viewportHeight,
+    }))
+  );
 
   const [texture2, onMove2] = useTrailTexture(titleTrailConfig);
   const [texture3, onMove3] = useTrailTexture(titleTrailConfig);
@@ -41,18 +47,15 @@ function HomeTitle() {
         anchorX="center"
         font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters="FULL-STACK"
-        position={[11, viewport.width > 667 ? 7 : 6.3, 9]}
+        position={[11, viewportWidth > 667 ? 7 : 6.3, 9]}
         fontSize={
-          viewport.width > 1110
+          viewportWidth > 1110
             ? 3.2
-            : Math.min(
-                (viewport.width * 1.05) / (viewport.height / 2) + 0.78,
-                3
-              )
+            : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.78, 3)
         }
         fillOpacity={1.5}
-        curveRadius={viewport.width > 1110 ? 9 : 9}
-        maxWidth={viewport.width}
+        curveRadius={viewportWidth > 1110 ? 9 : 9}
+        maxWidth={viewportWidth}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}
@@ -69,14 +72,14 @@ function HomeTitle() {
         anchorX="center"
         font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters="WEB DEVELOPER"
-        position={[11, viewport.width > 667 ? 4 : 4.2, 10]}
+        position={[11, viewportWidth > 667 ? 4 : 4.2, 10]}
         fontSize={
-          viewport.width > 1110
+          viewportWidth > 1110
             ? 3.2
-            : Math.min((viewport.width * 1.05) / (viewport.height / 2) + 0.8, 3)
+            : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.8, 3)
         }
         fillOpacity={1.5}
-        curveRadius={viewport.width > 1110 ? 10 : 9}
+        curveRadius={viewportWidth > 1110 ? 10 : 9}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}

@@ -1,11 +1,14 @@
+import { memo } from "react";
 import HomeModel from "./HomeModel";
 import WaterComponent from "./WaterComponent";
 
-export default function HomeSceneEssentials() {
+const HomeSceneEssentials = memo(function HomeSceneEssentials() {
   return (
     <>
       <HomeModel />
       <WaterComponent />
     </>
   );
-}
+});
+
+export default HomeSceneEssentials;

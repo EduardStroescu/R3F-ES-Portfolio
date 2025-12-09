@@ -1,6 +1,6 @@
-import { useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
-import { a, useSpring } from "@react-spring/web";
+import { a, useSpring, animated } from "@react-spring/web";
 import {
   useAboutStore,
   useAboutStoreActions,
@@ -49,8 +49,9 @@ const NotificationSection = () => {
 };
 
 function DesktopHeader() {
-  const { pathname, state: locationState } = useLocation();
+  const { pathname } = useLocation();
   const navigate = useNavigate();
+
   const {
     playHoverSound,
     playTransitionSound,
@@ -60,28 +61,83 @@ function DesktopHeader() {
   } = useSoundStoreActions();
 
   const flipped = useContactStore((state) => state.flipped);
-
   const visible = useAboutStore((state) => state.visible);
   const { setFlipped } = useContactStoreActions();
   const { setVisible } = useAboutStoreActions();
 
+  const itemRefs = useRef({});
+
+  const [underlineStyle, underlineApi] = useSpring(() => ({
+    left: 0,
+    width: 0,
+    opacity: 1,
+    config: { tension: 400, friction: 25, precision: 0.0001 },
+  }));
+
+  const moveUnderlineTo = useCallback(
+    (el) => {
+      if (!el) return;
+
+      const left = el.offsetLeft;
+      const width = el.offsetWidth;
+
+      underlineApi.start({
+        left,
+        width,
+        opacity: 1,
+      });
+    },
+    [underlineApi]
+  );
+
+  const hideUnderline = useCallback(() => {
+    const navPaths = navItems.slice(1).map((item) => item.path);
+    if (navPaths.includes(pathname) || visible) {
+      const activeEl = !visible
+        ? itemRefs.current[pathname]
+        : itemRefs.current["/about"];
+      if (activeEl) {
+        const left = activeEl.offsetLeft;
+        const width = activeEl.offsetWidth;
+        underlineApi.start({
+          left,
+          width,
+          opacity: 1,
+        });
+        return;
+      }
+    }
+    underlineApi.start({ opacity: 0 });
+  }, [pathname, underlineApi, visible]);
+
+  useEffect(() => {
+    // Move underline to active route on mount or pathname change
+    const activeEl = !visible
+      ? itemRefs.current[location.pathname]
+      : itemRefs.current["/about"];
+    if (activeEl) {
+      moveUnderlineTo(activeEl);
+    } else {
+      hideUnderline();
+    }
+  }, [visible, moveUnderlineTo, hideUnderline]);
+
   const handleAboutClick = () => {
-    navigate("/", {
-      state: { prevPathname: pathname },
-    });
+    navigate("/", { state: { prevPathname: pathname } });
     setFlipped(false);
+
     if (pathname === "/projects" || pathname === "/contact") {
+      if (pathname === "/projects") playUnderwaterTransitionSound();
+
       setTimeout(() => {
         setVisible((prev) => !prev);
         playMenuOpenCloseSound();
       }, 800);
-      if (pathname === "/projects") {
-        playUnderwaterTransitionSound();
-      }
     } else {
       setVisible((prev) => !prev);
       playMenuOpenCloseSound();
     }
+
     flipped && playMenuFlipSound();
   };
 
@@ -102,10 +158,8 @@ function DesktopHeader() {
         setFlipped(false);
         visible && playMenuOpenCloseSound();
         flipped && playMenuFlipSound();
-        if (pathname === locationState?.prevPathname) return;
-        pathname !== "/projects"
-          ? playTransitionSound()
-          : playUnderwaterTransitionSound();
+        pathname === "/projects" && playUnderwaterTransitionSound();
+        pathname === "/" && playTransitionSound();
         break;
       default:
         null;
@@ -113,7 +167,7 @@ function DesktopHeader() {
   };
 
   return (
-    <nav className="hidden text-white text-xl w-full pt-6 px-4 sm:px-8 sm:flex flex-row justify-between items-center pointer-events-auto">
+    <nav className="hidden text-white w-full pt-6 px-4 sm:px-8 sm:flex flex-row justify-between items-center pointer-events-none">
       <Link
         to="/"
         state={{ prevPathname: pathname }}
@@ -126,45 +180,66 @@ function DesktopHeader() {
           pathname === "/projects" && playUnderwaterTransitionSound();
         }}
         onPointerEnter={playHoverSound}
-        className="text-4xl"
+        className="text-4xl pointer-events-auto"
       >
         <span className="font-semibold">Eduard</span>Stroescu
       </Link>
-      <div className="w-full flex justify-end items-center overflow-hidden font-bold">
+
+      <div className="relative flex justify-end items-center overflow-hidden font-bold text-2xl pointer-events-auto">
+        {/* Animated underline */}
+        <animated.span
+          className="absolute bottom-0 h-[2px] bg-[#f597e8] pointer-events-none"
+          style={{
+            left: underlineStyle.left,
+            width: underlineStyle.width,
+            opacity: underlineStyle.opacity,
+          }}
+        />
+
         {navItems.slice(1).map((navItem) =>
           navItem.path !== "/about" ? (
             <NavLink
               key={navItem.title}
               to={navItem.path}
               state={{ prevPathname: pathname }}
+              ref={(el) => (itemRefs.current[navItem.path] = el)}
               className={({ isActive }) =>
                 isActive
-                  ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
-                  : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
+                  ? "font-bold inline-block text-[#f597e8] italic py-0.5 mx-2"
+                  : "inline-block text-white hover:text-[#f597e8] hover:italic py-0.5 mx-2"
               }
               onClick={() => handleLinkClick(navItem.path)}
-              onPointerEnter={playHoverSound}
+              onPointerEnter={(e) => {
+                playHoverSound();
+                moveUnderlineTo(e.currentTarget);
+              }}
+              onPointerLeave={hideUnderline}
             >
               {navItem.title}
-              <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
             </NavLink>
           ) : (
             <button
               key={navItem.title}
+              ref={(el) => (itemRefs.current["/about"] = el)}
               className={
-                visible && navItem.path === "/about"
-                  ? "font-bold relative inline-block text-[#f597e8] italic text-2xl py-0.5 mx-2 group"
-                  : "relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
+                visible
+                  ? "font-bold inline-block text-[#f597e8] italic py-0.5 mx-2"
+                  : "inline-block text-white hover:text-[#f597e8] hover:italic py-0.5 mx-2"
               }
               onClick={() => handleLinkClick(navItem.path)}
-              onPointerEnter={playHoverSound}
+              onPointerEnter={(e) => {
+                playHoverSound();
+                moveUnderlineTo(e.currentTarget);
+              }}
+              onPointerLeave={hideUnderline}
             >
               {navItem.title}
-              <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
             </button>
           )
         )}
+
         <button
+          ref={(el) => (itemRefs.current["resume"] = el)}
           onClick={() =>
             window.open(
               import.meta.env.VITE_RESUME_URL,
@@ -172,10 +247,14 @@ function DesktopHeader() {
               "noopener,noreferrer"
             )
           }
-          className="relative inline-block text-white hover:text-[#f597e8] hover:italic hover:text-2xl py-0.5 mx-2 group"
+          onPointerEnter={(e) => {
+            playHoverSound();
+            moveUnderlineTo(e.currentTarget);
+          }}
+          onPointerLeave={hideUnderline}
+          className="inline-block text-white hover:text-[#f597e8] hover:italic py-0.5 mx-2"
         >
           Resume
-          <span className="absolute left-0 w-full h-[2px] bottom-0 bg-[#f597e8] transform scale-x-0 origin-left transition-transform duration-500 group-hover:scale-x-100" />
         </button>
       </div>
     </nav>
@@ -186,7 +265,7 @@ function MobileHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
-  const { pathname, state: locationState } = useLocation();
+  const { pathname } = useLocation();
   const {
     playHoverSound,
     playTransitionSound,
@@ -249,10 +328,8 @@ function MobileHeader() {
           setFlipped(false);
           visible && playMenuOpenCloseSound();
           flipped && playMenuFlipSound();
-          if (pathname === locationState?.prevPathname) return;
-          pathname !== "/projects"
-            ? playTransitionSound()
-            : playUnderwaterTransitionSound();
+          pathname === "/projects" && playUnderwaterTransitionSound();
+          pathname === "/" && playTransitionSound();
           break;
         default:
           null;
@@ -261,7 +338,9 @@ function MobileHeader() {
   };
 
   const { clipPath } = useSpring({
-    clipPath: menuOpen ? "circle(128.8% at 91% 9%)" : "circle(0.0% at 100% 0%)",
+    clipPath: menuOpen
+      ? "circle(150% at calc(100% - 33px) 30px)"
+      : "circle(0% at calc(100% - 33px) 30px)",
     config: {
       mass: 5,
       tension: 400,
@@ -272,7 +351,7 @@ function MobileHeader() {
   });
 
   return (
-    <nav className="font-[serif] sm:hidden relative text-white text-xl w-full py-4 flex flex-row justify-center items-center pointer-events-none">
+    <nav className="font-[serif] sm:hidden relative text-white text-xl w-full p-4 flex flex-row justify-center items-center pointer-events-none">
       <Link
         to="/"
         state={{ prevPathname: pathname }}
@@ -286,9 +365,11 @@ function MobileHeader() {
           pathname === "/projects" && playUnderwaterTransitionSound();
         }}
         onPointerEnter={playHoverSound}
-        className="text-2xl z-[60] pointer-events-auto"
+        className={`${
+          menuOpen ? "text-black" : ""
+        } text-[1.71rem] z-[60] pointer-events-auto overflow-hidden leading-[1] transition-colors duration-500 ease-in-out`}
       >
-        <span className="font-semibold">Eduard</span>Stroescu
+        <span className="font-semibold leading-[1]">Eduard</span>Stroescu
       </Link>
       <HamburgerButton menuOpen={menuOpen} setMenuOpen={setMenuOpen} />
       <a.aside

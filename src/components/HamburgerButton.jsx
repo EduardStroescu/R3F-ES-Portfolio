@@ -50,8 +50,8 @@ export function HamburgerButton({ menuOpen, setMenuOpen }) {
     >
       <a.svg
         style={{ fill: svgColor, transform: rotateSvg }}
-        width="24"
-        height="24"
+        width="30"
+        height="30"
         viewBox="-20 0 140 75"
       >
         <a.circle

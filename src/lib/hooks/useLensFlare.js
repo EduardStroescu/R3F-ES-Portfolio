@@ -6,13 +6,19 @@ import { easing } from "maath";
 import { useTexture } from "@react-three/drei";
 import { Color } from "three";
 import { useAppStore } from "../stores/useAppStore";
+import { useShallow } from "zustand/react/shallow";
 
 useTexture.preload("/textures/lens-Dirt-Texture-v1.webp");
 
 export function useLensFlare() {
   const lensDirtTexture = useTexture("/textures/lens-Dirt-Texture-v1.webp");
 
-  const { viewport, raycaster } = useThree();
+  const { viewport, raycaster } = useThree(
+    useShallow((state) => ({
+      viewport: state.viewport,
+      raycaster: state.raycaster,
+    }))
+  );
 
   const lensFlareEffect = useMemo(() => {
     if (!lensDirtTexture) return null;
@@ -31,13 +37,12 @@ export function useLensFlare() {
   }, [lensDirtTexture]);
 
   const screenPosition = new Vector3(-15, 30, 15);
-  let flarePosition = new Vector3();
-
-  let projectedPosition;
+  const projectedPosition = useRef(new Vector3()).current;
+  const flarePosition = useRef(new Vector3()).current;
 
   useFrame(({ scene, camera, delta }) => {
     if (lensFlareEffect) {
-      projectedPosition = screenPosition.clone();
+      projectedPosition.copy(screenPosition);
       projectedPosition.project(camera);
 
       flarePosition.set(

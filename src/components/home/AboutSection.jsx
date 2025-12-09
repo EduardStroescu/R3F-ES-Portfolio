@@ -8,9 +8,10 @@ import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useNavigate } from "react-router-dom";
 import { useResizableHtml } from "../../lib/hooks/useResizableHtml";
 import { useAppStore } from "../../lib/stores/useAppStore";
+import { memo } from "react";
 
-export default function AboutSection() {
-  const { scale } = useResizableHtml();
+const AboutSection = memo(function AboutSection() {
+  const { scale: htmlScale } = useResizableHtml();
   const activeScene = useAppStore((state) => state.activeScene);
   const visible = useAboutStore((state) => state.visible);
   const { setVisible } = useAboutStoreActions();
@@ -18,11 +19,16 @@ export default function AboutSection() {
     useSoundStoreActions();
   const navigate = useNavigate();
 
-  const { clipPath } = useSpring({
-    clipPath: visible
-      ? "polygon(0% 0%,100% 0%,100% 40%,0% 40%,0% 40%,100% 40%,100% 75%,0% 75%,0% 75%,100% 75%,100% 100%,0% 100%)"
-      : "polygon(0% 0%,100% 0%,100% 0%,0% 0%,0% 60%,100% 61%,100% 61%,0% 60%,0% 100%,100% 100%,100% 100%,0% 100%)",
-    config: { mass: 2, tension: 500, friction: 60, clamp: true },
+  const { clipPath, scale } = useSpring({
+    clipPath: visible ? "circle(100% at 50% 50%)" : "circle(0.0% at 50% 50%)",
+    scale: visible ? htmlScale : htmlScale + 0.2,
+    config: {
+      mass: 2,
+      tension: visible ? 400 : 450,
+      friction: 60,
+      clamp: true,
+      precision: 0.0001,
+    },
   });
 
   const handleNavigate = () => {
@@ -52,7 +58,7 @@ export default function AboutSection() {
       <a.div
         style={{
           clipPath,
-          transform: `scale(${scale})`,
+          scale,
         }}
         className="z-40 py-2 w-[90vw] max-w-[600px] mx-auto flex flex-col justify-center items-center rounded-xl border border-[#10D9E182] bg-cyan-800/90 text-base pointer-events-none"
       >
@@ -133,4 +139,6 @@ export default function AboutSection() {
       </a.div>
     </Html>
   );
-}
+});
+
+export default AboutSection;

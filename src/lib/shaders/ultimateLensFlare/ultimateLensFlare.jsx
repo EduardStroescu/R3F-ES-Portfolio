@@ -9,6 +9,7 @@ import { useRef, useMemo, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { useTexture } from "@react-three/drei";
 import { easing } from "maath";
+import { useShallow } from "zustand/react/shallow";
 
 const LensFlareShader = {
   fragmentShader: /* glsl */ `
@@ -139,18 +140,19 @@ function Effects({
   const lensRef = useRef();
 
   const screenPosition = new Vector3(position.x, position.y, position.z);
-  let flarePosition = new Vector3();
+  const projectedPosition = useRef(new Vector3()).current;
+  const flarePosition = useRef(new Vector3()).current;
 
-  const { viewport, raycaster } = useThree();
+  const { viewport, raycaster } = useThree(
+    useShallow(({ viewport, raycaster }) => ({ viewport, raycaster }))
+  );
   const lensDirtTexture = useTexture(dirtTextureFile);
 
-  let projectedPosition;
-
-  useFrame(({ scene, mouse, camera, delta }) => {
+  useFrame(({ scene, pointer, camera, delta }) => {
     if (lensRef) {
       if (followMouse) {
-        lensRef.current.uniforms.get("lensPosition").value.x = mouse.x;
-        lensRef.current.uniforms.get("lensPosition").value.y = mouse.y;
+        lensRef.current.uniforms.get("lensPosition").value.x = pointer.x;
+        lensRef.current.uniforms.get("lensPosition").value.y = pointer.y;
         easing.damp(
           lensRef.current.uniforms.get("opacity"),
           "value",
@@ -159,7 +161,7 @@ function Effects({
           delta
         );
       } else {
-        projectedPosition = screenPosition.clone();
+        projectedPosition.copy(screenPosition);
         projectedPosition.project(camera);
 
         flarePosition.set(

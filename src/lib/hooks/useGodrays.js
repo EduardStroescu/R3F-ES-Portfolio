@@ -6,7 +6,7 @@ import { GODRAYS_EFFECT_CONFIG } from "../utils";
 
 export function useGodrays() {
   const sun = useAppStore((state) => state.sun);
-  const { camera } = useThree();
+  const camera = useThree((state) => state.camera);
 
   const godRaysEffect = useMemo(() => {
     if (!sun || !camera) return null;

@@ -1,8 +1,9 @@
 import "./index.css";
-import React, { lazy } from "react";
+import { lazy, StrictMode } from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
+
 import { HelmetProvider } from "react-helmet-async";
 import { HomeHtml } from "./components/SeoRelatedHtml/HomeHtml";
 import { ProjectsHtml } from "./components/SeoRelatedHtml/ProjectsHtml";
@@ -34,9 +35,9 @@ const router = createBrowserRouter([
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
+  <StrictMode>
     <HelmetProvider>
       <RouterProvider router={router} />
     </HelmetProvider>
-  </React.StrictMode>
+  </StrictMode>
 );

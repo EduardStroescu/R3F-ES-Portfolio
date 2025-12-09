@@ -1,11 +1,14 @@
+import { memo } from "react";
 import CallToAction from "./CallToAction";
 import HomeTitle from "./HomeTitle";
 
-export default function TitleWithCallToAction() {
+const TitleWithCallToAction = memo(function TitleWithCallToAction() {
   return (
     <>
       <HomeTitle />
       <CallToAction />
     </>
   );
-}
+});
+
+export default TitleWithCallToAction;

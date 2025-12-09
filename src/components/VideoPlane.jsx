@@ -1,23 +1,23 @@
 /* eslint-disable react/no-unknown-property */
-import { memo, useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useVideoTexture } from "@react-three/drei";
 import { useAppStore } from "../lib/stores/useAppStore";
+import { Plane } from "./ProjectsPlane";
 
-export const VideoPlane = memo(function VideoPlane({
-  position,
-  material,
-  scaleX,
-  scaleY,
-  aspect,
-  fog = true,
-}) {
+// HOC to add video texture to plane
+export const VideoPlane = (props) => {
   const activeProject = useAppStore((state) => state.activeProject);
-  const videoMaterial = useVideoTexture(material, {
+  const videoMaterial = useVideoTexture(props.material, {
     start: false,
     playsInline: true,
     muted: true,
   });
+
+  const videoMaterialMemo = useMemo(
+    () => ({ map: videoMaterial }),
+    [videoMaterial]
+  );
 
   useEffect(() => {
     if (!videoMaterial) return;
@@ -28,21 +28,14 @@ export const VideoPlane = memo(function VideoPlane({
     }
   }, [activeProject.video, videoMaterial]);
 
-  return (
-    <group position={position} scale-x={scaleX} scale-y={scaleY}>
-      <mesh>
-        <planeGeometry args={aspect} />
-        <meshBasicMaterial map={videoMaterial} fog={fog} toneMapped={false} />
-      </mesh>
-    </group>
-  );
-});
+  return <Plane {...props} material={videoMaterialMemo} />;
+};
 
 VideoPlane.propTypes = {
   position: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   material: PropTypes.string,
   scaleX: PropTypes.number.isRequired,
   scaleY: PropTypes.number.isRequired,
-  aspect: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
+  args: PropTypes.arrayOf(PropTypes.number.isRequired).isRequired,
   fog: PropTypes.bool,
 };

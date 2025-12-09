@@ -18,16 +18,24 @@ import { useLensFlare } from "../lib/hooks/useLensFlare";
 import { useGodrays } from "../lib/hooks/useGodrays";
 import PropTypes from "prop-types";
 import { Scene } from "three";
+import { useShallow } from "zustand/react/shallow";
 
 const Postprocessing = memo(function Postprocessing({
   homeScene,
   projectsScene,
 }) {
-  const activeScene = useAppStore((state) => state.activeScene);
-  const { size, camera, scene } = useThree();
-  const viewport = { width: size.width };
   const [composer, setComposer] = useState(null);
   const [ready, setReady] = useState(false);
+
+  const { activeScene, viewportWidth } = useAppStore(
+    useShallow((state) => ({
+      activeScene: state.activeScene,
+      viewportWidth: state.viewportWidth,
+    }))
+  );
+  const { camera, scene } = useThree(
+    useShallow((state) => ({ camera: state.camera, scene: state.scene }))
+  );
   const composerSceneRef = useRef(null);
 
   const sceneMap = useMemo(
@@ -131,7 +139,7 @@ const Postprocessing = memo(function Postprocessing({
   return (
     <EffectComposer
       ref={setComposer}
-      enabled={viewport.width >= 768}
+      enabled={viewportWidth >= 768}
       camera={camera}
       multisampling={0}
       renderPriority={1}

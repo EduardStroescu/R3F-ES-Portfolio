@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useAppStore } from "../../lib/stores/useAppStore";
+import { memo } from "react";
 
 const contactSchema = z.object({
   user_name: z
@@ -25,14 +26,15 @@ const contactSchema = z.object({
     .min(10, "The message must be at least 10 characters long"),
 });
 
-export default function ContactSection() {
-  const { scale, viewport } = useResizableHtml();
-
+const ContactSection = memo(function ContactSection() {
   const activeScene = useAppStore((state) => state.activeScene);
   const flipped = useContactStore((state) => state.flipped);
+
   const { setFlipped, setMessageSent, setMessageReceived } =
     useContactStoreActions();
   const { playHoverSound, playMenuFlipSound } = useSoundStoreActions();
+
+  const { scale, viewportWidth } = useResizableHtml();
 
   const { transform, opacity } = useSpring({
     opacity: flipped ? 1 : 0,
@@ -100,9 +102,7 @@ export default function ContactSection() {
     <Html
       pointerEvents={"none"}
       style={{
-        transform: `scale(${
-          viewport.width > 1110 ? scale * 1.8 : scale * 1.2
-        })`,
+        transform: `scale(${viewportWidth > 1110 ? scale * 1.8 : scale * 1.2})`,
       }}
       as="section"
       wrapperClass="z-40 w-[100vw] text-white font-[serif] pointer-events-none"
@@ -110,9 +110,9 @@ export default function ContactSection() {
       fullscreen
       scale={0.5}
       position={[
-        viewport.width > 1110 ? -7.3 : -7,
+        viewportWidth > 1110 ? -7.3 : -7,
         6,
-        viewport.width > 1110 ? 46.5 : 46.5,
+        viewportWidth > 1110 ? 46.5 : 46.5,
       ]}
       rotation={[0, -Math.PI / 3.95, 0]}
     >
@@ -268,4 +268,6 @@ export default function ContactSection() {
       </a.div>
     </Html>
   );
-}
+});
+
+export default ContactSection;

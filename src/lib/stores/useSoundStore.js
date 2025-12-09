@@ -91,7 +91,7 @@ export const useSoundStore = create((set, get) => {
   // Initialize audioEnabled state
   const initialAudioEnabled =
     localStorage.getItem("audioEnabled") !== null
-      ? JSON.parse(localStorage.getItem("audioEnabled"))
+      ? { true: true, false: false }[localStorage.getItem("audioEnabled")]
       : false;
 
   // Initialize sounds if audioEnabled is true
@@ -121,7 +121,7 @@ export const useSoundStore = create((set, get) => {
           // Store the updated value in local storage
           window.localStorage.setItem(
             "audioEnabled",
-            JSON.stringify(updatedAudioEnabled)
+            String(updatedAudioEnabled)
           );
 
           const updatedState = { audioEnabled: updatedAudioEnabled };

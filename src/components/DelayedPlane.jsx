@@ -1,24 +1,38 @@
-import { memo, useEffect, useState } from "react";
-import { VideoPlane } from "./VideoPlane";
+import { useEffect, useState } from "react";
 import PropTypes from "prop-types";
+import { ImagePlane } from "./ImagePlane";
+import { VideoPlane } from "./VideoPlane";
 
-export const DelayedPlane = memo(function DelayedPlane({
-  delay = 0,
+export const DelayedPlane = ({
+  isPlaneInView = false,
+  visibilityDelay = 0,
+  type,
   ...props
-}) {
+}) => {
   const [shouldRender, setShouldRender] = useState(false);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
+    if (!isPlaneInView) return;
+    if (visibilityDelay === 0) {
       setShouldRender(true);
-    }, delay);
+      return;
+    }
 
-    return () => clearTimeout(timeoutId);
-  }, [delay]);
+    const timeoutId = setTimeout(() => setShouldRender(true), visibilityDelay);
+    return () => void clearTimeout(timeoutId);
+  }, [isPlaneInView, visibilityDelay]);
 
-  return shouldRender ? <VideoPlane {...props} /> : null;
-});
+  if (!shouldRender) return null;
+
+  return type === "video" ? (
+    <VideoPlane {...props} />
+  ) : (
+    <ImagePlane {...props} />
+  );
+};
 
 DelayedPlane.propTypes = {
-  delay: PropTypes.number,
+  isPlaneInView: PropTypes.bool,
+  visibilityDelay: PropTypes.number,
+  type: PropTypes.oneOf(["image", "video"]),
 };

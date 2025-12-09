@@ -31,11 +31,11 @@ function AudioButton() {
     : "soundIconDisabled";
 
   return (
-    <aside
+    <div
       data-projectsactive={pathname === "/projects"}
       className={`
-        tooltipWrapper fixed left-4 sm:left-8 scale-[0.8] pointer-events-auto
-        ${pathname === "/projects" ? "top-20" : "bottom-6"}
+        tooltipWrapper fixed left-[0.185rem] sm:left-6 scale-[0.5666] sm:scale-[0.8] pointer-events-auto
+        ${pathname === "/projects" ? "top-0 sm:top-20" : "bottom-4"}
       `}
     >
       <button
@@ -52,7 +52,7 @@ function AudioButton() {
           />
         </span>
       </button>
-    </aside>
+    </div>
   );
 }
 

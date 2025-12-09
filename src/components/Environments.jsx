@@ -1,7 +1,7 @@
 /* eslint-disable react/no-unknown-property */
 import { Environment } from "@react-three/drei";
-import { useThree } from "@react-three/fiber";
 import { useDeferredValue, useMemo } from "react";
+import { useAppStore } from "../lib/stores/useAppStore";
 
 export function ProjectsSceneEnv() {
   return (
@@ -13,17 +13,17 @@ export function ProjectsSceneEnv() {
 }
 
 export function HomeSceneEnv() {
-  const { size } = useThree();
-  const viewport = { width: size.width };
+  const viewportWidth = useAppStore((state) => state.viewportWidth);
+
   const files = useMemo(
     () => [
-      viewport.width >= 1024
+      viewportWidth >= 1024
         ? "/environments/qldpzf7hd4mid2444htq-v1.webp"
         : "/environments/qldpzf7hd4mid2444htq-sm-v1.webp",
       "/environments/qldpzf7hd4mid2444htq-gainmap-v1.webp",
       "/environments/qldpzf7hd4mid2444htq-v1.json",
     ],
-    [viewport.width]
+    [viewportWidth]
   );
   const deferred = useDeferredValue(files);
   return (

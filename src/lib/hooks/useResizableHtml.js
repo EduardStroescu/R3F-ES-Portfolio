@@ -1,16 +1,17 @@
-import { useThree } from "@react-three/fiber";
-import { useMemo } from "react";
+import { useAppStore } from "../stores/useAppStore";
+import { useShallow } from "zustand/react/shallow";
 
 export function useResizableHtml() {
-  const { size } = useThree();
-  const viewport = { width: size.width, height: size.height };
-  const scale = useMemo(() => {
-    // Set scale based on height: larger height results in a smaller scale
-    const heightFactor = 1 / (size.height / 1500);
+  return useAppStore(
+    useShallow((state) => {
+      const heightFactor = 1 / (state.viewportHeight / 1500);
+      const scale = Math.max(1.8, Math.min(5, heightFactor));
 
-    // Ensure the scale doesn't go below or above certain thresholds
-    return Math.max(1.8, Math.min(5, heightFactor));
-  }, [size.height]);
-
-  return { scale, viewport };
+      return {
+        scale: scale,
+        viewportWidth: state.viewportWidth,
+        viewportHeight: state.viewportHeight,
+      };
+    })
+  );
 }

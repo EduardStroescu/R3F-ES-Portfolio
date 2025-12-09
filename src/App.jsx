@@ -7,17 +7,17 @@ import Experience from "./components/Experience";
 import Camera from "./components/Camera";
 import Ui from "./components/Ui";
 import { ScrollProvider } from "./lib/providers/ScrollProvider";
-import { useRemoveTrailingSlash } from "./lib/hooks/useRemoveTrailingSlash";
 import { useUpdateRouterStatePrevLocation } from "./lib/hooks/useUpdateRouterStatePrevLocation";
+import { ViewportSync } from "./components/ViewportSync";
 
 function App() {
-  useRemoveTrailingSlash();
   useUpdateRouterStatePrevLocation();
 
   return (
     <>
-      <Ui />
+      <ViewportSync />
       <LoadingScreen />
+      <Ui />
       <main id="main">
         <ScrollProvider>
           <Suspense fallback={<LoadingScreen suspenseLoading={true} />}>

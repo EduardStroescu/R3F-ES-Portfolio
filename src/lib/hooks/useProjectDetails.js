@@ -1,80 +1,138 @@
-import { useFrame, useThree } from "@react-three/fiber";
+import { useFrame } from "@react-three/fiber";
 import { useCallback, useMemo, useRef } from "react";
 import { getActiveProject } from "../helpers/getActiveProject";
-import { useTexture } from "@react-three/drei";
-import { useAppStoreActions } from "../stores/useAppStore";
+import { useAppStore, useAppStoreActions } from "../stores/useAppStore";
 import { useScrollContext } from "../providers/ScrollProvider";
 import { projectsData } from "../data/projectsData";
+import { useShallow } from "zustand/react/shallow";
 
-const projectsImages = projectsData.map((project) => project.image);
+const PLANE_ARGS = [15, 10, 24, 24]; // Width, Height, Width Segments, Height Segments
 const PLANE_START_POSITION = 0;
 const PLANE_OFFSET = 55;
 const TOTAL_DISTANCE = (projectsData.length - 0.9) * 73;
 const PLANE_Z_STARTS = projectsData.map((_, idx) => idx * TOTAL_DISTANCE);
+const CENTER_XY = [11, -5];
 
 export default function useProjectDetails() {
+  const { viewportWidth, viewportHeight } = useAppStore(
+    useShallow((state) => ({
+      viewportWidth: state.viewportWidth,
+      viewportHeight: state.viewportHeight,
+    }))
+  );
+
   const { setActiveProject } = useAppStoreActions();
   const planeGroupRef = useRef();
   const { scroll } = useScrollContext();
-  const { size } = useThree();
-  const viewport = { width: size.width, height: size.height };
-
-  const images = useTexture(projectsImages);
-
-  const planeCoords = useMemo(
-    () => ({
-      planeLeft: { x: viewport.width > 1110 ? -3 : 8, y: -5 },
-      planeRight: { x: viewport.width > 1110 ? 27 : 16, y: -5 },
-    }),
-    [viewport.width]
-  );
 
   // Helper function to calculate positions for left and right planes
-  const calculatePlanePositions = useCallback(
-    (index) => ({
-      leftPlane: [
-        planeCoords.planeLeft.x,
-        planeCoords.planeLeft.y,
-        PLANE_START_POSITION + index * -PLANE_OFFSET,
-      ],
-      rightPlane: [
-        planeCoords.planeRight.x,
-        planeCoords.planeRight.y,
-        PLANE_START_POSITION + index * -PLANE_OFFSET - 5,
-      ],
-    }),
-    [
-      planeCoords.planeLeft.x,
-      planeCoords.planeLeft.y,
-      planeCoords.planeRight.x,
-      planeCoords.planeRight.y,
-    ]
+  const calculatePlanePositionsAndDelay = useCallback(
+    (index) => {
+      if (viewportWidth > viewportHeight) {
+        if (viewportWidth > 1110) {
+          const gapX = 16;
+          return {
+            leftPlane: {
+              position: [
+                CENTER_XY[0] - gapX + 2,
+                -5,
+                PLANE_START_POSITION + index * -PLANE_OFFSET,
+              ],
+              animationDelay: 1.2,
+            },
+            rightPlane: {
+              position: [
+                CENTER_XY[0] + gapX,
+                -5,
+                PLANE_START_POSITION + index * -PLANE_OFFSET - 5,
+              ],
+              animationDelay: 0,
+            },
+          };
+        } else {
+          const gapX = 8;
+          return {
+            leftPlane: {
+              position: [
+                CENTER_XY[0] - gapX + 1,
+                -5,
+                PLANE_START_POSITION + index * -PLANE_OFFSET,
+              ],
+              animationDelay: 1.2,
+            },
+            rightPlane: {
+              position: [
+                CENTER_XY[0] + gapX,
+                -5,
+                PLANE_START_POSITION + index * -PLANE_OFFSET - 2,
+              ],
+              animationDelay: 0,
+            },
+          };
+        }
+      } else {
+        const gapY = 5;
+        return {
+          leftPlane: {
+            position: [
+              11,
+              CENTER_XY[1] - gapY,
+              PLANE_START_POSITION + index * -PLANE_OFFSET - 4,
+            ],
+            animationDelay: 0,
+          },
+          rightPlane: {
+            position: [
+              11,
+              CENTER_XY[1] + gapY,
+              PLANE_START_POSITION + index * -PLANE_OFFSET,
+            ],
+            animationDelay: 1.0,
+          },
+        };
+      }
+    },
+    [viewportWidth, viewportHeight]
   );
 
-  const generalPlaneProps = useMemo(
-    () => ({
-      scaleX: viewport.width > 1110 ? 1.5 : 0.4,
-      scaleY: viewport.width > 1110 ? 1.5 : 0.5,
-      aspect: [15, 10],
-    }),
-    [viewport.width]
-  );
+  const generalPlaneProps = useMemo(() => {
+    if (viewportWidth > viewportHeight) {
+      if (viewportWidth > 1110) {
+        return {
+          scaleX: viewportWidth > 1110 ? 1.5 : 0.85,
+          scaleY: viewportWidth > 1110 ? 1.5 : 0.85,
+          args: PLANE_ARGS,
+        };
+      }
+    }
+    return {
+      scaleX: 0.85,
+      scaleY: 0.85,
+      args: PLANE_ARGS,
+    };
+  }, [viewportWidth, viewportHeight]);
 
   const planeGroups = useMemo(() => {
-    return projectsData.map((project, idx) => [
-      {
-        position: calculatePlanePositions(idx).leftPlane,
-        material: { map: images[idx] },
-        ...generalPlaneProps,
-      },
-      {
-        position: calculatePlanePositions(idx).rightPlane,
-        material: project.video,
-        delay: idx === 0 || idx === projectsData.length - 1 ? 0 : idx * 2000,
-        ...generalPlaneProps,
-      },
-    ]);
-  }, [calculatePlanePositions, images, generalPlaneProps]);
+    return projectsData.map((project, idx) => {
+      const planeConfig = calculatePlanePositionsAndDelay(idx);
+      return [
+        {
+          position: planeConfig.leftPlane.position,
+          type: "image",
+          material: project.image,
+          animationDelay: planeConfig.leftPlane.animationDelay,
+          ...generalPlaneProps,
+        },
+        {
+          position: planeConfig.rightPlane.position,
+          type: "video",
+          material: project.video,
+          animationDelay: planeConfig.rightPlane.animationDelay,
+          ...generalPlaneProps,
+        },
+      ];
+    });
+  }, [calculatePlanePositionsAndDelay, generalPlaneProps]);
 
   // Calculate the total distance covered by the planes in the scroll
   useFrame(() => {
@@ -102,5 +160,5 @@ export default function useProjectDetails() {
     setActiveProject(activeInfo);
   });
 
-  return { planeGroupRef, planeGroups };
+  return { planeGroupRef, planeGroups, allProjects: projectsData };
 }

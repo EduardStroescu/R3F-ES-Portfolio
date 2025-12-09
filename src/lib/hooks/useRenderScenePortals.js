@@ -1,10 +1,10 @@
 import { useFBO } from "@react-three/drei";
-import { useFrame, useThree } from "@react-three/fiber";
-import { useEffect, useMemo, useRef } from "react";
+import { useFrame } from "@react-three/fiber";
+import { useMemo, useRef } from "react";
 import { Scene } from "three";
 import { useAppStore, useAppStoreActions } from "../stores/useAppStore";
-import { easings, useSpring } from "@react-spring/three";
 import { useLocation } from "react-router-dom";
+import { easing } from "maath";
 
 export default function useRenderScenePortals() {
   const { pathname } = useLocation();
@@ -19,49 +19,46 @@ export default function useRenderScenePortals() {
   const renderTargetC = useFBO();
   const progress = useRef(pathname !== "/projects" ? -2.0 : 2.0);
   const activeSceneRef = useRef(useAppStore.getState().activeScene);
-  const { gl } = useThree();
-
-  // Animate the transition between home and projects scenes -2 to 2
-  useSpring({
-    from: { progress: progress?.current },
-    to: { progress: pathname !== "/projects" ? -2.0 : 2.0 },
-    config: {
-      duration: 1600,
-      easing: easings.easeInOut,
-      precision: 0.0001,
-      clamp: true,
-    },
-    onChange: (e) => {
-      screenMesh.current.material.uniforms.uProgress.value = e.value.progress;
-      // Scene activation logic according to progress
-      if (e.value.progress < -0.05) {
-        setActiveScene("home");
-      } else if (e.value.progress > 0.76) {
-        setActiveScene("projects");
-      } else {
-        setActiveScene(null);
-      }
-    },
-  });
-
-  useEffect(() => {
-    // Subscribe to changes in the store
-    const unsubscribe = useAppStore.subscribe(
-      (state) => (activeSceneRef.current = state.activeScene)
-    );
-
-    return () => unsubscribe(); // cleanup on unmount
-  }, []);
 
   useFrame((state, delta) => {
-    const { camera } = state;
     if (!screenMesh.current) return;
+
+    const { camera, gl } = state;
+
+    easing.damp(
+      progress,
+      "current",
+      pathname !== "/projects" ? -2.0 : 2.0,
+      1.1,
+      delta,
+      Infinity,
+      easing.exp,
+      0.0001
+    );
+
+    // Update shader uniform
+    screenMesh.current.material.uniforms.uProgress.value = progress.current;
+
+    // Scene activation logic according to progress
+    const activeScene = activeSceneRef.current;
+    if (progress.current < -0.05 && activeScene !== "home") {
+      setActiveScene("home");
+      activeSceneRef.current = "home";
+    } else if (progress.current > 0.76 && activeScene !== "projects") {
+      setActiveScene("projects");
+      activeSceneRef.current = "projects";
+    } else if (
+      progress.current > -0.05 &&
+      progress.current < 0.76 &&
+      activeScene !== null
+    ) {
+      setActiveScene(null);
+      activeSceneRef.current = null;
+    }
 
     // Conditionally render scenes to FBOs only when needed
     let renderedA = false;
     let renderedB = false;
-
-    const activeScene = activeSceneRef.current;
 
     if (activeScene !== "projects") {
       gl.setRenderTarget(renderTargetA);
@@ -74,7 +71,6 @@ export default function useRenderScenePortals() {
       gl.render(projectsScene, camera);
       renderedB = true;
 
-      // Render text isolation pass only when projects is active and text exists
       if (textRef.current) {
         gl.setRenderTarget(renderTargetC);
         textRef.current.material.visible = false;
@@ -83,7 +79,6 @@ export default function useRenderScenePortals() {
       }
     }
 
-    // Update uniforms (using last valid textures)
     if (renderedA) {
       screenMesh.current.material.uniforms.textureA.value =
         renderTargetA.texture;

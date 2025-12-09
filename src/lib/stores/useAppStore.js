@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { projectsData } from "../data/projectsData";
 
 export const useAppStore = create((set, get) => ({
+  viewportWidth: window.innerWidth,
+  viewportHeight: window.innerHeight,
   sun: null,
   started: false,
   activeScene: !["/projects", "/projects/"].includes(location.pathname)
@@ -9,6 +11,8 @@ export const useAppStore = create((set, get) => ({
     : "projects",
   activeProject: projectsData[0],
   actions: {
+    setViewportWidth: (newValue) => set(() => ({ viewportWidth: newValue })),
+    setViewportHeight: (newValue) => set(() => ({ viewportHeight: newValue })),
     setStarted: (newValue) =>
       set((prevState) => ({
         started:

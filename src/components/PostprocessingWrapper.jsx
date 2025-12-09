@@ -1,22 +1,26 @@
-import { useThree } from "@react-three/fiber";
 import { useEffect, useState } from "react";
 import { ManualLazyComponent } from "./LazyComponent";
 import { useAppStore } from "../lib/stores/useAppStore";
+import { useShallow } from "zustand/react/shallow";
 
 export const PostprocessingWrapper = (props) => {
-  const started = useAppStore((state) => state.started);
-  const { size } = useThree();
-  const viewport = { width: size.width };
+  const { started, viewportWidth } = useAppStore(
+    useShallow((state) => ({
+      started: state.started,
+      viewportWidth: state.viewportWidth,
+    }))
+  );
+
   const [composerEnabled, setComposerEnabled] = useState(
-    () => viewport.width >= 768
+    () => viewportWidth >= 768
   );
 
   useEffect(() => {
     setComposerEnabled((prev) => {
       if (prev === true) return prev;
-      return viewport.width >= 768;
+      return viewportWidth >= 768;
     });
-  }, [viewport.width]);
+  }, [viewportWidth]);
 
   if (!composerEnabled) return null;
 

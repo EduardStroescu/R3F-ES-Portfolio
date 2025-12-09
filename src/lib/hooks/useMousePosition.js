@@ -5,16 +5,14 @@ export function useMousePosition() {
 
   useEffect(() => {
     const handleMouseMove = (event) => {
-      const x = (event.clientX / window.innerWidth) * 2 - 1;
-      const y = (event.clientY / window.innerHeight) * 2 - 1;
-      mousePosition.current = { x, y };
+      mousePosition.current.x = (event.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.current.y = (event.clientY / window.innerHeight) * 2 - 1;
     };
 
     const handleTouchMove = (event) => {
-      const touch = event.touches[0]; // Use the first touch point
-      const x = (touch.clientX / window.innerWidth) * 2 - 1;
-      const y = (touch.clientY / window.innerHeight) * 2 - 1;
-      mousePosition.current = { x, y };
+      const touch = event.touches[0];
+      mousePosition.current.x = (touch.clientX / window.innerWidth) * 2 - 1;
+      mousePosition.current.y = (touch.clientY / window.innerHeight) * 2 - 1;
     };
 
     const canvas = document.getElementById("canvas");

@@ -5,14 +5,14 @@ import { EmailIcon, GithubIcon, HyperlinkIcon, LinkedInIcon } from "../Icons";
 import { useSpring, a } from "@react-spring/web";
 import { useSoundStoreActions } from "../../lib/stores/useSoundStore";
 import { useContactStoreActions } from "../../lib/stores/useContactStore";
-import { useThree } from "@react-three/fiber";
+import { useAppStore } from "../../lib/stores/useAppStore";
 
 export default function CallToAction() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
+
+  const viewportWidth = useAppStore((state) => state.viewportWidth);
   const visible = useAboutStore((state) => state.visible);
-  const { size } = useThree();
-  const viewport = { width: size.width };
 
   const { setFlipped } = useContactStoreActions();
   const { playHoverSound, playTransitionSound, playUnderwaterTransitionSound } =
@@ -40,15 +40,15 @@ export default function CallToAction() {
       scale={0.5}
       position={[
         11,
-        viewport.width > 667 ? 1.5 : 2,
-        viewport.width > 1110 ? 11 : 10,
+        viewportWidth > 667 ? 1.5 : 2,
+        viewportWidth > 1110 ? 11 : 10,
       ]}
       wrapperClass={`font-[serif] text-white pointer-events-none`}
     >
       <a.div
         style={{
           opacity,
-          transform: `${viewport.width > 1110 ? "scale(2)" : "scale(2.5)"} `,
+          transform: `${viewportWidth > 1110 ? "scale(2)" : "scale(2.5)"} `,
           pointerEvents: `${visible || pathname !== "/" ? "none" : "auto"}`,
         }}
         className="flex justify-center items-center gap-4"
