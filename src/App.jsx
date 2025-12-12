@@ -22,7 +22,7 @@ function App() {
         <ScrollProvider>
           <Suspense fallback={<LoadingScreen suspenseLoading={true} />}>
             <Canvas
-              style={{ height: "100dvh", width: "100dvw" }}
+              style={{ height: "100dvh", width: "100dvw", userSelect: "none" }}
               id="canvas"
               linear
               flat

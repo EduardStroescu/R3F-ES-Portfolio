@@ -136,12 +136,12 @@ const ContactSection = memo(function ContactSection() {
         </div>
         <div className="w-full overflow-hidden flex flex-col justify-center items-center xl:items-start gap-2">
           <div className="flex gap-2 items-center">
-            <p className="flex gap-0.5 bg-white border-[1px] rounded-full px-2 text-black pointer-events-auto cursor-default">
+            <p className="flex gap-0.5 bg-white rounded-full px-2 text-black pointer-events-auto cursor-default">
               E-mail
               <HyperlinkIcon className="rotate-90 w-[16px] h-[16px] self-center" />
             </p>
             <button
-              className="hover:scale-105 bg-white xl:bg-transparent xl:text-white hover:bg-black xl:hover:bg-white border-white border-[1px] rounded-full px-2 text-black transition-all duration-500 ease-in-out hover:text-white xl:hover:text-black"
+              className="hover:scale-105 bg-white xl:bg-transparent xl:text-white hover:bg-black xl:hover:bg-white shadow-[inset_0_0_0_1px_rgba(255,255,255,1)] rounded-full px-2 text-black transition-all duration-500 ease-in-out hover:text-white xl:hover:text-black leading-2"
               onClick={() => {
                 setFlipped((prev) => !prev);
                 playMenuFlipSound();
@@ -257,7 +257,7 @@ const ContactSection = memo(function ContactSection() {
               value="Send"
               aria-label="Send Message"
               disabled={isSubmitting}
-              className="mt-5 rounded-full border-[1px] border-white text-sm hover:scale-105 px-4 py-1 transition-all duration-500 ease-in-out"
+              className="mt-5 rounded-full shadow-[inset_0_0_0_1px_rgba(255,255,255,1)] text-sm hover:scale-105 px-4 py-1 transition-all duration-500 ease-in-out"
               style={{ pointerEvents: !flipped ? "none" : "auto" }}
               onPointerEnter={playHoverSound}
             >

@@ -60,7 +60,7 @@ const AboutSection = memo(function AboutSection() {
           clipPath,
           scale,
         }}
-        className="z-40 py-2 w-[90vw] max-w-[600px] mx-auto flex flex-col justify-center items-center rounded-xl border border-[#10D9E182] bg-cyan-800/90 text-base pointer-events-none"
+        className="z-40 py-2 w-[90vw] max-w-[600px] mx-auto flex flex-col justify-center items-center rounded-xl shadow-[inset_0_0_0_1.5px_rgba(16,217,225,0.51)] bg-cyan-800/90 text-base pointer-events-none"
       >
         <button
           style={{ pointerEvents: visible ? "auto" : "none" }}
@@ -86,12 +86,12 @@ const AboutSection = memo(function AboutSection() {
             experimentation, which lets me bring fresh ideas and solid results
             to every project I work on.
           </p>
-          <section className="border-white border-[1px] flex items-center bg-black rounded overflow-clip w-fit self-center my-1 py-2">
+          <section className="shadow-[inset_0_0_0_1px_rgba(255,255,255,1)] flex items-center bg-black rounded overflow-clip w-fit self-center my-1 py-2 px-1">
             <p
               style={{
                 writingMode: "vertical-rl",
               }}
-              className="font-[serif] rotate-180 leading-0 indent-0 border-white py-2 border-l-[1px] w-fit bg-black"
+              className="font-[serif] rotate-180 leading-6 indent-0 border-white py-2 border-l-[1px] w-fit bg-black"
             >
               Tech Stack
             </p>

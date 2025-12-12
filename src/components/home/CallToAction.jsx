@@ -53,8 +53,10 @@ export default function CallToAction() {
         }}
         className="flex justify-center items-center gap-4"
       >
+        {/* Using box-shadow to simulate border because border-width breaks on
+        firefox */}
         <button
-          className="flex gap-0.5 hover:bg-black bg-white hover:text-white transition-all ease-in-out duration-1000 text-2xl border-white border-[1.5px] text-black py-1 px-3 rounded-full group text-nowrap"
+          className="flex gap-0.5 hover:bg-black bg-white hover:text-white transition-all ease-in-out duration-1000 text-2xl text-black py-1 px-3 rounded-full group text-nowrap shadow-[inset_0_0_0_1.5px_rgba(255,255,255,1)]"
           onClick={() => handleNavigate("/projects")}
           onPointerOver={playHoverSound}
         >
