@@ -6,8 +6,10 @@ import {
 import { AudioIcon } from "./Icons";
 
 import { useLocation } from "react-router-dom";
+import { useDirectionalSound } from "../lib/hooks/useDirectionalSound";
 
 function AudioButton() {
+  useDirectionalSound();
   const { pathname } = useLocation();
   const { audioEnabled, isLoadingSounds } = useSoundStore(
     useShallow((state) => ({
@@ -34,7 +36,7 @@ function AudioButton() {
     <div
       data-projectsactive={pathname === "/projects"}
       className={`
-        tooltipWrapper fixed left-[0.185rem] sm:left-6 scale-[0.5666] sm:scale-[0.8] pointer-events-auto
+        tooltipWrapper select-none fixed left-[0.185rem] sm:left-6 scale-[0.5666] sm:scale-[0.8] pointer-events-auto
         ${pathname === "/projects" ? "top-0 sm:top-20" : "bottom-4"}
       `}
     >

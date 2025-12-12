@@ -5,13 +5,11 @@ import ScreenMesh from "./ScreenMesh";
 import ProjectsScene from "./projects/ProjectsScene";
 import useRenderScenePortals from "../lib/hooks/useRenderScenePortals";
 import HomeScene from "./home/HomeScene";
-import { useDirectionalSound } from "../lib/hooks/useDirectionalSound";
 import { PostprocessingWrapper } from "./PostprocessingWrapper";
 
 export default function Experience() {
   const { screenMesh, renderTargetC, textRef, homeScene, projectsScene } =
     useRenderScenePortals();
-  useDirectionalSound();
 
   return (
     <>
