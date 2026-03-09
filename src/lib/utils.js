@@ -1,4 +1,4 @@
-import { BlendFunction, KernelSize } from "postprocessing";
+import { BlendFunction, KernelSize, SMAAPreset } from "postprocessing";
 
 export const NOISE_EFFECT_CONFIG = {
   // Controls how the noise blends with the scene
@@ -7,6 +7,10 @@ export const NOISE_EFFECT_CONFIG = {
   premultiply: true,
   // Overall strength of the noise effect
   opacity: 0.2,
+};
+
+export const SMAA_EFFECT_CONFIG = {
+  preset: SMAAPreset.LOW,
 };
 
 export const BLOOM_EFFECT_CONFIG = {

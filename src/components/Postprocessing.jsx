@@ -1,6 +1,13 @@
 import { useFrame, useThree } from "@react-three/fiber";
 import { EffectComposer } from "@react-three/postprocessing";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import {
+  memo,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useAppStore } from "../lib/stores/useAppStore";
 import {
   EffectPass,
@@ -13,6 +20,7 @@ import {
   NOISE_EFFECT_CONFIG,
   BLOOM_EFFECT_CONFIG,
   VIGNETTE_EFFECT_CONFIG,
+  SMAA_EFFECT_CONFIG,
 } from "../lib/utils";
 import { useLensFlare } from "../lib/hooks/useLensFlare";
 import { useGodrays } from "../lib/hooks/useGodrays";
@@ -56,29 +64,57 @@ const Postprocessing = memo(function Postprocessing({
       premultiply: NOISE_EFFECT_CONFIG.premultiply,
     });
     noise.blendMode.opacity.value = NOISE_EFFECT_CONFIG.opacity;
+    const opacityConfig = {
+      SMAAEffect: 1,
+      GodRaysEffect: 1,
+      NoiseEffect: NOISE_EFFECT_CONFIG.opacity,
+      BloomEffect: 1,
+      VignetteEffect: 1,
+    };
 
     const pass = new EffectPass(
       camera,
-      new SMAAEffect(),
+      new SMAAEffect(SMAA_EFFECT_CONFIG),
       new BloomEffect(BLOOM_EFFECT_CONFIG),
       new VignetteEffect(VIGNETTE_EFFECT_CONFIG),
       godRaysEffect,
       noise
     );
+
+    pass.renderToScreen = false;
     pass.name = "HomePass";
-    pass.enabled = false;
+    pass.setAllEffectsOpacity = (opacity) =>
+      pass.effects.forEach((e) => (e.blendMode.opacity.value = opacity));
+    pass.resetAllEffectsOpacityToDefault = () =>
+      pass.effects.forEach(
+        (e) => (e.blendMode.opacity.value = opacityConfig[e.name])
+      );
+    pass.setAllEffectsOpacity(0);
+    pass.enabled = true;
     return pass;
   }, [camera, godRaysEffect]);
 
   const projectsPass = useMemo(() => {
     if (!lensFlareEffect) return null;
+    const opacityConfig = {
+      VignetteEffect: 1,
+      LensFlareEffect: 1,
+    };
+
     const pass = new EffectPass(
       camera,
       new VignetteEffect(VIGNETTE_EFFECT_CONFIG),
       lensFlareEffect
     );
     pass.name = "ProjectsPass";
-    pass.enabled = false;
+    pass.setAllEffectsOpacity = (opacity) =>
+      pass.effects.forEach((e) => (e.blendMode.opacity.value = opacity));
+    pass.resetAllEffectsOpacityToDefault = () =>
+      pass.effects.forEach(
+        (e) => (e.blendMode.opacity.value = opacityConfig[e.name])
+      );
+    pass.setAllEffectsOpacity(0);
+    pass.enabled = true;
     return pass;
   }, [camera, lensFlareEffect]);
 
@@ -87,6 +123,19 @@ const Postprocessing = memo(function Postprocessing({
     let raf = requestAnimationFrame(() => setReady(true));
     return () => cancelAnimationFrame(raf);
   }, []);
+
+  const hasPrerendered = useRef(false);
+  // Pre-render both scenes to avoid stutters during transition
+  useLayoutEffect(() => {
+    if (hasPrerendered.current || !composer || !ready) return;
+    for (const scene of Object.values(sceneMap)) {
+      if (scene.uuid === composerSceneRef.current) continue;
+      composer.setMainScene(scene);
+      composerSceneRef.current = scene.uuid;
+      composer.render();
+    }
+    hasPrerendered.current = true;
+  }, [composer, ready, sceneMap]);
 
   useFrame((state) => {
     // Gate: skip frame work until ready and composer exists
@@ -113,18 +162,12 @@ const Postprocessing = memo(function Postprocessing({
 
     if (activeScene !== "projects") {
       // Disable ProjectsPass and enable HomePass
-      projectsPass.enabled = false;
-      projectsPass.renderToScreen = false;
-
-      homePass.enabled = true;
-      homePass.renderToScreen = true;
+      projectsPass.setAllEffectsOpacity(0);
+      homePass.resetAllEffectsOpacityToDefault();
     } else if (activeScene !== "home") {
       // Disable HomePass and enable ProjectsPass
-      homePass.enabled = false;
-      homePass.renderToScreen = false;
-
-      projectsPass.enabled = true;
-      projectsPass.renderToScreen = true;
+      homePass.setAllEffectsOpacity(0);
+      projectsPass.resetAllEffectsOpacityToDefault();
     }
   }, [
     ready,

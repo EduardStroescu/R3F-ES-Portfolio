@@ -4,9 +4,17 @@ import { useSpring } from "@react-spring/web";
 import { animated } from "@react-spring/three";
 import { useAppStore } from "../../lib/stores/useAppStore";
 import { useShallow } from "zustand/react/shallow";
+import { useMemo } from "react";
 
 const AnimatedMeshWobbleMaterial = animated(MeshWobbleMaterial);
 const AnimatedText = animated(Text);
+
+const baseTextProps = {
+  anchorY: "middle",
+  anchorX: "center",
+  font: "/fonts/Dosis-SemiBold-v1.woff",
+  fillOpacity: 1.5,
+};
 
 const titleTrailConfig = {
   size: 32,
@@ -38,23 +46,46 @@ function HomeTitle() {
     config: { mass: 5, tension: 500, friction: 80, clamp: true },
   });
 
+  const fontSizes = useMemo(
+    () => ({
+      title:
+        viewportWidth > 1110
+          ? 3.2
+          : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.78, 3),
+      subtitle:
+        viewportWidth > 1110
+          ? 3.2
+          : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.8, 3),
+    }),
+    [viewportWidth, viewportHeight]
+  );
+
+  const otherConfigs = useMemo(() => {
+    const titleY = viewportWidth > 667 ? 7 : 6.3;
+    const subtitleY = viewportWidth > 667 ? 4 : 4.2;
+
+    return {
+      positions: {
+        title: [11, titleY, 9],
+        subtitle: [11, subtitleY, 10],
+      },
+      curveRadiuses: {
+        title: 9,
+        subtitle: viewportWidth > 1110 ? 10 : 9,
+      },
+    };
+  }, [viewportWidth]);
+
   return (
     <>
       <AnimatedText
+        {...baseTextProps}
         visible={opacity.to((o) => (o !== 0 ? true : false))}
         onPointerMove={onMove2}
-        anchorY="middle"
-        anchorX="center"
-        font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters="FULL-STACK"
-        position={[11, viewportWidth > 667 ? 7 : 6.3, 9]}
-        fontSize={
-          viewportWidth > 1110
-            ? 3.2
-            : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.78, 3)
-        }
-        fillOpacity={1.5}
-        curveRadius={viewportWidth > 1110 ? 9 : 9}
+        position={otherConfigs.positions.title}
+        fontSize={fontSizes.title}
+        curveRadius={otherConfigs.curveRadiuses.title}
         maxWidth={viewportWidth}
       >
         <AnimatedMeshWobbleMaterial
@@ -66,20 +97,13 @@ function HomeTitle() {
         FULL-STACK
       </AnimatedText>
       <AnimatedText
+        {...baseTextProps}
         visible={opacity.to((o) => (o !== 0 ? true : false))}
         onPointerMove={onMove3}
-        anchorY="middle"
-        anchorX="center"
-        font={"/fonts/Dosis-SemiBold-v1.woff"}
         characters="WEB DEVELOPER"
-        position={[11, viewportWidth > 667 ? 4 : 4.2, 10]}
-        fontSize={
-          viewportWidth > 1110
-            ? 3.2
-            : Math.min((viewportWidth * 1.05) / (viewportHeight / 2) + 0.8, 3)
-        }
-        fillOpacity={1.5}
-        curveRadius={viewportWidth > 1110 ? 10 : 9}
+        position={otherConfigs.positions.subtitle}
+        fontSize={fontSizes.subtitle}
+        curveRadius={otherConfigs.curveRadiuses.subtitle}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}

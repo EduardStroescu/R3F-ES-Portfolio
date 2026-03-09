@@ -1,6 +1,6 @@
 import { MeshTransmissionMaterial, Text } from "@react-three/drei";
 import PropTypes from "prop-types";
-import { forwardRef, memo } from "react";
+import { forwardRef, memo, useMemo } from "react";
 import { useAppStore } from "../../lib/stores/useAppStore";
 import { animated, easings, useSpring } from "@react-spring/three";
 import { useShallow } from "zustand/react/shallow";
@@ -8,8 +8,17 @@ import { useShallow } from "zustand/react/shallow";
 const AnimatedMeshTransmissionMaterial = animated(MeshTransmissionMaterial);
 const AnimatedText = animated(Text);
 
+const baseTextProps = {
+  anchorY: "middle",
+  anchorX: "center",
+  font: "/fonts/Dosis-SemiBold-v1.woff",
+  characters:
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-: ",
+  sdfGlyphSize: 64,
+};
+
 const ProjectsScene3DTitle = memo(
-  forwardRef(function ProjectsScene3DTitle({ renderTargetC }, textRef) {
+  forwardRef(function ProjectsScene3DTitle({ textRenderTarget }, textRef) {
     const { activeProject, viewportWidth, viewportHeight } = useAppStore(
       useShallow((state) => ({
         activeProject: state.activeProject,
@@ -27,22 +36,27 @@ const ProjectsScene3DTitle = memo(
       config: { duration: 500, easing: easings.easeInOut },
     });
 
+    const fontSize = useMemo(
+      () => (viewportWidth / viewportHeight) * 3.5,
+      [viewportWidth, viewportHeight]
+    );
+    const maxWidth = useMemo(() => viewportWidth, [viewportWidth]);
+
     if (!activeProject.title) return;
 
     return (
       <AnimatedText
+        {...baseTextProps}
         ref={textRef}
-        anchorY="middle"
-        font={"/fonts/Dosis-SemiBold-v1.woff"}
-        characters={activeProject.title}
         position={spring.position}
-        fontSize={(viewportWidth / viewportHeight) * 3.5}
-        maxWidth={viewportWidth}
+        fontSize={fontSize}
+        maxWidth={maxWidth}
         fillOpacity={spring.fillOpacity}
       >
         <AnimatedMeshTransmissionMaterial
-          buffer={renderTargetC.texture}
-          samples={5}
+          buffer={textRenderTarget.texture}
+          samples={4}
+          resolution={128}
           depthTest={false}
           depthWrite={false}
           fog={false}
@@ -62,5 +76,5 @@ const ProjectsScene3DTitle = memo(
 export default ProjectsScene3DTitle;
 
 ProjectsScene3DTitle.propTypes = {
-  renderTargetC: PropTypes.object.isRequired,
+  textRenderTarget: PropTypes.object.isRequired,
 };
