@@ -10,11 +10,10 @@ const AnimatedText = animated(Text);
 
 const baseTextProps = {
   anchorY: "middle",
-  anchorX: "center",
   font: "/fonts/Dosis-SemiBold-v1.woff",
-  characters:
-    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-: ",
-  sdfGlyphSize: 64,
+  // characters:
+  //   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-: ",
+  // sdfGlyphSize: 64,
 };
 
 const ProjectsScene3DTitle = memo(

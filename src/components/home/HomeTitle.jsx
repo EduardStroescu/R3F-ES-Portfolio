@@ -14,6 +14,7 @@ const baseTextProps = {
   anchorX: "center",
   font: "/fonts/Dosis-SemiBold-v1.woff",
   fillOpacity: 1.5,
+  sdfGlyphSize: 64,
 };
 
 const titleTrailConfig = {
@@ -69,7 +70,7 @@ function HomeTitle() {
         title: [11, titleY, 9],
         subtitle: [11, subtitleY, 10],
       },
-      curveRadiuses: {
+      curveRadii: {
         title: 9,
         subtitle: viewportWidth > 1110 ? 10 : 9,
       },
@@ -85,7 +86,7 @@ function HomeTitle() {
         characters="FULL-STACK"
         position={otherConfigs.positions.title}
         fontSize={fontSizes.title}
-        curveRadius={otherConfigs.curveRadiuses.title}
+        curveRadius={otherConfigs.curveRadii.title}
         maxWidth={viewportWidth}
       >
         <AnimatedMeshWobbleMaterial
@@ -103,7 +104,7 @@ function HomeTitle() {
         characters="WEB DEVELOPER"
         position={otherConfigs.positions.subtitle}
         fontSize={fontSizes.subtitle}
-        curveRadius={otherConfigs.curveRadiuses.subtitle}
+        curveRadius={otherConfigs.curveRadii.subtitle}
       >
         <AnimatedMeshWobbleMaterial
           opacity={opacity}
