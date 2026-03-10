@@ -8,14 +8,14 @@ import HomeScene from "./home/HomeScene";
 import { PostprocessingWrapper } from "./PostprocessingWrapper";
 
 export default function Experience() {
-  const { screenMesh, textRef, renderTargetB, homeScene, projectsScene } =
+  const { screenMesh, textRef, renderTargetC, homeScene, projectsScene } =
     useRenderScenePortals();
 
   return (
     <>
       {createPortal(<HomeScene />, homeScene)}
       {createPortal(
-        <ProjectsScene textRenderTarget={renderTargetB} ref={textRef} />,
+        <ProjectsScene textRenderTarget={renderTargetC} ref={textRef} />,
         projectsScene
       )}
       <ScreenMesh ref={screenMesh} />

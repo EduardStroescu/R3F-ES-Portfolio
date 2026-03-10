@@ -16,11 +16,13 @@ export default function useRenderScenePortals() {
   const projectsScene = useMemo(() => new Scene(), []);
   const renderTargetA = useFBO();
   const renderTargetB = useFBO();
+  const renderTargetC = useFBO();
   const progress = useRef(pathname !== "/projects" ? -2.0 : 2.0);
   const activeSceneRef = useRef(useAppStore.getState().activeScene);
 
   useFrame((state, delta) => {
     if (!screenMesh.current) return;
+
     const { camera, gl } = state;
 
     easing.damp(
@@ -65,11 +67,16 @@ export default function useRenderScenePortals() {
     }
 
     if (activeScene !== "home") {
-      if (textRef.current) textRef.current.material.visible = false;
       gl.setRenderTarget(renderTargetB);
       gl.render(projectsScene, camera);
-      if (textRef.current) textRef.current.material.visible = true;
       renderedB = true;
+
+      if (textRef.current) {
+        gl.setRenderTarget(renderTargetC);
+        textRef.current.material.visible = false;
+        gl.render(projectsScene, camera);
+        textRef.current.material.visible = true;
+      }
     }
 
     if (renderedA) {
@@ -90,6 +97,7 @@ export default function useRenderScenePortals() {
     textRef,
     renderTargetA,
     renderTargetB,
+    renderTargetC,
     homeScene,
     projectsScene,
   };
